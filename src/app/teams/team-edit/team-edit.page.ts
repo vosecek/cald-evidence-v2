@@ -13,8 +13,8 @@ import {ModalController} from '@ionic/angular';
 })
 export class TeamEditPage implements OnInit {
 
-  protected form: FormGroup;
-  protected team: ITeam;
+  public form: FormGroup;
+  public team: ITeam;
 
   constructor(private teamProvider: TeamProvider, private fb: FormBuilder, private modal: ModalController) {
     this.form = this.fb.group({

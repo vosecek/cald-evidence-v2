@@ -22,19 +22,19 @@ export class PlayerPage implements OnInit {
 
   public data: IPlayer = null;
   protected team: ITeam = null;
-  protected form: FormGroup;
+  public form: FormGroup;
 
   constructor(
     private navParams: NavParams,
     private loadCtrl: LoadingController,
     private toastCtrl: ToastController,
-    protected auth: AuthProvider,
+    public auth: AuthProvider,
     private playerAtTeam: PlayerAtTeamProvider,
     private fb: FormBuilder,
     protected seasonProvider: SeasonProvider,
     private playerProvider: PlayerProvider,
     protected teamProvider: TeamProvider,
-    protected nationalityProvider: NationalityProvider,
+    public nationalityProvider: NationalityProvider,
     private modal: ModalController) {
 
     this.teamProvider.load({}).catch(err => console.log(err));

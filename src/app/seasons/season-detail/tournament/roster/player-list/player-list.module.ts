@@ -23,7 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [PlayerListPage]
+  declarations: []
 })
 export class PlayerListPageModule {
 }

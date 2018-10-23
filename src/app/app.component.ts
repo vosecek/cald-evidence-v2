@@ -32,7 +32,7 @@ export class AppComponent {
   ];
 
   constructor(
-    protected auth: AuthProvider,
+    public auth: AuthProvider,
     private platform: Platform,
     private api: ApiProvider,
     private events: Events,

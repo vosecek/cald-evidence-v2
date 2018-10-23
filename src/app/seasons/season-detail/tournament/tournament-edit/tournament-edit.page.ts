@@ -18,14 +18,14 @@ import {ModalController} from '@ionic/angular';
 })
 export class TournamentEditPage implements OnInit {
 
-  protected tournament: ITournament;
-  protected form: FormGroup;
+  public tournament: ITournament;
+  public form: FormGroup;
 
   constructor(private tournamentProvider: TournamentProvider,
-              protected leagueProvider: LeagueProvider,
+              public leagueProvider: LeagueProvider,
               private modal: ModalController,
-              protected divisionProvider: DivisionProvider,
-              protected seasonProvider: SeasonProvider,
+              public divisionProvider: DivisionProvider,
+              public seasonProvider: SeasonProvider,
               private fb: FormBuilder
   ) {
     this.form = this.fb.group({
@@ -40,7 +40,7 @@ export class TournamentEditPage implements OnInit {
     });
   }
 
-  protected save() {
+  save() {
     const data = this.form.value;
     if (data['date']) {
       if (data['date']['year']) {

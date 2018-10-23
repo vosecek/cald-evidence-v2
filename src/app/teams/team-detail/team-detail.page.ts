@@ -17,15 +17,15 @@ import {TeamEditPage} from '../team-edit/team-edit.page';
 })
 export class TeamDetailPage implements OnInit {
 
-  protected data: ITeam;
-  protected players: IPlayer[] = [];
+  public data: ITeam;
+  public players: IPlayer[] = [];
 
   constructor(
     private modalCtrl: ModalController,
     private teamProvider: TeamProvider,
-    protected playerProvider: PlayerProvider,
+    public playerProvider: PlayerProvider,
     private route: ActivatedRoute,
-    protected auth: AuthProvider,
+    public auth: AuthProvider,
     private playerAtTeam: PlayerAtTeamProvider) {
   }
 

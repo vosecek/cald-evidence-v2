@@ -35,7 +35,7 @@ export class DashboardPage implements OnInit {
     private authProvider: AuthProvider, private api: ApiProvider, private season: SeasonProvider, private teamProvider: TeamProvider) {
   }
 
-  protected showFee(): boolean {
+  showFee(): boolean {
     const date = new Date();
     if (this.feeLoading === true) return false;
     return (date.getMonth() > 8);

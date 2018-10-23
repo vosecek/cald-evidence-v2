@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {SeasonProvider} from '../providers/season/season';
-import {ActivatedRoute} from '@angular/router';
-import {Platform} from '@ionic/angular';
 
 @Component({
   selector: 'app-seasons',
@@ -10,7 +8,7 @@ import {Platform} from '@ionic/angular';
 })
 export class SeasonsPage implements OnInit {
 
-  constructor(protected seasonProvider: SeasonProvider) {
+  constructor(public seasonProvider: SeasonProvider) {
   }
 
   ngOnInit() {

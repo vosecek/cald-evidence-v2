@@ -16,33 +16,33 @@ import {TeamProvider} from '../../../../../providers/team/team';
 })
 export class PlayerListPage implements OnInit {
 
-  protected sex: string = null;
-  protected roster: IRoster;
-  protected players: IPlayer[] = [];
-  protected playersAtRoster: IPlayerAtRoster[] = [];
-  protected player_at_roster: any[] = [];
-  protected inProgress = 0;
-  protected showSearchBar = false;
-  protected search = '';
-  protected source: any[] = [];
+  public sex: string = null;
+  public roster: IRoster;
+  public players: IPlayer[] = [];
+  public playersAtRoster: IPlayerAtRoster[] = [];
+  public player_at_roster: any[] = [];
+  public inProgress = 0;
+  public showSearchBar = false;
+  public search = '';
+  public source: any[] = [];
 
   constructor(
     private modal: ModalController,
-    protected playerAtRoster: PlayerAtRosterProvider,
+    public playerAtRoster: PlayerAtRosterProvider,
     private playerAtTeam: PlayerAtTeamProvider,
     private teamProvider: TeamProvider,
     private toastCtrl: ToastController,
     private modalCtrl2: ModalController,
     private alertCtrl: AlertController,
     private rosterProvider: RosterProvider,
-    protected playerProvider: PlayerProvider) {
+    public playerProvider: PlayerProvider) {
   }
 
-  protected isAtRoster(player: IPlayer): boolean {
+  public isAtRoster(player: IPlayer): boolean {
     return this.playerAtRoster.data.find(it => it.player_id === player.id);
   }
 
-  protected rosterChanged(player: IPlayer) {
+  public rosterChanged(player: IPlayer) {
     if (this.player_at_roster[player.id]) {
       this.addPlayer(player);
     } else {

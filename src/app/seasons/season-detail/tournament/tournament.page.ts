@@ -23,8 +23,8 @@ import {TournamentEditPage} from './tournament-edit/tournament-edit.page';
 })
 export class TournamentPage implements OnInit {
 
-  protected data: ITournament;
-  protected rosters: IRoster[] = [];
+  public data: ITournament;
+  public rosters: IRoster[] = [];
 
 
   constructor(
@@ -34,7 +34,7 @@ export class TournamentPage implements OnInit {
     private pickerCtrl: PickerController,
     private appRef: ApplicationRef,
     private team: TeamProvider,
-    protected auth: AuthProvider,
+    public auth: AuthProvider,
     private api: ApiProvider,
     private alertCtrl: AlertController,
     private route: ActivatedRoute,

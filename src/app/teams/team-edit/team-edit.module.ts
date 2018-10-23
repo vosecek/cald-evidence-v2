@@ -24,7 +24,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TeamEditPage]
+  declarations: []
 })
 export class TeamEditPageModule {
 }

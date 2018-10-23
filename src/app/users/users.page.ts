@@ -12,7 +12,7 @@ import {TeamProvider} from '../providers/team/team';
 })
 export class UsersPage implements OnInit {
 
-  constructor(protected userProvider: UserProvider, private modal: ModalController, private teamProvider: TeamProvider) {
+  constructor(public userProvider: UserProvider, private modal: ModalController, private teamProvider: TeamProvider) {
   }
 
   async openEditUser(user?: IUser) {

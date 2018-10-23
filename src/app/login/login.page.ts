@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 })
 export class LoginPage {
 
-  protected form: FormGroup;
+  public form: FormGroup;
 
   constructor(private fb: FormBuilder,
               private api: ApiProvider,
@@ -27,7 +27,7 @@ export class LoginPage {
     this.form.patchValue({login: '', password: ''});
   }
 
-  protected submit(): void {
+  submit(): void {
     this.authProvider.login(this.form.value).then(() => {
       this.router.navigate(['dashboard']).catch(err => console.log(err));
     }, err => {

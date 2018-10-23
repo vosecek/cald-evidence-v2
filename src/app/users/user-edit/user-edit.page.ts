@@ -15,11 +15,11 @@ import {ApiProvider} from '../../providers/api/api';
 })
 export class UserEditPage implements OnInit {
 
-  protected form: FormGroup;
-  protected user: IUser;
-  protected team: ITeam[];
+  public form: FormGroup;
+  public user: IUser;
+  public team: ITeam[];
 
-  constructor(private userProvider: UserProvider, private api: ApiProvider, protected teamProvider: TeamProvider, private fb: FormBuilder, private modal: ModalController, protected auth: AuthProvider) {
+  constructor(private userProvider: UserProvider, private api: ApiProvider, public teamProvider: TeamProvider, private fb: FormBuilder, private modal: ModalController, public auth: AuthProvider) {
     this.form = this.fb.group({
       id: [''],
       login: ['', [Validators.required]],

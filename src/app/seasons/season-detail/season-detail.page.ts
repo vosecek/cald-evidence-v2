@@ -14,10 +14,10 @@ import {TournamentEditPage} from './tournament/tournament-edit/tournament-edit.p
 })
 export class SeasonDetailPage implements OnInit {
 
-  protected data: ISeason;
-  protected tournaments: ITournament[];
+  public data: ISeason;
+  public tournaments: ITournament[];
 
-  constructor(protected tournament: TournamentProvider,
+  constructor(public tournament: TournamentProvider,
               private season: SeasonProvider,
               private modal: ModalController,
               private route: ActivatedRoute) {

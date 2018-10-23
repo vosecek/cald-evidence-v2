@@ -11,7 +11,7 @@ import {TeamEditPage} from './team-edit/team-edit.page';
 })
 export class TeamsPage implements OnInit {
 
-  constructor(protected teamsProvider: TeamProvider, protected auth: AuthProvider, private modal: ModalController) {
+  constructor(public teamsProvider: TeamProvider, public auth: AuthProvider, private modal: ModalController) {
   }
 
   ngOnInit() {

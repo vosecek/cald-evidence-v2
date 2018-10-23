@@ -24,7 +24,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TournamentEditPage]
+  declarations: []
 })
 export class TournamentEditPageModule {
 }
