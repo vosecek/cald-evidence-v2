@@ -62,7 +62,7 @@ export class DashboardPage implements OnInit {
     }
   }
 
-  async getFee(team: ITeam): void {
+  async getFee(team: ITeam) {
 
     let load = await this.loadCtrl.create();
     load.present().catch(err => console.log(err));
