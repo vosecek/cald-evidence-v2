@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Přihlášení</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="form">
+        <ion-list>
+            <ion-item>
+                <ion-label [position]="'stacked'">Uživatelské jméno</ion-label>
+                <ion-input formControlName="login" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label [position]="'stacked'">Heslo</ion-label>
+                <ion-input formControlName="password" type="password"></ion-input>
+            </ion-item>
+        </ion-list>
+        <ion-button expand="full" size="large" large (click)="submit()">Přihlásit</ion-button>
+
+        <ion-img margin-top src="./assets/logo.png"></ion-img>
+    </form>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar text-center>
+        kontakt: evidence@cald.cz
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" *ngIf="canEditRoster()" slot="start" (click)="removeRoster()">
+                <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Soupiska {{roster.team_name}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-button (click)="openAddPlayers()" expand="full" shape="round" *ngIf="canEditRoster()">
+        <ion-icon slot="start" name="create"></ion-icon>
+        Upravit soupisku
+    </ion-button>
+    <ion-list>
+        <ion-list-header>
+            <ion-label>Ženy</ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let player of players|order:['last_name']|filter:'sex':'female'">{{player.last_name}} {{player.first_name}}</ion-item>
+        <ion-list-header>
+            <ion-label>Muži</ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let player of players|order:['last_name']|filter:'sex':'male'">{{player.last_name}} {{player.first_name}}</ion-item>
+    </ion-list>
+</ion-content>

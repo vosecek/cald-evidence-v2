@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title *ngIf="data">Sezona {{data.name}}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="addTournament()">
+                <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding *ngIf="tournaments">
+    <ion-list>
+        <ion-item detail *ngFor="let tournament of tournaments|order:['date']" href='/seasons/{{data.id}}/{{tournament.id}}'>
+            <ion-label text-wrap="">
+                <ion-text color="primary">
+                    <h3>{{tournament.name}}</h3>
+                </ion-text>
+                <p><span [hidden]="!tournament.leagues">{{tournament.leagues|implode:'name'}}</span>, {{tournament.location}}</p>
+                <p>{{tournament.date|date:'mediumDate'}}<span [hidden]="!tournament.divisions">, {{tournament.divisions|implode:'name'}}</span></p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

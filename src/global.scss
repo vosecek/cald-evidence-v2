@@ -3,10 +3,20 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-
 @import "~@ionic/angular/css/padding.css";
 @import "~@ionic/angular/css/float-elements.css";
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+ion-spinner {
+  margin: auto;
+}
+
+ion-menu {
+  ion-content {
+    .inner-scroll {
+      background: linear-gradient(rgb(201, 201, 192), rgb(255, 255, 255));
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title *ngIf="data">{{data.name}}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="editTeam()" *ngIf="data && auth.user.isTeamAdmin(data.id)">
+                <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+            <ion-button (click)="playerDetail()" color="primary">
+                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item *ngIf="players && players.length == 0">žádní hráči</ion-item>
+        <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()" *ngFor="let player of players|order:['last_name']">{{player.last_name}}
+            {{player.first_name}}
+        </ion-item>
+    </ion-list>
+</ion-content>

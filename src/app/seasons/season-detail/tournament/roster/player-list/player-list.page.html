@@ -1,0 +1,63 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Hráči do soupisky</ion-title>
+        <ion-buttons slot="end">
+            <ion-spinner *ngIf="inProgress>0"></ion-spinner>
+            <ion-button (click)="openSearchPlayer(true)">
+                <ion-icon name="search"></ion-icon>
+            </ion-button>
+            <ion-button (click)="playerDetail()">
+                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="showSearchBar">
+        <ion-searchbar animated [(ngModel)]="search"></ion-searchbar>
+        <ion-list>
+            <ion-item *ngIf="playerProvider.data.length == 0">
+                <ion-spinner></ion-spinner>
+            </ion-item>
+            <ion-item *ngIf="search.length < 3 && playerProvider.data.length > 0">
+                <ion-note>prohledej celou Evidenci, zadej alespoň 3 znaky</ion-note>
+            </ion-item>
+            <div *ngIf="search.length > 2">
+                <ion-item *ngFor="let player of playerProvider.data|search:search">
+                    <ion-label>{{player.last_name}} {{player.first_name}}
+                        <ion-note>{{player|playerAtTeam}}</ion-note>
+                    </ion-label>
+                    <ion-checkbox [(ngModel)]="player_at_roster[player.id]" (ionChange)="rosterChanged(player)"></ion-checkbox>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
+
+    <div *ngIf="!showSearchBar">
+        <ion-segment [(ngModel)]="sex">
+            <ion-segment-button [value]="null">všichni</ion-segment-button>
+            <ion-segment-button [value]="'female'">
+                <ion-icon name="female"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button [value]="'male'">
+                <ion-icon name="male"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+        <ion-item *ngFor="let player of players|sex:sex|order:['last_name']">
+            <ion-label>{{player.last_name}} {{player.first_name}}</ion-label>
+            <ion-checkbox [(ngModel)]="player_at_roster[player.id]" (ionChange)="rosterChanged(player)"></ion-checkbox>
+        </ion-item>
+    </div>
+</ion-content>
+
+<ion-footer *ngIf="showSearchBar">
+    <ion-toolbar>
+        <ion-button expand="full" (click)="openSearchPlayer(false)">Zpět na hráče týmu</ion-button>
+    </ion-toolbar>
+</ion-footer>

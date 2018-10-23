@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Sezony</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list lines="true">
+        <ion-item detail *ngFor="let season of seasonProvider.data|order:['-name']" href='/seasons/{{season.id}}'>
+            <ion-label>
+                {{season.name}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,0 +1,79 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title *ngIf="tournament">{{tournament.name}}</ion-title>
+        <ion-title *ngIf="!tournament">Nový turnaj</ion-title>
+        <ion-buttons slot="end">
+            <ion-button [disabled]="form.invalid" (click)="save()">
+                <ion-icon name="save"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="form">
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label [position]="'stacked'">Soutěž</ion-label>
+                        <ion-select multiple formControlName="league_ids">
+                            <ion-select-option *ngFor="let league of leagueProvider.data" [value]="league.id">{{league.name}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label [position]="'stacked'">Divize</ion-label>
+                        <ion-select multiple formControlName="division_ids">
+                            <ion-select-option *ngFor="let division of divisionProvider.data" [value]="division.id">{{division.name}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label [position]="'stacked'">Název turnaje</ion-label>
+                        <ion-input formControlName="name" type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label [position]="'stacked'">Lokace</ion-label>
+                        <ion-input formControlName="location" type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label [position]="'stacked'">Datum</ion-label>
+                        <ion-datetime formControlName="date" display-format="DD.MM YYYY"></ion-datetime>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label [position]="'stacked'">Trvání</ion-label>
+                        <ion-input type="number" formControlName="duration"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label [position]="'stacked'">Sezona</ion-label>
+                        <ion-select formControlName="season_id">
+                            <ion-select-option *ngFor="let season of seasonProvider.data" [value]="season.id">{{season.name}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>

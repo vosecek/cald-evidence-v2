@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+            <ion-button *ngIf="auth.user.isAdmin()" (click)="editTournament()">
+                <ion-icon name="create"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title *ngIf="data">Turnaj</ion-title>
+        <ion-buttons slot="end">
+            <ion-button slot='end' (click)="showDivisionPicker()">
+                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data">
+    <ion-card>
+        <ion-card-subtitle padding-start padding-top>
+            {{data.name}}
+        </ion-card-subtitle>
+
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                    <ion-icon slot="start" name="calendar"></ion-icon>
+                    {{data.date|date:"mediumDate"}}
+                </ion-item>
+                <ion-item>
+                    <ion-icon slot='start' name="map"></ion-icon>
+                    {{data.location}}
+                </ion-item>
+                <ion-item [hidden]="!data.divisions">
+                    <ion-icon slot='start' name="people"></ion-icon>
+                    <span>{{data.divisions|implode:'name'}}</span>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngFor="let ld of data.ld">
+        <ion-card-subtitle padding-start padding-top>
+            {{ld.division_id|division|async}}
+        </ion-card-subtitle>
+        <ion-card-content>
+            <ion-list>
+                <ion-item (click)="rosterDetail(r)" detail
+                          *ngFor="let r of rosters|order:['team_name']|filter:'tournament_belongs_to_league_and_division_id':ld.id">
+                    {{(r.team_id|team)|async}}
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
