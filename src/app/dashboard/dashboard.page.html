@@ -9,4 +9,15 @@
 
 <ion-content padding>
     <h1>Evidence v.3</h1>
+
+    <div *ngIf='showFee()'>
+        <h2>Poplatky za sezónu</h2>
+            <p>Kliknutím na tlačítko <b>Instrukce pro tým --název týmu--</b> nabídne ke stažení PDF s instrukcemi ke platbě.</p>
+            <p>Bez zaplacených příspěvků za rok 2018 se nebude možné účastnit turnajů sezony 2019</p>
+            <p>V seznamu jsou všichni členové vašeho Oddílu, kteří tuto sezonu hráli alespoň jeden ligový turnaj</p>
+            <p>Pokud některý hráč hrál pouze za jiný Oddíl, požádejte na email <b>evidence@cald.cz</b> o provedení Přestupu hráče k jinému oddílu. Pokud již druhý oddíl poplatky uhradil, vyrovnejte se prosím mezi sebou.</p>
+            <div *ngFor="let team of teams|order:['name']" style='margin-top: 1em;'>
+                <ion-button (click)='getFee(team)'>Instrukce pro tým {{team.name}}</ion-button>
+            </div>
+    </div>
 </ion-content>

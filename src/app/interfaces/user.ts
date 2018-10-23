@@ -25,6 +25,10 @@ export class User {
     return this._rights;
   }
 
+  public isTournamentAdmin(id): boolean {
+    return false;
+  }
+
   public getTeamId() {
     return this.rights[0].split(':')[0];
   }

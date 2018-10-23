@@ -36,6 +36,8 @@ import {TournamentEditPage} from './seasons/season-detail/tournament/tournament-
 import {TeamEditPage} from './teams/team-edit/team-edit.page';
 import {UserProvider} from './providers/user/user';
 import {UserEditPage} from './users/user-edit/user-edit.page';
+// import {File} from '@ionic-native/file';
+// import {FileOpener} from '@ionic-native/file-opener';
 
 registerLocaleData(localeCs, 'cs-CZ');
 
@@ -57,6 +59,8 @@ registerLocaleData(localeCs, 'cs-CZ');
   ],
   providers: [
     StatusBar,
+    // File,
+    // FileOpener,
     UserProvider,
     GeneralProvider,
     AuthProvider,

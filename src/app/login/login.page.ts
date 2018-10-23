@@ -20,11 +20,11 @@ export class LoginPage {
               private toastCtrl: ToastController,
               private authProvider: AuthProvider) {
     this.form = this.fb.group({
-      'login': ['administrator', Validators.required],
+      'login': ['', Validators.required],
       'password': ['', Validators.required]
     });
 
-    this.form.patchValue({login: 'admin', password: 'administrator'});
+    this.form.patchValue({login: '', password: ''});
   }
 
   protected submit(): void {

@@ -1,5 +1,7 @@
 {
   "name": "evidence",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
