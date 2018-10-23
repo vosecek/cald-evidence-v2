@@ -9,7 +9,7 @@
             <ion-button (click)="editTeam()" *ngIf="data && auth.user.isTeamAdmin(data.id)">
                 <ion-icon slot="icon-only" name="create"></ion-icon>
             </ion-button>
-            <ion-button (click)="playerDetail()" color="primary">
+            <ion-button (click)="playerDetail()" color="primary" *ngIf="auth.user.isAdmin()">
                 <ion-icon slot="icon-only" name="person-add"></ion-icon>
             </ion-button>
         </ion-buttons>

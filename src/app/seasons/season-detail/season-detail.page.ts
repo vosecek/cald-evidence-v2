@@ -6,6 +6,7 @@ import {SeasonProvider} from '../../providers/season/season';
 import {ISeason} from '../../interfaces/season';
 import {ModalController} from '@ionic/angular';
 import {TournamentEditPage} from './tournament/tournament-edit/tournament-edit.page';
+import {AuthProvider} from '../../providers/auth/auth';
 
 @Component({
   selector: 'app-season-detail',
@@ -18,6 +19,7 @@ export class SeasonDetailPage implements OnInit {
   public tournaments: ITournament[];
 
   constructor(public tournament: TournamentProvider,
+              public auth: AuthProvider,
               private season: SeasonProvider,
               private modal: ModalController,
               private route: ActivatedRoute) {

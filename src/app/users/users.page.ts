@@ -4,6 +4,7 @@ import {ModalController} from '@ionic/angular';
 import {IUser} from '../interfaces/user';
 import {UserEditPage} from './user-edit/user-edit.page';
 import {TeamProvider} from '../providers/team/team';
+import {AuthProvider} from '../providers/auth/auth';
 
 @Component({
   selector: 'app-users',
@@ -12,7 +13,7 @@ import {TeamProvider} from '../providers/team/team';
 })
 export class UsersPage implements OnInit {
 
-  constructor(public userProvider: UserProvider, private modal: ModalController, private teamProvider: TeamProvider) {
+  constructor(public userProvider: UserProvider, public auth: AuthProvider, private modal: ModalController, private teamProvider: TeamProvider) {
   }
 
   async openEditUser(user?: IUser) {
