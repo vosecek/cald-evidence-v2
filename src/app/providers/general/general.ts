@@ -66,6 +66,7 @@ export class GeneralProvider {
     return new Promise<any>((resolve, reject) => {
       if (this.data.length === 0 || filter || !this.loadedFully) {
         if (!filter) {
+          console.log('reset data');
           this.data = [];
         }
         this.api.get('list/' + this.code, {'filter': filter, 'extend': (extend ? 1 : 0)}).subscribe(data => {
@@ -99,14 +100,16 @@ export class GeneralProvider {
   public findById(id, forceLoad?: boolean): Promise<any> {
     forceLoad = forceLoad || false;
     return new Promise<any>((resolve, reject) => {
-      const data = this.data.find(it => it.id === id);
+      const data = this.data.find(it => it.id == id);
       if (data && !forceLoad) {
         resolve(data);
       } else {
         this.api.get('list/' + this.code, {filter: {id: id}}).subscribe((data: any[]) => {
           if (data && data.length > 0) {
             data.forEach(it => {
-              this.data.push(it);
+              if (!this.data.find(el => el.id == it.id)) {
+                this.data.push(it);
+              }
             });
             resolve(data[0]);
           } else {
@@ -150,7 +153,7 @@ export class GeneralProvider {
 
         const toast = await new ToastController().create({message: (id ? 'Aktualizováno' : 'Vytvořeno'), duration: 2000});
         toast.present().catch(err => console.log(err));
-
+        console.log(response);
         if (data['id']) {
           const item = this.data.find(it => it.id === response.id);
           if (item) {

@@ -35,9 +35,9 @@ export class OrderPipe implements PipeTransform {
     }
 
     if (!Array.isArray(config) || (Array.isArray(config) && config.length === 1)) {
+
       const propertyToCheck: string = !Array.isArray(config) ? config : config[0];
       const desc = propertyToCheck.substr(0, 1) === '-';
-
       // Basic array
       if (!propertyToCheck || propertyToCheck === '-' || propertyToCheck === '+') {
         return !desc ? input.sort() : input.sort().reverse();

@@ -15,6 +15,7 @@ import {ApiProvider} from '../../../providers/api/api';
 import {DivisionPipe} from '../../../shared/pipes/division';
 import {DivisionProvider} from '../../../providers/division/division';
 import {TournamentEditPage} from './tournament-edit/tournament-edit.page';
+import {PlayerAtRosterProvider} from '../../../providers/player-at-roster/player-at-roster';
 
 @Component({
   selector: 'app-tournament',
@@ -25,6 +26,7 @@ export class TournamentPage implements OnInit {
 
   public data: ITournament;
   public rosters: IRoster[] = [];
+  public players_total = 0;
 
 
   constructor(
@@ -33,6 +35,7 @@ export class TournamentPage implements OnInit {
     private popoverCtrl: PopoverController,
     private pickerCtrl: PickerController,
     private appRef: ApplicationRef,
+    private playerAtRoster: PlayerAtRosterProvider,
     private team: TeamProvider,
     public auth: AuthProvider,
     private api: ApiProvider,
@@ -111,6 +114,7 @@ export class TournamentPage implements OnInit {
       const teams = [];
 
       if (this.auth.user.isAdmin()) {
+        console.log(this.team.data);
         new OrderPipe().transform(this.team.data, ['name']).forEach((t: ITeam) => {
           teams.push({
             name: 'team_' + t.id,
@@ -165,16 +169,19 @@ export class TournamentPage implements OnInit {
 
         this.data.ld.forEach((ld: ITournamentBelongsToLeagueAndDivision) => {
           this.roster.load({tournament_belongs_to_league_and_division_id: ld.id}).then((data) => {
+            console.log(data);
 
             data.forEach(async (r, i) => {
-              return await new TeamPipe(this.team).transform(r.team_id).then((name) => {
-                r.team_name = name;
+              r.team_name = this.team.getById(r.team_id).name;
+              this.playerAtRoster.loadDataByMaster('roster_id', r.id, {},).then(data => {
+                r.player_at_roster = data;
+                this.players_total += r.player_at_roster.length;
                 this.rosters = this.rosters.concat([r]);
-                setTimeout(() => {
-                  this.appRef.tick();
-                }, 100);
+              }, err => {
+                console.log(err);
               });
             });
+            this.appRef.tick();
           });
         });
       }, err => {

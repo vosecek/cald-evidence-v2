@@ -1,14 +1,15 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
             <ion-back-button></ion-back-button>
-            <ion-button *ngIf="auth.user.isAdmin()" (click)="editTournament()">
-                <ion-icon name="create"></ion-icon>
-            </ion-button>
         </ion-buttons>
         <ion-title *ngIf="data">Turnaj</ion-title>
         <ion-buttons slot="end">
-            <ion-button slot='end' (click)="showDivisionPicker()">
+            <ion-button *ngIf="auth.user.isAdmin()" (click)="editTournament()">
+                <ion-icon name="create"></ion-icon>
+            </ion-button>
+            <ion-button (click)="showDivisionPicker()">
                 <ion-icon slot="icon-only" name="person-add"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -35,6 +36,10 @@
                     <ion-icon slot='start' name="people"></ion-icon>
                     <span>{{data.divisions|implode:'name'}}</span>
                 </ion-item>
+                <ion-item>
+                    <ion-icon slot="start" name="people"></ion-icon>
+                    Celkem týmů/hráčů: {{rosters.length}}/{{players_total}}
+                </ion-item>
             </ion-list>
         </ion-card-content>
     </ion-card>
@@ -42,12 +47,13 @@
     <ion-card *ngFor="let ld of data.ld">
         <ion-card-subtitle padding-start padding-top>
             {{ld.division_id|division|async}}
+            <!--({{rosters}})-->
         </ion-card-subtitle>
         <ion-card-content>
             <ion-list>
                 <ion-item (click)="rosterDetail(r)" detail
                           *ngFor="let r of rosters|order:['team_name']|filter:'tournament_belongs_to_league_and_division_id':ld.id">
-                    {{(r.team_id|team)|async}}
+                    {{(r.team_id|team)|async}} ({{r.player_at_roster.length}})
                 </ion-item>
             </ion-list>
         </ion-card-content>

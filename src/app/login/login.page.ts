@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ApiProvider} from '../providers/api/api';
-import {ToastController} from '@ionic/angular';
+import {LoadingController, ToastController} from '@ionic/angular';
 import {AuthProvider} from '../providers/auth/auth';
 import {Router} from '@angular/router';
 
@@ -17,6 +17,7 @@ export class LoginPage {
   constructor(private fb: FormBuilder,
               private api: ApiProvider,
               private router: Router,
+              private loadCtrl: LoadingController,
               private toastCtrl: ToastController,
               private authProvider: AuthProvider) {
     this.form = this.fb.group({
@@ -27,12 +28,18 @@ export class LoginPage {
     this.form.patchValue({login: '', password: ''});
   }
 
-  submit(): void {
+  async submit() {
+
+    const load = await this.loadCtrl.create();
+    load.present().catch(err => console.log(err));
+
     this.authProvider.login(this.form.value).then(() => {
       this.router.navigate(['dashboard']).catch(err => console.log(err));
-    }, err => {
-      const toast = this.toastCtrl.create({message: err, duration: 3000});
-      console.log(toast);
+      return load.dismiss();
+    }, async err => {
+      load.dismiss().catch(err => console.log(err));
+      const toast = await this.toastCtrl.create({message: err, duration: 3000});
+      return toast.present();
     });
   }
 

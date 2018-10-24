@@ -6,13 +6,14 @@ import {LeagueProvider} from '../providers/league/league';
 import {DivisionProvider} from '../providers/division/division';
 import {NationalityProvider} from '../providers/nationality/nationality';
 import {SeasonProvider} from '../providers/season/season';
+import {TeamProvider} from '../providers/team/team';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggedGuard implements CanActivate {
 
-  constructor(private authProvider: AuthProvider, private season: SeasonProvider, private nationality: NationalityProvider, private router: Router, private league: LeagueProvider, private division: DivisionProvider) {
+  constructor(private authProvider: AuthProvider, private team: TeamProvider, private season: SeasonProvider, private nationality: NationalityProvider, private router: Router, private league: LeagueProvider, private division: DivisionProvider) {
 
   }
 
@@ -25,6 +26,7 @@ export class LoggedGuard implements CanActivate {
         Promise.all([
           this.league.load(),
           this.season.load(),
+          this.team.load(),
           this.nationality.load(),
           this.division.load()
         ]).then(() => {

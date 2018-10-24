@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
 import {Token} from '../../interfaces/token';
@@ -21,7 +21,7 @@ export class ApiProvider {
 
   private develop = 'http://cald.yosarin.net';
   private mock = 'http://localhost:8100/mock';
-  private live: string;
+  private live: 'http://api.evidence.cald.cz';
 
   private _token: Token;
   private headers: HttpHeaders;
@@ -95,8 +95,7 @@ export class ApiProvider {
         observer.next(this.processResponse(response));
         observer.complete();
       }, err => {
-        this.processError(err);
-        observer.error(err);
+        observer.error(this.processError(err));
       });
     });
   }
@@ -111,8 +110,7 @@ export class ApiProvider {
         observer.next(this.processResponse(response));
         observer.complete();
       }, err => {
-        this.processError(err);
-        observer.error(err);
+        observer.error(this.processError(err));
       });
     });
   }
@@ -128,8 +126,7 @@ export class ApiProvider {
         observer.next(this.processResponse(response));
         observer.complete();
       }, err => {
-        this.processError(err);
-        observer.error(err);
+        observer.error(this.processError(err));
       });
     });
   }
@@ -141,17 +138,16 @@ export class ApiProvider {
     return response;
   }
 
-  private processError(err): any {
+  private processError(err: HttpErrorResponse): any {
     console.log(err);
-    console.log(err['status']);
     if (err['status'] === 403) {
       this.router.navigate(['login']).catch(err => console.log(err));
     }
+    return (err.error.error ? err.error.error : err.error);
   }
 
   public path(path): string {
     if (window.location.hostname.search('localhost') > -1) {
-      // if (path == 'user/login') return [this.develop, path].join('/');
       return [this.develop, path].join('/');
     } else {
       return [this.live, path].join('/');
