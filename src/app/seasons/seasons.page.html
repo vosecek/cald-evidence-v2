@@ -5,6 +5,11 @@
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>Sezony</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="addItem()" *ngIf="auth.user.isAdmin()">
+                <ion-icon name="add-circle"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 

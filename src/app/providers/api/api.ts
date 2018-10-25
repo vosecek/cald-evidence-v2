@@ -21,10 +21,11 @@ export class ApiProvider {
 
   private develop = 'http://cald.yosarin.net';
   private mock = 'http://localhost:8100/mock';
-  private live: 'http://api.evidence.cald.cz';
+  private live = 'http://api.evidence.cald.cz';
 
   private _token: Token;
   private headers: HttpHeaders;
+  public isDevelop = false;
 
   constructor(public http: HttpClient,
               private events: Events,
@@ -35,6 +36,7 @@ export class ApiProvider {
   }
 
   public logout(): void {
+    this.isDevelop = false;
     this.storage.remove('token').catch(err => console.log(err));
     delete this._token;
     this.router.navigate(['login']).catch(err => console.log(err));
@@ -147,7 +149,7 @@ export class ApiProvider {
   }
 
   public path(path): string {
-    if (window.location.hostname.search('localhost') > -1) {
+    if (this.isDevelop) {
       return [this.develop, path].join('/');
     } else {
       return [this.live, path].join('/');

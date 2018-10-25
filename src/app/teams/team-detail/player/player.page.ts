@@ -12,6 +12,7 @@ import {PlayerAtTeamProvider} from '../../../providers/player-at-team/player-at-
 import {SeasonProvider} from '../../../providers/season/season';
 import {AuthProvider} from '../../../providers/auth/auth';
 import {OrderPipe} from '../../../shared/pipes/order';
+import {ToolsService} from '../../../providers/tools.service';
 
 @Component({
   selector: 'app-player',
@@ -86,12 +87,9 @@ export class PlayerPage implements OnInit {
     load.present().catch(err => console.log(err));
     let toRemove = false;
 
-    const data = this.form.value;
-    if (data['birth_date']) {
-      if (data['birth_date']['year']) {
-        data['birth_date'] = [data['birth_date']['year']['text'], data['birth_date']['month']['text'], data['birth_date']['day']['text']].join('-');
-      }
-    }
+    let data = this.form.value;
+    data = ToolsService.dateConverter(data, 'birth_date');
+
     this.playerProvider.updateCreateItem(data).then(async (data) => {
       if (!this.data) {
         this.playerAtTeam.assignPlayerToTeam(data, this.team, this.seasonProvider.getById(this.form.value.season_id)).then(() => {

@@ -3,16 +3,16 @@ import {Routes, RouterModule} from '@angular/router';
 import {LoggedGuard} from './guards/logged.guard';
 import {SeasonsGuard} from './guards/seasons.guard';
 import {SeasonDetailGuard} from './guards/season-detail.guard';
-import {PlayerGuard} from './guards/player.guard';
 import {TeamsGuard} from './guards/teams.guard';
 
 const routes: Routes = [
   {path: 'login', loadChildren: './login/login.module#LoginPageModule'},
+  {path: 'login/:develop', loadChildren: './login/login.module#LoginPageModule'},
   {
     path: '',
     canActivate: [LoggedGuard],
     children: [
-      {path: '', redirectTo: 'teams', pathMatch: 'full'},
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardPageModule', canActivate: []},
       {path: 'seasons', loadChildren: './seasons/seasons.module#SeasonsPageModule', canActivate: [SeasonsGuard]},
       {
@@ -36,7 +36,8 @@ const routes: Routes = [
       },
       {path: 'team-edit', loadChildren: './teams/team-edit/team-edit.module#TeamEditPageModule'}
     ]
-  }
+  },
+  { path: 'season-edit', loadChildren: './seasons/season-edit/season-edit.module#SeasonEditPageModule' }
 ];
 
 @NgModule({

@@ -6,6 +6,9 @@
         </ion-buttons>
         <ion-title *ngIf="data">Sezona {{data.name}}</ion-title>
         <ion-buttons slot="end">
+            <ion-button *ngIf="auth.user.isAdmin()" (click)="editItem()">
+                <ion-icon name="create"></ion-icon>
+            </ion-button>
             <ion-button (click)="addTournament()" *ngIf="auth.user.isAdmin()">
                 <ion-icon slot="icon-only" name="add-circle"></ion-icon>
             </ion-button>

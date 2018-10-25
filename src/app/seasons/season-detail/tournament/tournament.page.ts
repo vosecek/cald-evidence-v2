@@ -59,7 +59,7 @@ export class TournamentPage implements OnInit {
     });
   }
 
-  async editTournament() {
+  async editItem() {
     const modal = await this.modal.create({
       component: TournamentEditPage,
       componentProps: {tournament: this.data}

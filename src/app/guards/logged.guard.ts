@@ -36,6 +36,8 @@ export class LoggedGuard implements CanActivate {
           reject(err);
         });
       }, err => {
+        console.log(err);
+        // alert('');/
         this.router.navigate(['login']).catch(err => console.log(err));
         resolve(false);
       });

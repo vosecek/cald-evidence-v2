@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title *ngIf="season">{{season.name}}</ion-title>
+        <ion-title *ngIf="!season">Nová sezona</ion-title>
+        <ion-buttons slot="end">
+            <ion-button [disabled]="form.invalid" (click)="save()">
+                <ion-icon name="save"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="form">
+        <ion-list>
+            <ion-item>
+                <ion-label position="stacked">Rok</ion-label>
+                <ion-input formControlName="name" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Poplatek (Kč)</ion-label>
+                <ion-input formControlName="fee" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Začátek</ion-label>
+                <ion-datetime display-format="DD.MM YYYY" formControlName="start"></ion-datetime>
+            </ion-item>
+        </ion-list>
+    </form>
+</ion-content>

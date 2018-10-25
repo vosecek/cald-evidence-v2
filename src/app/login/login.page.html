@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (keydown)="keyDownFunction($event)">
         <ion-list>
             <ion-item>
                 <ion-label [position]="'stacked'">Uživatelské jméno</ion-label>

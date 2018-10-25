@@ -10,6 +10,7 @@ import {OrderPipe} from '../../../../shared/pipes/order';
 
 import * as moment from 'moment';
 import {ModalController} from '@ionic/angular';
+import {ToolsService} from '../../../../providers/tools.service';
 
 @Component({
   selector: 'app-tournament-edit',
@@ -41,12 +42,9 @@ export class TournamentEditPage implements OnInit {
   }
 
   save() {
-    const data = this.form.value;
-    if (data['date']) {
-      if (data['date']['year']) {
-        data['date'] = [data['date']['year']['text'], data['date']['month']['text'], data['date']['day']['text']].join('-');
-      }
-    }
+    let data = this.form.value;
+    data = ToolsService.dateConverter(data);
+
     this.tournamentProvider.updateCreateItem(data).then((data) => {
       if (data[0] && data[0]['tournament']) {
         this.form.patchValue({id: data[0]['tournament']['id']});
@@ -64,7 +62,6 @@ export class TournamentEditPage implements OnInit {
     if (!this.tournament) {
       this.form.patchValue({season_id: new OrderPipe().transform(this.seasonProvider.data, ['-name'])[0].id});
     } else {
-      console.log(this.tournament);
       this.form.patchValue({
         id: this.tournament.id,
         name: this.tournament.name,

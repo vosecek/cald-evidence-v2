@@ -7,6 +7,7 @@ import {ISeason} from '../../interfaces/season';
 import {ModalController} from '@ionic/angular';
 import {TournamentEditPage} from './tournament/tournament-edit/tournament-edit.page';
 import {AuthProvider} from '../../providers/auth/auth';
+import {SeasonEditPage} from '../season-edit/season-edit.page';
 
 @Component({
   selector: 'app-season-detail',
@@ -34,6 +35,19 @@ export class SeasonDetailPage implements OnInit {
     modal.onDidDismiss().then(() => {
       this.ngOnInit();
     });
+
+    return modal.present();
+  }
+
+  async editItem() {
+    const modal = await this.modal.create({
+      component: SeasonEditPage,
+      componentProps: {season: this.data}
+    });
+
+    modal.onDidDismiss().then(() => {
+      this.ngOnInit();
+    }).catch(err => console.log(err));
 
     return modal.present();
   }
