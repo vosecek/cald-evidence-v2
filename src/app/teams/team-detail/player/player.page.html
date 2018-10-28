@@ -18,7 +18,7 @@
 <ion-content>
     <form [formGroup]="form">
         <ion-grid>
-            <ion-row>
+            <ion-row *ngIf="!data">
                 <ion-col>
                     Nejdříve si důkladně ověř, zda zadávaný hráč již v Evidenci neexistuje pomoci Vyhledávání hráče v zadávání soupisek
                 </ion-col>
@@ -92,4 +92,25 @@
             </ion-col>
         </ion-grid>
     </form>
+
+    <ion-card *ngIf="auth.user.isAdmin() && data">
+        <ion-card-header>Odpuštění poplatku</ion-card-header>
+        <ion-card-content>
+            <ion-item>
+                <ion-label>Sezona</ion-label>
+                <ion-select [(ngModel)]="pardon_fee_season">
+                    <ion-select-option [selected]="seasonProvider.data[0]" [value]="season" *ngFor="let season of seasonProvider.data">{{season.name}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-row>
+                <ion-col>
+                    <ion-button expand="full" size="small" color='success' (click)="pardonFee()">Odpustit</ion-button>
+                </ion-col>
+                <!--<ion-col>-->
+                    <!--<ion-button expand="full" size="small" color='danger' (click)="revokePardonFee()">Zrušit odpustek</ion-button>-->
+                <!--</ion-col>-->
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title *ngIf="fee">{{fee.name}}</ion-title>
+        <ion-title *ngIf="!fee">Nový poplatek</ion-title>
+        <ion-buttons slot="end">
+            <ion-button [disabled]="form.invalid" (click)="save()">
+                <ion-icon name="save"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="form">
+        <ion-list>
+            <ion-item>
+                <ion-label position="stacked">Název poplatku</ion-label>
+                <ion-input type="text" formControlName="name"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Výše poplatku (Kč)</ion-label>
+                <ion-input type="number" formControlName="amount"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Typ poplatku</ion-label>
+                <ion-select formControlName="type">
+                    <ion-select-option [selected]="f == 'player_per_season'" *ngFor="let f of feeTypes" [value]="f">{{f}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+    </form>
+
+    <div *ngIf="fee">
+        <h3>Aktivovat poplatek</h3>
+        <ion-item>
+            <ion-label position="stacked">Sezona</ion-label>
+            <ion-select [(ngModel)]="season">
+                <ion-select-option [value]="s" *ngFor="let s of seasonProvider.data">{{s.name}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Liga</ion-label>
+            <ion-select [(ngModel)]="league">
+                <ion-select-option [value]="l" *ngFor="let l of leagueProvider.data">{{l.name}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-button expand="full" [disabled]="!season || !league" (click)="feeProvider.activateFee(season,league,fee)">Aktivovat</ion-button>
+    </div>
+</ion-content>
+<ion-footer *ngIf="fee">
+    <ion-toolbar>
+        <ion-button expand="full" (click)="remove()" color="danger">Smazat</ion-button>
+    </ion-toolbar>
+</ion-footer>

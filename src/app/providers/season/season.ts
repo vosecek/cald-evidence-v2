@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {GeneralProvider} from '../general/general';
 import {ApiProvider} from '../api/api';
 import {ISeason} from '../../interfaces/season';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -23,5 +22,4 @@ export class SeasonProvider extends GeneralProvider {
       });
     });
   }
-
 }

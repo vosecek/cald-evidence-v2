@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ToolsService} from '../../providers/tools.service';
 
 import * as moment from 'moment';
+import {FeeProvider} from '../../providers/fee/fee';
 
 @Component({
   selector: 'app-season-edit',
@@ -18,25 +19,21 @@ export class SeasonEditPage implements OnInit {
   public form: FormGroup;
 
   constructor(
-    private seasonProvider: SeasonProvider,
+    public seasonProvider: SeasonProvider,
     private modal: ModalController,
+    public feeProvider: FeeProvider,
     private loadCtrl: LoadingController,
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
       id: ['', []],
       name: ['', [Validators.required]],
-      start: ['', [Validators.required]],
-      fee: ['', [Validators.required]]
+      start: ['', [Validators.required]]
     });
   }
 
   async save() {
-    const load = await this.loadCtrl.create();
-    load.present().catch(err => console.log(err));
-
     this.seasonProvider.updateCreateItem(ToolsService.dateConverter(this.form.value)).then(() => {
-      load.dismiss().catch(err => console.log(err));
       this.dismiss();
     }, err => {
       console.log(err);
@@ -48,11 +45,11 @@ export class SeasonEditPage implements OnInit {
   }
 
   ngOnInit() {
+    this.feeProvider.load().catch(err => console.log(err));
     if (this.season) {
       this.form.patchValue({
         id: this.season.id,
         name: this.season.name,
-        fee: this.season.fee,
         start: moment(this.season.start).format('YYYY-MM-DD')
       });
     }

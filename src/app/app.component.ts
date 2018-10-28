@@ -58,6 +58,12 @@ export class AppComponent {
               url: '/users',
               icon: 'people'
             });
+
+            this.appPages.push({
+              title: 'Poplatky',
+              url: '/fees',
+              icon: 'cash'
+            });
           }
         }
       });

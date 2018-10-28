@@ -12,6 +12,9 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 // import {File} from '@ionic-native/file';
 // import {FileOpener} from '@ionic-native/file-opener';
 import {LoadingController, Platform} from '@ionic/angular';
+import {FeeNeededForLeagueProvider} from '../providers/fee-needed-for-league/fee-needed-for-league';
+import {FeeProvider} from '../providers/fee/fee';
+import {IFee} from '../interfaces/fee';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -23,7 +26,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class DashboardPage implements OnInit {
 
   protected feeLoading = false;
-  fee_season: any;
+  season_for_fee: any;
+  fee_for_season: IFee;
   protected teams: ITeam[] = [];
 
   pdfObj = null;
@@ -31,6 +35,8 @@ export class DashboardPage implements OnInit {
   constructor(
     // private file: File, private fileOpener: FileOpener,
     private platform: Platform,
+    private feeProvider: FeeProvider,
+    private feeNeeded: FeeNeededForLeagueProvider,
     private loadCtrl: LoadingController,
     private authProvider: AuthProvider, private api: ApiProvider, private season: SeasonProvider, private teamProvider: TeamProvider) {
   }
@@ -42,7 +48,17 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
-    this.fee_season = new OrderPipe().transform(this.season.data, ['-name'])[0];
+    this.season_for_fee = new OrderPipe().transform(this.season.data, ['-name'])[0];
+    this.feeNeeded.load({since_season: this.season_for_fee.id}).then((data) => {
+      if (data[0]) {
+        this.feeProvider.findById(data[0].fee_id).then((fee) => {
+          this.fee_for_season = fee;
+        }, err => {
+          console.log(err);
+        });
+      }
+    });
+
 
     if (this.authProvider.user.isAdmin()) {
       this.teamProvider.load().then(() => {
@@ -63,12 +79,11 @@ export class DashboardPage implements OnInit {
   }
 
   async getFee(team: ITeam) {
-
-    let load = await this.loadCtrl.create();
+    const load = await this.loadCtrl.create();
     load.present().catch(err => console.log(err));
 
     this.feeLoading = true;
-    this.api.get(['team', team.id, 'season', this.fee_season.id, 'fee'].join('/')).subscribe((feeData: any) => {
+    this.api.get(['team', team.id, 'season', this.season_for_fee.id, 'fee'].join('/')).then((feeData: any) => {
 
       const pdfContent = [];
 
@@ -112,16 +127,15 @@ export class DashboardPage implements OnInit {
       table_body.push(table_header);
 
       feeData['fee'][team.name].players.forEach((el, i) => {
-        console.log(el);
         if (el) {
-          feeData['fee'][team.name].players[i] = el['name'].split(' ').reverse().join(' ');
+          feeData['fee'][team.name].players[i]['name'] = el['name'].split(' ').reverse().join(' ');
         }
       });
 
-      feeData['fee'][team.name].players = feeData['fee'][team.name].players.sort();
+      let sorted = new OrderPipe().transform(feeData['fee'][team.name].players, ['name']);
 
-      feeData['fee'][team.name].players.forEach(player => {
-        table_body.push([player, '400 Kč']);
+      sorted.forEach(player => {
+        table_body.push([player['name'], player.fee + ' Kč']);
       });
 
       duplicita_table_body.push(duplicita_table_header);
@@ -135,7 +149,7 @@ export class DashboardPage implements OnInit {
 
       const data = [{text: 'Česká asociace létajícího disku', style: 'pageHeader'},
         {
-          text: 'Pokyny k zaplacení členských příspěvků ' + ' ' + this.fee_season.name,
+          text: 'Pokyny k zaplacení členských příspěvků ' + ' ' + this.season_for_fee.name,
           style: 'header'
         },
         {text: 'Název oddílu: ' + team.name, bold: true, style: 'list'},

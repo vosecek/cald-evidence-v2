@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {ApiProvider} from '../api/api';
 import {GeneralProvider} from '../general/general';
 import {IPlayerAtTeam} from '../../interfaces/player-at-team';
-import {ILeague} from '../../interfaces/league';
 import {IPlayer} from '../../interfaces/player';
 import {ITeam} from '../../interfaces/team';
 import {ISeason} from '../../interfaces/season';
@@ -36,7 +35,7 @@ export class PlayerAtTeamProvider extends GeneralProvider {
       pars.push('player');
       pars.push(player.id);
 
-      this.api.post(pars.join('/'), {season_id: season.id}).subscribe(data => {
+      this.api.post(pars.join('/'), {season_id: season.id}).then(data => {
         resolve(data);
       }, err => {
         reject(err);
@@ -51,7 +50,7 @@ export class PlayerAtTeamProvider extends GeneralProvider {
       pars.push('player');
       pars.push(player.id);
 
-      this.api.delete(pars.join('/'), {season_id: season.id}).subscribe(data => {
+      this.api.delete(pars.join('/'), {season_id: season.id}).then(data => {
         resolve(data);
       }, err => {
         reject(err);

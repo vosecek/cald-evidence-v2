@@ -48,12 +48,12 @@ export class UserEditPage implements OnInit {
       const toAdd = this.form.value.privileges.filter(item => original_ids.indexOf(item) < 0);
 
       toDelete.forEach(it => {
-        this.api.delete('team/' + it + '/user/' + this.form.value.id, {'privilege': 'edit'}).subscribe(el => {
+        this.api.delete('team/' + it + '/user/' + this.form.value.id, {'privilege': 'edit'}).then(el => {
         });
       });
 
       toAdd.forEach(it => {
-        this.api.post('team/' + it + '/user/' + this.form.value.id, {'privilege': 'edit'}).subscribe(el => {
+        this.api.post('team/' + it + '/user/' + this.form.value.id, {'privilege': 'edit'}).then(el => {
         });
       });
     }

@@ -34,10 +34,12 @@ const routes: Routes = [
         path: 'tournament-edit',
         loadChildren: './seasons/season-detail/tournament/tournament-edit/tournament-edit.module#TournamentEditPageModule'
       },
-      {path: 'team-edit', loadChildren: './teams/team-edit/team-edit.module#TeamEditPageModule'}
+      {path: 'team-edit', loadChildren: './teams/team-edit/team-edit.module#TeamEditPageModule'},
+      {path: 'fees', loadChildren: './fees/fees.module#FeesPageModule'},
+      {path: 'season-edit', loadChildren: './seasons/season-edit/season-edit.module#SeasonEditPageModule'},
+      {path: 'fees/:id', loadChildren: './fee-edit/fee-edit.module#FeeEditPageModule'}
     ]
-  },
-  { path: 'season-edit', loadChildren: './seasons/season-edit/season-edit.module#SeasonEditPageModule' }
+  }
 ];
 
 @NgModule({

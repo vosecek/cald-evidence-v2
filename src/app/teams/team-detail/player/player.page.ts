@@ -13,6 +13,9 @@ import {SeasonProvider} from '../../../providers/season/season';
 import {AuthProvider} from '../../../providers/auth/auth';
 import {OrderPipe} from '../../../shared/pipes/order';
 import {ToolsService} from '../../../providers/tools.service';
+import {ISeason} from '../../../interfaces/season';
+import {FeeProvider} from '../../../providers/fee/fee';
+import {ApiProvider} from '../../../providers/api/api';
 
 @Component({
   selector: 'app-player',
@@ -24,15 +27,19 @@ export class PlayerPage implements OnInit {
   public data: IPlayer = null;
   protected team: ITeam = null;
   public form: FormGroup;
+  public canRevokeFee = false;
+  public pardon_fee_season: ISeason;
 
   constructor(
     private navParams: NavParams,
     private loadCtrl: LoadingController,
     private toastCtrl: ToastController,
+    private api:ApiProvider,
     public auth: AuthProvider,
+    private feeProvider: FeeProvider,
     private playerAtTeam: PlayerAtTeamProvider,
     private fb: FormBuilder,
-    protected seasonProvider: SeasonProvider,
+    public seasonProvider: SeasonProvider,
     private playerProvider: PlayerProvider,
     protected teamProvider: TeamProvider,
     public nationalityProvider: NationalityProvider,
@@ -83,8 +90,6 @@ export class PlayerPage implements OnInit {
   }
 
   async save() {
-    const load = await this.loadCtrl.create({});
-    load.present().catch(err => console.log(err));
     let toRemove = false;
 
     let data = this.form.value;
@@ -117,14 +122,24 @@ export class PlayerPage implements OnInit {
       }
 
       this.data = data;
-      load.dismiss().catch(err => console.log(err));
 
       this.modal.dismiss(toRemove).catch(err => console.log(err));
     }, async err => {
       const toast = await this.toastCtrl.create({message: err, duration: 2000});
-      toast.present().catch(err => console.log(err));
-      return load.dismiss();
+      return toast.present();
     });
+  }
+
+  public isPardonFee() {
+    // this.api.get('')
+  }
+
+  pardonFee() {
+    this.feeProvider.pardonFee(this.data, this.pardon_fee_season);
+  }
+
+  revokePardonFee() {
+
   }
 
 }

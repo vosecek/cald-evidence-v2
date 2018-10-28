@@ -113,7 +113,7 @@ export class AuthProvider {
 
   public login(data): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.api.post('user/login', data, null, false).subscribe(val => {
+      this.api.post('user/login', data, null, false).then(val => {
         this.setTokenToStorage(val['token']).then(() => {
           this.getUser().then(() => {
             resolve();
@@ -131,7 +131,7 @@ export class AuthProvider {
 
   getUser(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.api.get('user/me').subscribe(data => {
+      this.api.get('user/me').then(data => {
         this.user = new User(data);
         this.events.publish('user:login');
         resolve(data);
@@ -143,7 +143,7 @@ export class AuthProvider {
 
   updateUser(data): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.api.put('user/me', data).subscribe(ok => {
+      this.api.put('user/me', data).then(ok => {
         resolve();
       }, err => {
         reject(err);

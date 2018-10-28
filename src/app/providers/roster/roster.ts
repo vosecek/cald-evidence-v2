@@ -45,7 +45,7 @@ export class RosterProvider extends GeneralProvider {
       pars.push('player');
       pars.push(player.id);
 
-      this.api.delete(pars.join('/')).subscribe(data => {
+      this.api.delete(pars.join('/')).then(data => {
         resolve(data);
       }, err => {
         reject(err);
@@ -62,7 +62,7 @@ export class RosterProvider extends GeneralProvider {
       pars.push('player');
       pars.push(player.id);
 
-      this.api.post(pars.join('/')).subscribe(data => {
+      this.api.post(pars.join('/')).then(data => {
         resolve(data);
       }, err => {
         reject(err);

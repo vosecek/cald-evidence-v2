@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
 import {Token} from '../../interfaces/token';
 
-import {Events, ToastController} from '@ionic/angular';
+import {Events, LoadingController, ToastController} from '@ionic/angular';
 import {Observable} from 'rxjs/internal/Observable';
 import {Router} from '@angular/router';
 
@@ -69,66 +69,79 @@ export class ApiProvider {
     }
   }
 
-  public delete(path: string, pars?: {}, token?: boolean): Observable<any> {
+  public delete(path: string, pars?: {}, token?: boolean): Promise<any> {
     if (token !== false) {
       token = true;
     }
     const httpParams = this.getHttpParams(token, pars);
 
-    return new Observable((observer) => {
+    return new Promise<any>(async (resolve, reject) => {
+      const load = await new LoadingController().create();
+      load.present().catch(err => console.log(err));
+
       this.http.delete(this.path(path), {params: httpParams}).subscribe((response) => {
-        observer.next(this.processResponse(response));
-        observer.complete();
+        load.dismiss().catch(err => console.log(err));
+        resolve(this.processResponse(response));
       }, err => {
-        this.processError(err);
-        observer.error(err);
+        load.dismiss().catch(err => console.log(err));
+        reject(this.processError(err));
       });
     });
   }
 
-  public post(path: string, data?: {}, pars?: {}, token?: boolean): Observable<any> {
+  public post(path: string, data?: {}, pars?: {}, token?: boolean): Promise<any> {
     if (token !== false) {
       token = true;
     }
     const httpParams = this.getHttpParams(token, pars);
 
-    return new Observable((observer) => {
+    return new Promise<any>(async (resolve, reject) => {
+      const load = await new LoadingController().create();
+      load.present().catch(err => console.log(err));
       this.http.post(this.path(path), data, {params: httpParams}).subscribe((response) => {
-        observer.next(this.processResponse(response));
-        observer.complete();
+        load.dismiss().catch(err => console.log(err));
+        resolve(this.processResponse(response));
       }, err => {
-        observer.error(this.processError(err));
+        load.dismiss().catch(err => console.log(err));
+        reject(this.processError(err));
       });
     });
   }
 
-  public put(path: string, data?: {}, pars?: {}, token?: boolean): Observable<any> {
+  public put(path: string, data?: {}, pars?: {}, token?: boolean): Promise<any> {
     if (token !== false) {
       token = true;
     }
     const httpParams = this.getHttpParams(token, pars);
-    return new Observable((observer) => {
+
+    return new Promise<any>(async (resolve, reject) => {
+      const load = await new LoadingController().create();
+      load.present().catch(err => console.log(err));
       this.http.put(this.path(path), data, {params: httpParams}).subscribe((response) => {
-        observer.next(this.processResponse(response));
-        observer.complete();
+        load.dismiss().catch(err => console.log(err));
+        resolve(this.processResponse(response));
       }, err => {
-        observer.error(this.processError(err));
+        load.dismiss().catch(err => console.log(err));
+        reject(this.processError(err));
       });
     });
   }
 
-  public get(path: string, pars?: {}, token?: boolean): Observable<any> {
+  public get(path: string, pars?: {}, token?: boolean): Promise<any> {
     if (token !== false) {
       token = true;
     }
     const httpParams = this.getHttpParams(token, pars);
 
-    return new Observable((observer) => {
+    return new Promise<any>(async (resolve, reject) => {
+      const load = await new LoadingController().create();
+      load.present().catch(err => console.log(err));
       this.http.get(this.path(path), {params: httpParams}).subscribe((response) => {
-        observer.next(this.processResponse(response));
-        observer.complete();
+        load.dismiss().catch(err => console.log(err));
+        resolve(this.processResponse(response));
       }, err => {
-        observer.error(this.processError(err));
+        load.dismiss().catch(err => console.log(err));
+        reject(this.processError(err));
       });
     });
   }
@@ -145,11 +158,11 @@ export class ApiProvider {
     if (err['status'] === 403) {
       this.router.navigate(['login']).catch(err => console.log(err));
     }
-    return (err.error.error ? err.error.error : err.error);
+    return (err.error.error ? err.error.error : (err.message ? err.message : 'Neznámá chyba'));
   }
 
   public path(path): string {
-    if (this.isDevelop) {
+    if (this.isDevelop || window.location.href.search('localhost') > -1) {
       return [this.develop, path].join('/');
     } else {
       return [this.live, path].join('/');

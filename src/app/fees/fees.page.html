@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Poplatky</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="addItem(null)" *ngIf="auth.user.isAdmin()">
+                <ion-icon name="add-circle"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list lines="true">
+        <ion-item detail *ngFor="let fee of feeProvider.data|order:['-name']" (click)="addItem(fee)">
+            <ion-label>
+                {{fee.name}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

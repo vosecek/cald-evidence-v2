@@ -38,14 +38,17 @@ import {UserProvider} from './providers/user/user';
 import {UserEditPage} from './users/user-edit/user-edit.page';
 import {ToolsService} from './providers/tools.service';
 import {SeasonEditPage} from './seasons/season-edit/season-edit.page';
+import {FeeEditPage} from './fee-edit/fee-edit.page';
+import {FeeProvider} from './providers/fee/fee';
+import {FeeNeededForLeagueProvider} from './providers/fee-needed-for-league/fee-needed-for-league';
 // import {File} from '@ionic-native/file';
 // import {FileOpener} from '@ionic-native/file-opener';
 
 registerLocaleData(localeCs, 'cs-CZ');
 
 @NgModule({
-  declarations: [AppComponent, PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage],
-  entryComponents: [PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage],
+  declarations: [AppComponent, PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage, FeeEditPage],
+  entryComponents: [PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage, FeeEditPage],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -73,6 +76,7 @@ registerLocaleData(localeCs, 'cs-CZ');
     SeasonProvider,
     DivisionProvider,
     NationalityProvider,
+    FeeNeededForLeagueProvider,
     LeagueProvider,
     TournamentBelongsToLeagueAndDivisionProvider,
     PlayerProvider,
@@ -80,6 +84,7 @@ registerLocaleData(localeCs, 'cs-CZ');
     RosterProvider,
     PlayerAtRosterProvider,
     SplashScreen,
+    FeeProvider,
     ToolsService,
     {provide: LOCALE_ID, useValue: 'cs-CZ'},
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}

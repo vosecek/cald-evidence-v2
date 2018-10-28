@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApiProvider} from '../api/api';
-import {ToastController} from '@ionic/angular';
+import {LoadingController, ToastController} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,13 @@ export class GeneralProvider {
     pars.push(id.toString());
 
     return new Promise<any>((resolve, reject) => {
-      this.api.delete(pars.join('/')).subscribe(() => {
+      this.api.delete(pars.join('/')).then(async () => {
+        const toast = await new ToastController().create({message: 'Odstraněno', duration: 2000});
+        toast.present().catch(err => console.log(err));
+        const item = this.data.find(it => it.id === id);
+        if (item) {
+          this.data.splice(this.data.indexOf(item), 1);
+        }
         resolve();
       }, err => {
         reject(err);
@@ -66,10 +72,9 @@ export class GeneralProvider {
     return new Promise<any>((resolve, reject) => {
       if (this.data.length === 0 || filter || !this.loadedFully) {
         if (!filter) {
-          console.log('reset data');
           this.data = [];
         }
-        this.api.get('list/' + this.code, {'filter': filter, 'extend': (extend ? 1 : 0)}).subscribe(data => {
+        this.api.get('list/' + this.code, {'filter': filter, 'extend': (extend ? 1 : 0)}).then(data => {
           if (!filter) this.loadedFully = true;
           data.forEach((it, key) => {
             const origin = this.data.find(item => item.id === it.id);
@@ -104,7 +109,7 @@ export class GeneralProvider {
       if (data && !forceLoad) {
         resolve(data);
       } else {
-        this.api.get('list/' + this.code, {filter: {id: id}}).subscribe((data: any[]) => {
+        this.api.get('list/' + this.code, {filter: {id: id}}).then((data: any[]) => {
           if (data && data.length > 0) {
             data.forEach(it => {
               if (!this.data.find(el => el.id == it.id)) {
@@ -135,33 +140,31 @@ export class GeneralProvider {
         }
 
         if (this.updatePut && id) {
-          this.api.put(pars.join('/'), data).subscribe(data => {
+          this.api.put(pars.join('/'), data).then(data => {
             resolve(data);
           }, err => {
             reject(err);
           });
         } else {
-          this.api.post(pars.join('/'), data).subscribe(data => {
+          this.api.post(pars.join('/'), data).then(data => {
             resolve(data);
           }, err => {
             reject(err);
           });
         }
-
-
       }).then(async response => {
-
         const toast = await new ToastController().create({message: (id ? 'Aktualizováno' : 'Vytvořeno'), duration: 2000});
         toast.present().catch(err => console.log(err));
-        console.log(response);
         if (data['id']) {
           const item = this.data.find(it => it.id === response.id);
           if (item) {
             this.data[this.data.indexOf(item)] = response;
-          } else {
-            this.data.push(response);
           }
         }
+        if (response['id']) {
+          this.data.push(response);
+        }
+
         resolve(response);
       }, err => {
         reject(err);

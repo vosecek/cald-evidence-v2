@@ -54,7 +54,7 @@ export class TournamentPage implements OnInit {
   }
 
   private addRoster(teamId, ld: ITournamentBelongsToLeagueAndDivision) {
-    this.api.post('roster', {team_id: teamId, tournament_belongs_to_league_and_division_id: ld.id}).subscribe(val => {
+    this.api.post('roster', {team_id: teamId, tournament_belongs_to_league_and_division_id: ld.id}).then(val => {
       this.rosterDetail(val).catch(err => console.log(err));
     });
   }
