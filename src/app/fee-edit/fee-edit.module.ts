@@ -22,7 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FeeEditPage]
+  declarations: []
 })
 export class FeeEditPageModule {
 }
