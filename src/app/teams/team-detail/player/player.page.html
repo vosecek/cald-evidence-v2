@@ -8,7 +8,10 @@
         <ion-title *ngIf="data">{{data.last_name}} {{data.first_name}}</ion-title>
         <ion-title *ngIf="!data">Nový hráč</ion-title>
         <ion-buttons slot="end">
-            <ion-button fill="clear" (click)="save()" [disabled]="!form.valid">
+            <ion-button (click)="history()">
+                <ion-icon name="book"></ion-icon>
+            </ion-button>
+            <ion-button (click)="save()" [disabled]="!form.valid">
                 <ion-icon name="save"></ion-icon>
             </ion-button>
         </ion-buttons>

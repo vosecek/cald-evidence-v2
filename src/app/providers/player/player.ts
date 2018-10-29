@@ -27,4 +27,7 @@ export class PlayerProvider extends GeneralProvider {
     });
   }
 
+  public history(player: IPlayer): Promise<any> {
+    return this.api.get('player/' + player.id + '/history');
+  }
 }

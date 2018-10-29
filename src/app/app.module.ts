@@ -38,17 +38,19 @@ import {UserProvider} from './providers/user/user';
 import {UserEditPage} from './users/user-edit/user-edit.page';
 import {ToolsService} from './providers/tools.service';
 import {SeasonEditPage} from './seasons/season-edit/season-edit.page';
-import {FeeEditPage} from './fee-edit/fee-edit.page';
 import {FeeProvider} from './providers/fee/fee';
 import {FeeNeededForLeagueProvider} from './providers/fee-needed-for-league/fee-needed-for-league';
+import {FeeEditPage} from './settings/fees/fee-edit/fee-edit.page';
+import {NationalityEditPage} from './settings/nationalities/nationality-edit/nationality-edit.page';
+import {PlayerHistoryPage} from './teams/team-detail/player/player-history/player-history.page';
 // import {File} from '@ionic-native/file';
 // import {FileOpener} from '@ionic-native/file-opener';
 
 registerLocaleData(localeCs, 'cs-CZ');
 
 @NgModule({
-  declarations: [AppComponent, PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage, FeeEditPage],
-  entryComponents: [PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage, FeeEditPage],
+  declarations: [AppComponent, PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage, FeeEditPage, NationalityEditPage, PlayerHistoryPage],
+  entryComponents: [PlayerPage, TournamentEditPage, TeamEditPage, UserEditPage, SeasonEditPage, FeeEditPage, NationalityEditPage, PlayerHistoryPage],
   imports: [
     BrowserModule,
     HttpClientModule,

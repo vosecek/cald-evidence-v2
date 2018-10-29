@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Historie hráče</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list *ngIf="playerHistory">
+        <ion-item-group *ngFor="let a of playerHistory.seasons.reverse()">
+            <ion-item-divider>
+                <ion-label>{{a.season.name}}</ion-label>
+            </ion-item-divider>
+            <ion-item *ngFor="let b of a.tournaments">
+                <ion-label>{{b.tournament.name}}</ion-label>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
+</ion-content>

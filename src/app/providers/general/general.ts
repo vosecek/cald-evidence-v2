@@ -64,13 +64,14 @@ export class GeneralProvider {
     });
   }
 
-  load(filter?: {}, extend?: boolean): Promise<any> {
+  load(filter?: {}, extend?: boolean, forceUpdate?: boolean): Promise<any> {
     extend = extend || false;
+    forceUpdate = forceUpdate || false;
     if (!filter) {
       filter = null;
     }
     return new Promise<any>((resolve, reject) => {
-      if (this.data.length === 0 || filter || !this.loadedFully) {
+      if (this.data.length === 0 || filter || !this.loadedFully || forceUpdate) {
         if (!filter) {
           this.data = [];
         }

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>Národnosti</ion-title>
+      <ion-buttons slot="end">
+          <ion-button (click)="detail(null)">
+              <ion-icon name="add-circle"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item detail *ngFor="let n of nationalityProvider.data" (click)="detail(n)">{{n.name}}</ion-item>
+    </ion-list>
+</ion-content>

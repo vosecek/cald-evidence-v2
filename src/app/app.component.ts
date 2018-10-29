@@ -60,9 +60,9 @@ export class AppComponent {
             });
 
             this.appPages.push({
-              title: 'Poplatky',
-              url: '/fees',
-              icon: 'cash'
+              title: 'Nastavení',
+              url: '/settings',
+              icon: 'settings'
             });
           }
         }

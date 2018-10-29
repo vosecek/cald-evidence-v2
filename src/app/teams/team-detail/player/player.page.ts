@@ -16,6 +16,7 @@ import {ToolsService} from '../../../providers/tools.service';
 import {ISeason} from '../../../interfaces/season';
 import {FeeProvider} from '../../../providers/fee/fee';
 import {ApiProvider} from '../../../providers/api/api';
+import {PlayerHistoryPage} from './player-history/player-history.page';
 
 @Component({
   selector: 'app-player',
@@ -34,7 +35,7 @@ export class PlayerPage implements OnInit {
     private navParams: NavParams,
     private loadCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private api:ApiProvider,
+    private api: ApiProvider,
     public auth: AuthProvider,
     private feeProvider: FeeProvider,
     private playerAtTeam: PlayerAtTeamProvider,
@@ -43,6 +44,7 @@ export class PlayerPage implements OnInit {
     private playerProvider: PlayerProvider,
     protected teamProvider: TeamProvider,
     public nationalityProvider: NationalityProvider,
+    private modal2: ModalController,
     private modal: ModalController) {
 
     this.teamProvider.load({}).catch(err => console.log(err));
@@ -87,6 +89,7 @@ export class PlayerPage implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   async save() {
@@ -132,6 +135,15 @@ export class PlayerPage implements OnInit {
 
   public isPardonFee() {
     // this.api.get('')
+  }
+
+  async history() {
+    const modal = await this.modal2.create({
+      component: PlayerHistoryPage,
+      componentProps: {player: this.data}
+    });
+
+    return modal.present();
   }
 
   pardonFee() {

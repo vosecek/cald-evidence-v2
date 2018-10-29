@@ -1,17 +1,16 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {Routes, RouterModule} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
 
-import {FeesPage} from './fees.page';
-import {PipesModule} from '../shared/pipes/pipes.module';
+import {SettingsPage} from './settings.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: FeesPage
+    component: SettingsPage
   }
 ];
 
@@ -19,12 +18,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    PipesModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FeesPage]
+  declarations: [SettingsPage]
 })
-export class FeesPageModule {
+export class SettingsPageModule {
 }

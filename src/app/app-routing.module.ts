@@ -4,6 +4,7 @@ import {LoggedGuard} from './guards/logged.guard';
 import {SeasonsGuard} from './guards/seasons.guard';
 import {SeasonDetailGuard} from './guards/season-detail.guard';
 import {TeamsGuard} from './guards/teams.guard';
+import {AdminGuard} from './guards/admin.guard';
 
 const routes: Routes = [
   {path: 'login', loadChildren: './login/login.module#LoginPageModule'},
@@ -35,11 +36,18 @@ const routes: Routes = [
         loadChildren: './seasons/season-detail/tournament/tournament-edit/tournament-edit.module#TournamentEditPageModule'
       },
       {path: 'team-edit', loadChildren: './teams/team-edit/team-edit.module#TeamEditPageModule'},
-      {path: 'fees', loadChildren: './fees/fees.module#FeesPageModule'},
-      {path: 'season-edit', loadChildren: './seasons/season-edit/season-edit.module#SeasonEditPageModule'},
-      {path: 'fees/:id', loadChildren: './fee-edit/fee-edit.module#FeeEditPageModule'}
+      {
+        path: '',
+        canActivate: [AdminGuard],
+        children: [
+          {path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule'},
+          {path: 'settings/fees', loadChildren: './settings/fees/fees.module#FeesPageModule'},
+          {path: 'settings/nationalities', loadChildren: './settings/nationalities/nationalities.module#NationalitiesPageModule'},
+        ]
+      }
     ]
-  }
+  },
+  { path: 'player-history', loadChildren: './teams/team-detail/player/player-history/player-history.module#PlayerHistoryPageModule' },
 ];
 
 @NgModule({

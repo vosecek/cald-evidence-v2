@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title *ngIf="!nationality">Nová národnost</ion-title>
+        <ion-title *ngIf="nationality">{{nationality.name}}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="save()">
+                <ion-icon name="save"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="form">
+        <ion-item>
+            <ion-label position="stacked">
+                Národnost
+            </ion-label>
+            <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">
+                Stát
+            </ion-label>
+            <ion-input type="text" formControlName="country_name"></ion-input>
+        </ion-item>
+    </form>
+</ion-content>
+
+<ion-footer *ngIf="nationality">
+    <ion-toolbar>
+        <ion-button expand="full" color="danger" (click)="remove()">Smazat</ion-button>
+    </ion-toolbar>
+</ion-footer>

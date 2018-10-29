@@ -10,6 +10,8 @@ import {INationality} from '../../interfaces/nationality';
 export class NationalityProvider extends GeneralProvider {
 
   protected code = 'nationality';
+  protected isAdmin = true;
+  protected updatePut = true;
 
   constructor(public api: ApiProvider) {
     super(api);

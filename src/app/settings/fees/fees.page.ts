@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FeeProvider} from '../providers/fee/fee';
-import {SeasonEditPage} from '../seasons/season-edit/season-edit.page';
+import {FeeProvider} from '../../providers/fee/fee';
+import {SeasonEditPage} from '../../seasons/season-edit/season-edit.page';
 import {ModalController} from '@ionic/angular';
-import {AuthProvider} from '../providers/auth/auth';
-import {FeeEditPage} from '../fee-edit/fee-edit.page';
-import {IFee} from '../interfaces/fee';
+import {AuthProvider} from '../../providers/auth/auth';
+import {FeeEditPage} from './fee-edit/fee-edit.page';
+import {IFee} from '../../interfaces/fee';
 
 @Component({
   selector: 'app-fees',

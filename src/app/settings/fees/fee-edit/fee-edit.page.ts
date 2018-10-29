@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {IFee} from '../interfaces/fee';
+import {IFee} from '../../../interfaces/fee';
 import {AlertController, LoadingController, ModalController} from '@ionic/angular';
-import {FeeProvider} from '../providers/fee/fee';
-import {SeasonProvider} from '../providers/season/season';
-import {LeagueProvider} from '../providers/league/league';
-import {ISeason} from '../interfaces/season';
-import {ILeague} from '../interfaces/league';
+import {FeeProvider} from '../../../providers/fee/fee';
+import {SeasonProvider} from '../../../providers/season/season';
+import {LeagueProvider} from '../../../providers/league/league';
+import {ISeason} from '../../../interfaces/season';
+import {ILeague} from '../../../interfaces/league';
 
 @Component({
   selector: 'app-fee-edit',
