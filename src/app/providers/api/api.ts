@@ -27,6 +27,8 @@ export class ApiProvider {
   private headers: HttpHeaders;
   public isDevelop = false;
 
+  private isLoader = false;
+
   constructor(public http: HttpClient,
               private events: Events,
               private router: Router,
@@ -96,13 +98,23 @@ export class ApiProvider {
     const httpParams = this.getHttpParams(token, pars);
 
     return new Promise<any>(async (resolve, reject) => {
-      const load = await new LoadingController().create();
-      load.present().catch(err => console.log(err));
+      let load = null;
+      if (!this.isLoader) {
+        this.isLoader = true;
+        load = await new LoadingController().create();
+        load.present().catch(err => console.log(err));
+      }
       this.http.post(this.path(path), data, {params: httpParams}).subscribe((response) => {
-        load.dismiss().catch(err => console.log(err));
+        if (load) {
+          load.dismiss().catch(err => console.log(err));
+          this.isLoader = false;
+        }
         resolve(this.processResponse(response));
       }, err => {
-        load.dismiss().catch(err => console.log(err));
+        if (load) {
+          load.dismiss().catch(err => console.log(err));
+          this.isLoader = false;
+        }
         reject(this.processError(err));
       });
     });
@@ -115,13 +127,23 @@ export class ApiProvider {
     const httpParams = this.getHttpParams(token, pars);
 
     return new Promise<any>(async (resolve, reject) => {
-      const load = await new LoadingController().create();
-      load.present().catch(err => console.log(err));
+      let load = null;
+      if (!this.isLoader) {
+        this.isLoader = true;
+        load = await new LoadingController().create();
+        load.present().catch(err => console.log(err));
+      }
       this.http.put(this.path(path), data, {params: httpParams}).subscribe((response) => {
-        load.dismiss().catch(err => console.log(err));
+        if (load) {
+          load.dismiss().catch(err => console.log(err));
+          this.isLoader = false;
+        }
         resolve(this.processResponse(response));
       }, err => {
-        load.dismiss().catch(err => console.log(err));
+        if (load) {
+          load.dismiss().catch(err => console.log(err));
+          this.isLoader = false;
+        }
         reject(this.processError(err));
       });
     });
@@ -134,13 +156,26 @@ export class ApiProvider {
     const httpParams = this.getHttpParams(token, pars);
 
     return new Promise<any>(async (resolve, reject) => {
-      const load = await new LoadingController().create();
-      load.present().catch(err => console.log(err));
+
+      let load = null;
+      if (!this.isLoader) {
+        this.isLoader = true;
+        load = await new LoadingController().create();
+        load.present().catch(err => console.log(err));
+      }
+
+
       this.http.get(this.path(path), {params: httpParams}).subscribe((response) => {
-        load.dismiss().catch(err => console.log(err));
+        if (load) {
+          load.dismiss().catch(err => console.log(err));
+          this.isLoader = false;
+        }
         resolve(this.processResponse(response));
       }, err => {
-        load.dismiss().catch(err => console.log(err));
+        if (load) {
+          load.dismiss().catch(err => console.log(err));
+          this.isLoader = false;
+        }
         reject(this.processError(err));
       });
     });
@@ -163,7 +198,7 @@ export class ApiProvider {
 
   public path(path): string {
     if (this.isDevelop || window.location.href.search('localhost') > -1) {
-      return [this.live, path].join('/');
+      return [this.develop, path].join('/');
     } else {
       return [this.live, path].join('/');
     }
