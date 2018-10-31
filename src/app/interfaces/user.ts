@@ -33,6 +33,10 @@ export class User {
     return this.rights[0].split(':')[0];
   }
 
+  public isCurrentUser(user_id): boolean {
+    return this.user.id === user_id;
+  }
+
   public isAdmin(): boolean {
     let access = false;
     this.rights.forEach(r => {

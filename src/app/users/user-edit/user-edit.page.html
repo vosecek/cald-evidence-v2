@@ -8,7 +8,7 @@
         <ion-title *ngIf="user">{{user.login}}</ion-title>
         <ion-title *ngIf="!user">Nový uživatel</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="save()">
+            <ion-button (click)="save()" *ngIf="canEditUser()">
                 <ion-icon name="save"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -39,13 +39,15 @@
                     <ion-item>
                         <ion-label position="stacked">Týmy</ion-label>
                         <ion-select formControlName="privileges" multiple>
-                            <ion-select-option [selected]="hasPrivilege(team.id)" [value]="team.id" *ngFor="let team of teamProvider.data|order:['name']">{{team.name}}</ion-select-option>
+                            <ion-select-option [selected]="hasPrivilege(team.id)" [value]="team.id" *ngFor="let team of teamProvider.data|order:['name']">
+                                {{team.name}}
+                            </ion-select-option>
                         </ion-select>
                     </ion-item>
 
                 </ion-col>
             </ion-row>
-            <ion-row *ngIf="auth.user.isAdmin() || (user && auth.user.user.id === user.id)">
+            <ion-row *ngIf="canEditUser()">
                 <ion-col>
                     <ion-item>
                         <ion-label position="stacked">heslo (delší než 6 znaků)</ion-label>

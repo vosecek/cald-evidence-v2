@@ -25,6 +25,11 @@ export class AppComponent {
       icon: 'list'
     },
     {
+      title: 'Uživatelé',
+      url: '/users',
+      icon: 'people'
+    },
+    {
       title: 'Tymy',
       url: '/teams',
       icon: 'walk'
@@ -53,11 +58,6 @@ export class AppComponent {
       this.events.subscribe('user:login', () => {
         if (this.auth.user.isAdmin()) {
           if (!this.appPages.find(it => it['url'] === '/users')) {
-            this.appPages.push({
-              title: 'Uživatelé',
-              url: '/users',
-              icon: 'people'
-            });
 
             this.appPages.push({
               title: 'Nastavení',

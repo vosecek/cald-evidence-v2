@@ -42,6 +42,13 @@ export class UserEditPage implements OnInit {
 
     this.userProvider.updateCreateItem(data).catch(err => console.log(err));
     if (this.user) {
+
+      this.userProvider.api.put('admin/user/' + this.user.id, {state: 'confirmed'}).then(el => {
+        console.log(el);
+      }, err => {
+        console.log(err);
+      });
+
       const original_ids = this.user.privileges.map(it => it.entity_id);
 
       const toDelete = original_ids.filter(item => this.form.value.privileges.indexOf(item) < 0);
@@ -65,13 +72,28 @@ export class UserEditPage implements OnInit {
 
   ngOnInit() {
     if (this.user) {
-      console.log(this.user);
       this.form.patchValue({
         id: this.user.id,
         login: this.user.login,
         email: this.user.email
       });
+
+      if (!this.canEditUser()) {
+        this.form.controls['login'].disable();
+        this.form.controls['email'].disable();
+      }
+
+      if (!this.auth.user.isAdmin()) {
+        this.form.controls['login'].disable();
+      }
     }
+  }
+
+  canEditUser(): boolean {
+    if (this.auth.user.isAdmin()) return true;
+
+    if (!this.user) return false;
+    return this.auth.user.isCurrentUser(this.user.id);
   }
 
 }
