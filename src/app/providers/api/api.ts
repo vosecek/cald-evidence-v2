@@ -163,7 +163,7 @@ export class ApiProvider {
 
   public path(path): string {
     if (this.isDevelop || window.location.href.search('localhost') > -1) {
-      return [this.develop, path].join('/');
+      return [this.live, path].join('/');
     } else {
       return [this.live, path].join('/');
     }

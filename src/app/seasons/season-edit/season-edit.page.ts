@@ -33,7 +33,7 @@ export class SeasonEditPage implements OnInit {
   }
 
   async save() {
-    this.seasonProvider.updateCreateItem(ToolsService.dateConverter(this.form.value)).then(() => {
+    this.seasonProvider.updateCreateItem(ToolsService.dateConverter(this.form.value, 'start')).then(() => {
       this.dismiss();
     }, err => {
       console.log(err);

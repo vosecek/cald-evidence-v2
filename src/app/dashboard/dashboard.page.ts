@@ -48,7 +48,7 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
-    this.season_for_fee = new OrderPipe().transform(this.season.data, ['-name'])[0];
+    this.season_for_fee = this.season.data.find(it => it.name == new Date().getFullYear());
     this.feeNeeded.load({since_season: this.season_for_fee.id}).then((data) => {
       if (data[0]) {
         this.feeProvider.findById(data[0].fee_id).then((fee) => {

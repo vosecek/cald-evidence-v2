@@ -8,6 +8,7 @@ import {ISeason} from '../../interfaces/season';
 export class SeasonProvider extends GeneralProvider {
 
   protected code = 'season';
+  protected updatePut = true;
 
   constructor(public api: ApiProvider) {
     super(api);
