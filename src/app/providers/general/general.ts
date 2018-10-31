@@ -82,7 +82,7 @@ export class GeneralProvider {
             if (origin) {
               this.data.splice(this.data.indexOf(origin), 1);
             }
-            this.data.push(it);
+            this.data = this.data.concat([it]);
 
             if (data.filter(el => el.id === it.id).length > 1) {
               data.splice(key, 1);

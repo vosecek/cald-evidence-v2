@@ -120,6 +120,7 @@ export class DashboardPage implements OnInit {
 
       if (!feeData['fee'][team.name]) {
         alert('Nepodařilo se načíst data, kontaktujte prosím VR ČALD');
+        load.dismiss().catch(err => console.log(err));
         this.feeLoading = false;
         return;
       }
