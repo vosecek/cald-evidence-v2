@@ -47,7 +47,8 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'player-history', loadChildren: './teams/team-detail/player/player-history/player-history.module#PlayerHistoryPageModule' },
+  {path: 'player-history', loadChildren: './teams/team-detail/player/player-history/player-history.module#PlayerHistoryPageModule'},
+  {path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
 ];
 
 @NgModule({
