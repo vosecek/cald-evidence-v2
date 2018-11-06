@@ -88,10 +88,10 @@ registerLocaleData(localeCs, 'cs-CZ');
     SplashScreen,
     FeeProvider,
     ToolsService,
-    {
-      provide: LocationStrategy,
-      useClass: PathLocationStrategy
-    },
+    // {
+    //   provide: LocationStrategy,
+    //   useClass: PathLocationStrategy
+    // },
     {provide: LOCALE_ID, useValue: 'cs-CZ'},
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
