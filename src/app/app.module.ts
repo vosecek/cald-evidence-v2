@@ -11,7 +11,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {IonicStorageModule} from '@ionic/storage';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {CommonModule} from '@angular/common';
+import {CommonModule, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {SeasonProvider} from './providers/season/season';
 import {GeneralProvider} from './providers/general/general';
 import {AuthProvider} from './providers/auth/auth';
@@ -88,6 +88,10 @@ registerLocaleData(localeCs, 'cs-CZ');
     SplashScreen,
     FeeProvider,
     ToolsService,
+    {
+      provide: LocationStrategy,
+      useClass: PathLocationStrategy
+    },
     {provide: LOCALE_ID, useValue: 'cs-CZ'},
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
