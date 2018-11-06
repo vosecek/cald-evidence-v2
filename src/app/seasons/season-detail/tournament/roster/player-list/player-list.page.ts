@@ -8,6 +8,8 @@ import {PlayerAtRosterProvider} from '../../../../../providers/player-at-roster/
 import {RosterProvider} from '../../../../../providers/roster/roster';
 import {PlayerPage} from '../../../../../teams/team-detail/player/player.page';
 import {TeamProvider} from '../../../../../providers/team/team';
+import {ITournament} from '../../../../../interfaces/tournament';
+import {TeamPipe} from '../../../../../shared/pipes/team.pipe';
 
 @Component({
   selector: 'app-player-list',
@@ -17,7 +19,10 @@ import {TeamProvider} from '../../../../../providers/team/team';
 export class PlayerListPage implements OnInit {
 
   public sex: string = null;
+  public active = 1;
+
   public roster: IRoster;
+  private tournament: ITournament;
   public players: IPlayer[] = [];
   public playersAtRoster: IPlayerAtRoster[] = [];
   public player_at_roster: any[] = [];
@@ -25,6 +30,7 @@ export class PlayerListPage implements OnInit {
   public showSearchBar = false;
   public search = '';
   public source: any[] = [];
+  public activePlayers: IPlayer[] = [];
 
   constructor(
     private modal: ModalController,
@@ -40,6 +46,18 @@ export class PlayerListPage implements OnInit {
 
   public isAtRoster(player: IPlayer): boolean {
     return this.playerAtRoster.data.find(it => it.player_id === player.id);
+  }
+
+  private getActivePlayers() {
+    this.playerAtRoster.api.get(['team', this.roster.team_id, 'season', this.tournament.season_id, 'fee'].join('/')).then(data => {
+      const team_name = this.teamProvider.getById(this.roster.team_id).name;
+      if (data['fee'] && data['fee'][team_name] && data['fee'][team_name]['players']) {
+        this.activePlayers = data['fee'][team_name]['players'];
+        console.log(this.activePlayers);
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 
   public rosterChanged(player: IPlayer) {
@@ -123,6 +141,7 @@ export class PlayerListPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getActivePlayers();
     this.playerAtRoster.load({roster_id: this.roster.id}).then(data => {
       this.playersAtRoster = data;
 

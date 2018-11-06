@@ -71,7 +71,10 @@ export class RosterPage implements OnInit {
   }
 
   async openAddPlayers() {
-    const modal = await this.modalSecond.create({component: PlayerListPage, componentProps: {roster: this.roster}});
+    const modal = await this.modalSecond.create({
+      component: PlayerListPage,
+      componentProps: {roster: this.roster, tournament: this.tournament}
+    });
     modal.onDidDismiss().then(() => {
       this.ngOnInit();
     });
