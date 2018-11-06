@@ -133,7 +133,7 @@ export class DashboardPage implements OnInit {
         }
       });
 
-      let sorted = new OrderPipe().transform(feeData['fee'][team.name].players, ['name']);
+      const sorted = new OrderPipe().transform(feeData['fee'][team.name].players, ['name']);
 
       sorted.forEach(player => {
         table_body.push([player['name'], player.fee + ' Kč']);

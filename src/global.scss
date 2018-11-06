@@ -13,11 +13,11 @@ ion-spinner {
   margin: auto;
 }
 
-form {
-  ion-input.ng-invalid {
-    border-bottom: 1px solid var(--ion-color-warning);
-    &.ion-touched {
-      border-bottom: 1px solid var(--ion-color-danger);
-    }
-  }
-}
+//form {
+//  ion-input.ng-invalid {
+//    border-bottom: 1px solid var(--ion-color-warning);
+//    &.ion-touched {
+//      border-bottom: 1px solid var(--ion-color-danger);
+//    }
+//  }
+//}

@@ -189,7 +189,6 @@ export class ApiProvider {
   }
 
   private processError(err: HttpErrorResponse): any {
-    console.log(err);
     if (err['status'] === 403) {
       this.router.navigate(['login']).catch(err => console.log(err));
     }

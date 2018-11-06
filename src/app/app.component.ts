@@ -57,8 +57,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.events.subscribe('user:login', () => {
         if (this.auth.user.isAdmin()) {
-          if (!this.appPages.find(it => it['url'] === '/users')) {
-
+          if (!this.appPages.find(it => it['url'] === '/settings')) {
             this.appPages.push({
               title: 'Nastavení',
               url: '/settings',

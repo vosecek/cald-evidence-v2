@@ -27,72 +27,148 @@
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-col col-6>
+                <ion-col size="6">
                     <ion-item>
-                        <ion-label position="stacked">Jméno</ion-label>
+                        <ion-label position="stacked">Jméno *</ion-label>
                         <ion-input type="text" formControlName="first_name"></ion-input>
                     </ion-item>
                 </ion-col>
-                <ion-col col-6>
+                <ion-col size="6">
                     <ion-item>
-                        <ion-label position="stacked">Příjmení</ion-label>
+                        <ion-label position="stacked">Příjmení *</ion-label>
                         <ion-input type="text" formControlName="last_name"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
-            <ion-col col-6>
-                <ion-item>
-                    <ion-label position="stacked">Datum narození</ion-label>
-                    <ion-datetime display-format="DD.MM YYYY" formControlName="birth_date"></ion-datetime>
-                </ion-item>
-            </ion-col>
-            <ion-col col-6>
-                <ion-radio-group formControlName="sex">
-                    <ion-list-header>
-                        Pohlaví
-                    </ion-list-header>
+            <ion-row>
+                <ion-col size="12">
                     <ion-item>
-                        <ion-label>muž</ion-label>
-                        <ion-radio value="male"></ion-radio>
+                        <ion-label position="stacked">Datum narození *</ion-label>
+                        <ion-datetime display-format="DD.MM YYYY" formControlName="birth_date"></ion-datetime>
                     </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-radio-group formControlName="sex">
+                        <ion-list-header>
+                            Pohlaví *
+                        </ion-list-header>
+                        <ion-item>
+                            <ion-label>muž</ion-label>
+                            <ion-radio value="male"></ion-radio>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>žena</ion-label>
+                            <ion-radio value="female"></ion-radio>
+                        </ion-item>
+                    </ion-radio-group>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12">
                     <ion-item>
-                        <ion-label>žena</ion-label>
-                        <ion-radio value="female"></ion-radio>
+                        <ion-label position="stacked">E-mail</ion-label>
+                        <ion-input type="email" formControlName="email"></ion-input>
                     </ion-item>
-                </ion-radio-group>
-            </ion-col>
-            <ion-col col-6>
-                <ion-item>
-                    <ion-label position="stacked">E-mail</ion-label>
-                    <ion-input type="email" formControlName="email"></ion-input>
-                </ion-item>
-            </ion-col>
-            <ion-col col-6>
-                <ion-item>
-                    <ion-label position="stacked">Národnost</ion-label>
-                    <ion-select formControlName="nationality_id">
-                        <ion-select-option *ngFor="let nationality of nationalityProvider.data"
-                                           value="{{nationality.id}}">{{nationality.name}}
-                        </ion-select-option>
-                    </ion-select>
-                </ion-item>
-            </ion-col>
-            <ion-col col-6 *ngIf="auth.user.isAdmin()">
-                <ion-item>
-                    <ion-label position="stacked">Oddíl</ion-label>
-                    <ion-select formControlName="team">
-                        <ion-select-option [selected]="team.id == t.id" *ngFor="let t of teamProvider.data|order:['name']" [value]="t.id">{{t.name}}
-                        </ion-select-option>
-                    </ion-select>
-                </ion-item>
-                <ion-item>
-                    <ion-label position="stacked">Změna oddílu k sezoně</ion-label>
-                    <ion-select formControlName="season_id">
-                        <ion-select-option *ngFor="let t of seasonProvider.data|order:['-name']" [value]="t.id">{{t.name}}
-                        </ion-select-option>
-                    </ion-select>
-                </ion-item>
-            </ion-col>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-item>
+                        <ion-label position="stacked">Národnost *</ion-label>
+                        <ion-select formControlName="nationality_id">
+                            <ion-select-option *ngFor="let nationality of nationalityProvider.data"
+                                               value="{{nationality.id}}">{{nationality.name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-list-header>
+                Adresa
+            </ion-list-header>
+            <ion-row>
+                <ion-col size="12" sizeSm="6">
+                    <ion-item>
+                        <ion-label position="stacked">Stát *</ion-label>
+                        <ion-select formControlName="country">
+                            <ion-select-option *ngFor="let nationality of nationalityProvider.data"
+                                               value="{{nationality.country_name}}">{{nationality.country_name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12" sizeSm="6">
+                    <ion-item>
+                        <ion-label position="stacked">Typ adresy *</ion-label>
+                        <ion-select formControlName="type">
+                            <ion-select-option selected="true" value="residence in czechia">Občan ČR</ion-select-option>
+                            <ion-select-option value="permanent residence">Trvalý pobyt</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12" sizeMd="5">
+                    <ion-item>
+                        <ion-label position="stacked">Město *</ion-label>
+                        <ion-input formControlName="city" type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6" sizeMd="5">
+                    <ion-item>
+                        <ion-label position="stacked">Část obce *</ion-label>
+                        <ion-input formControlName="district" type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6" sizeMd="2">
+                    <ion-item>
+                        <ion-label position="stacked">PSČ *</ion-label>
+                        <ion-input formControlName="zip_code" type="number"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12" sizeSm="6">
+                    <ion-item>
+                        <ion-label position="stacked">Ulice *</ion-label>
+                        <ion-input formControlName="street" type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6" sizeSm="3">
+                    <ion-item>
+                        <ion-label position="stacked">Číslo popisné *</ion-label>
+                        <ion-input formControlName="descriptive_number" type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6" sizeSm="3">
+                    <ion-item>
+                        <ion-label position="stacked">Číslo orientační</ion-label>
+                        <ion-input formControlName="orientation_number" type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="auth.user.isAdmin()">
+                <ion-col size="12" sizeMd="6">
+                    <ion-item>
+                        <ion-label position="stacked">Oddíl</ion-label>
+                        <ion-select formControlName="team">
+                            <ion-select-option [selected]="team.id == t.id" *ngFor="let t of teamProvider.data|order:['name']" [value]="t.id">{{t.name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12" sizeMd="6">
+                    <ion-item>
+                        <ion-label position="stacked">Změna oddílu k sezoně</ion-label>
+                        <ion-select formControlName="season_id">
+                            <ion-select-option *ngFor="let t of seasonProvider.data|order:['-name']" [value]="t.id">{{t.name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
         </ion-grid>
     </form>
 
@@ -111,7 +187,7 @@
                     <ion-button expand="full" size="small" color='success' (click)="pardonFee()">Odpustit</ion-button>
                 </ion-col>
                 <!--<ion-col>-->
-                    <!--<ion-button expand="full" size="small" color='danger' (click)="revokePardonFee()">Zrušit odpustek</ion-button>-->
+                <!--<ion-button expand="full" size="small" color='danger' (click)="revokePardonFee()">Zrušit odpustek</ion-button>-->
                 <!--</ion-col>-->
             </ion-row>
         </ion-card-content>

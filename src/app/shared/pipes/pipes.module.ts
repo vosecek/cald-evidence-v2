@@ -11,6 +11,7 @@ import {IncludesPipe} from './includes.pipe';
 import {SexPipe} from './sex.pipe';
 import {SearchPipe} from './search.pipe';
 import {PlayerAtTeamPipe} from './player-at-team.pipe';
+import {ActivePipe} from './active.pipe';
 
 @NgModule({
   declarations: [FilterPipe,
@@ -24,9 +25,11 @@ import {PlayerAtTeamPipe} from './player-at-team.pipe';
     IncludesPipe,
     SexPipe,
     SearchPipe,
-    PlayerAtTeamPipe],
+    PlayerAtTeamPipe,
+    ActivePipe],
   imports: [],
   exports: [FilterPipe,
+    ActivePipe,
     OrderPipe,
     DivisionPipe,
     TeamPipe,

@@ -30,4 +30,26 @@ export class PlayerProvider extends GeneralProvider {
   public history(player: IPlayer): Promise<any> {
     return this.api.get('player/' + player.id + '/history');
   }
+
+  public playerAddress(player: IPlayer): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.api.get(['player', player.id, 'address'].join('/')).then(address => {
+        resolve(address);
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
+  public updateCreateAddress(player: IPlayer, data): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const pars = [this.code, player.id, 'address'];
+      if (data['id']) pars.push(data['id']);
+      this.api.post(pars.join('/'), data).then(() => {
+        resolve();
+      }, err => {
+        reject(err);
+      });
+    });
+  }
 }

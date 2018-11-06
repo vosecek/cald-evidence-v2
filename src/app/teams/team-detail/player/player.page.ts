@@ -58,6 +58,15 @@ export class PlayerPage implements OnInit {
       birth_date: ['', [Validators.required]],
       team: ['', [Validators.required]],
       nationality_id: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      district: ['', [Validators.required]],
+      zip_code: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      orientation_number: [''],
+      address_id: [''],
+      descriptive_number: ['', [Validators.required]],
       season_id: ['', []]
     });
 
@@ -74,6 +83,23 @@ export class PlayerPage implements OnInit {
         team: this.team.id,
         nationality_id: this.data.nationality_id,
         birth_date: moment(this.data.birth_date).format('YYYY-MM-DD')
+      });
+
+      this.playerProvider.playerAddress(this.data).then((address) => {
+        if (address && address.length > 0) {
+          this.form.patchValue({
+            address_id: address[0].id,
+            street: address[0].street,
+            zip_code: address[0].zip_code,
+            country: address[0].country,
+            city: address[0].city,
+            district: address[0].district,
+            orientation_number: address[0].orientation_number,
+            descriptive_number: address[0].descriptive_number
+          });
+        }
+      }, err => {
+        console.log(err);
       });
     }
 
@@ -99,6 +125,24 @@ export class PlayerPage implements OnInit {
     data = ToolsService.dateConverter(data, 'birth_date');
 
     this.playerProvider.updateCreateItem(data).then(async (data) => {
+      const address = {
+        id: this.form.value.address_id,
+        type: this.form.value.type,
+        city: this.form.value.city,
+        zip_code: this.form.value.zip_code,
+        street: this.form.value.street,
+        district: this.form.value.district,
+        descriptive_number: this.form.value.descriptive_number,
+        orientation_number: this.form.value.orientation_number,
+        country: this.form.value.country
+      };
+
+      this.playerProvider.updateCreateAddress(this.data, address).then(() => {
+
+      }, err => {
+        console.log(err);
+      });
+
       if (!this.data) {
         this.playerAtTeam.assignPlayerToTeam(data, this.team, this.seasonProvider.getById(this.form.value.season_id)).then(() => {
 
