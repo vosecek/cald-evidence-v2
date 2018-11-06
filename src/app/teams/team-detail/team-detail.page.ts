@@ -19,6 +19,7 @@ export class TeamDetailPage implements OnInit {
 
   public data: ITeam;
   public players: IPlayer[] = [];
+  public search = '';
 
   constructor(
     private modalCtrl: ModalController,

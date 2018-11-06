@@ -40,6 +40,12 @@
     </div>
 
     <div *ngIf="!showSearchBar">
+        <ion-segment [(ngModel)]="active" margin-bottom="" color="danger">
+            <ion-segment-button [value]="1">
+                Aktivní tuto sezonu
+            </ion-segment-button>
+            <ion-segment-button [value]="0">všichni</ion-segment-button>
+        </ion-segment>
         <ion-segment [(ngModel)]="sex">
             <ion-segment-button [value]="null">všichni</ion-segment-button>
             <ion-segment-button [value]="'female'">
@@ -49,7 +55,7 @@
                 <ion-icon name="male"></ion-icon>
             </ion-segment-button>
         </ion-segment>
-        <ion-item *ngFor="let player of players|sex:sex|order:['last_name']">
+        <ion-item *ngFor="let player of players|sex:sex|order:['last_name']|active:activePlayers:active">
             <ion-label>{{player.last_name}} {{player.first_name}}</ion-label>
             <ion-checkbox [(ngModel)]="player_at_roster[player.id]" (ionChange)="rosterChanged(player)"></ion-checkbox>
         </ion-item>

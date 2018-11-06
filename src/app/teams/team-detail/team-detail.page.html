@@ -17,9 +17,11 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-searchbar placeholder="Vyhledat" animated [(ngModel)]="search"></ion-searchbar>
     <ion-list>
         <ion-item *ngIf="players && players.length == 0">žádní hráči</ion-item>
-        <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()" *ngFor="let player of players|order:['last_name']">{{player.last_name}}
+        <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()" *ngFor="let player of players|order:['last_name']|search:search">
+            {{player.last_name}}
             {{player.first_name}}
         </ion-item>
     </ion-list>
