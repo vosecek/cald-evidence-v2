@@ -9,6 +9,9 @@ import {PlayerPage} from './player/player.page';
 import {PlayerProvider} from '../../providers/player/player';
 import {AuthProvider} from '../../providers/auth/auth';
 import {TeamEditPage} from '../team-edit/team-edit.page';
+import {SeasonProvider} from '../../providers/season/season';
+import {ISeason} from '../../interfaces/season';
+import {OrderPipe} from '../../shared/pipes/order';
 
 @Component({
   selector: 'app-team-detail',
@@ -20,14 +23,30 @@ export class TeamDetailPage implements OnInit {
   public data: ITeam;
   public players: IPlayer[] = [];
   public search = '';
+  public active = 1;
+  public activePlayers: IPlayer[] = [];
+  public currentSeason: ISeason;
 
   constructor(
     private modalCtrl: ModalController,
     private teamProvider: TeamProvider,
     public playerProvider: PlayerProvider,
     private route: ActivatedRoute,
+    public seasonProvider: SeasonProvider,
     public auth: AuthProvider,
     private playerAtTeam: PlayerAtTeamProvider) {
+  }
+
+  private getActivePlayers() {
+    this.currentSeason = new OrderPipe().transform(this.seasonProvider.data, ['-name'])[0];
+    this.playerProvider.api.get(['team', this.data.id, 'season', this.currentSeason.id, 'fee'].join('/')).then(data => {
+      const team_name = this.teamProvider.getById(this.data.id).name;
+      if (data['fee'] && data['fee'][team_name] && data['fee'][team_name]['players']) {
+        this.activePlayers = data['fee'][team_name]['players'];
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 
   canViewPlayerDetails() {
@@ -68,6 +87,7 @@ export class TeamDetailPage implements OnInit {
     this.route.params.subscribe(pars => {
       this.teamProvider.findById(pars['team']).then(t => {
         this.data = t;
+        this.getActivePlayers();
         this.playerAtTeam.load({'team_id': this.data.id}, true).then(data => {
           data.forEach(p => {
             if (!this.players.includes(p.player)) {

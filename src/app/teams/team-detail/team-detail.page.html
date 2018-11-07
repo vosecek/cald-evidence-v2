@@ -17,10 +17,17 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-segment [(ngModel)]="active" margin-bottom="" color="danger">
+        <ion-segment-button [value]="1" *ngIf="currentSeason">
+            Aktivní v sezoně {{currentSeason.name}}
+        </ion-segment-button>
+        <ion-segment-button [value]="0">všichni</ion-segment-button>
+    </ion-segment>
     <ion-searchbar placeholder="Vyhledat" animated [(ngModel)]="search"></ion-searchbar>
     <ion-list>
         <ion-item *ngIf="players && players.length == 0">žádní hráči</ion-item>
-        <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()" *ngFor="let player of players|order:['last_name']|search:search">
+        <ion-item *ngIf="(players|search:search|active:activePlayers:active).length == 0">žádní hráči</ion-item>
+        <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()" *ngFor="let player of players|order:['last_name']|search:search|active:activePlayers:active">
             {{player.last_name}}
             {{player.first_name}}
         </ion-item>

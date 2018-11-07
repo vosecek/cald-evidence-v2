@@ -8,7 +8,6 @@ export class ActivePipe implements PipeTransform {
 
   transform(players: IPlayer[], activePlayers: IPlayer[], active: string): any {
     if (active === '0') {
-      console.log('display all');
       return players;
     }
 
