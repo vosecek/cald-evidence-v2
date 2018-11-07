@@ -149,28 +149,41 @@
                     </ion-item>
                 </ion-col>
             </ion-row>
-            <ion-row *ngIf="auth.user.isAdmin()">
+        </ion-grid>
+    </form>
+
+    <ion-card *ngIf="auth.user.isAdmin() && data">
+        <ion-card-header>Přestup hráče</ion-card-header>
+        <ion-card-content>
+            <ion-row>
                 <ion-col size="12" sizeMd="6">
                     <ion-item>
                         <ion-label position="stacked">Oddíl</ion-label>
-                        <ion-select formControlName="team">
-                            <ion-select-option [selected]="team.id == t.id" *ngFor="let t of teamProvider.data|order:['name']" [value]="t.id">{{t.name}}
+                        <ion-select [(ngModel)]="transfer_team">
+                            <ion-select-option [selected]="team.id == t.id" *ngFor="let t of teamProvider.data|order:['name']" [value]="t">{{t.name}}
                             </ion-select-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
                 <ion-col size="12" sizeMd="6">
                     <ion-item>
-                        <ion-label position="stacked">Změna oddílu k sezoně</ion-label>
-                        <ion-select formControlName="season_id">
-                            <ion-select-option *ngFor="let t of seasonProvider.data|order:['-name']" [value]="t.id">{{t.name}}
+                        <ion-label position="stacked">K sezoně</ion-label>
+                        <ion-select [(ngModel)]="transfer_season">
+                            <ion-select-option *ngFor="let t of seasonProvider.data|order:['-name']" [value]="t">{{t.name}}
                             </ion-select-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
             </ion-row>
-        </ion-grid>
-    </form>
+            <ion-row>
+                <ion-col>
+                    <ion-button [disabled]="!transfer_season || (transfer_team == team)" expand="full" size="small" color='success'
+                                (click)="transfer()">Provést přestup
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
 
     <ion-card *ngIf="auth.user.isAdmin() && data">
         <ion-card-header>Odpuštění poplatku</ion-card-header>

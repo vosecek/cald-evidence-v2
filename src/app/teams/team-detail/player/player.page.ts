@@ -11,7 +11,6 @@ import {PlayerProvider} from '../../../providers/player/player';
 import {PlayerAtTeamProvider} from '../../../providers/player-at-team/player-at-team';
 import {SeasonProvider} from '../../../providers/season/season';
 import {AuthProvider} from '../../../providers/auth/auth';
-import {OrderPipe} from '../../../shared/pipes/order';
 import {ToolsService} from '../../../providers/tools.service';
 import {ISeason} from '../../../interfaces/season';
 import {FeeProvider} from '../../../providers/fee/fee';
@@ -30,6 +29,9 @@ export class PlayerPage implements OnInit {
   public form: FormGroup;
   public canRevokeFee = false;
   public pardon_fee_season: ISeason;
+
+  public transfer_season: ISeason;
+  public transfer_team: ITeam;
 
   constructor(
     private navParams: NavParams,
@@ -56,7 +58,6 @@ export class PlayerPage implements OnInit {
       sex: ['', [Validators.required]],
       email: ['', []],
       birth_date: ['', [Validators.required]],
-      team: ['', [Validators.required]],
       nationality_id: ['', [Validators.required]],
       type: ['', [Validators.required]],
       country: ['', [Validators.required]],
@@ -66,8 +67,7 @@ export class PlayerPage implements OnInit {
       street: ['', [Validators.required]],
       orientation_number: [''],
       address_id: [''],
-      descriptive_number: ['', [Validators.required]],
-      season_id: ['', []]
+      descriptive_number: ['', [Validators.required]]
     });
 
     this.data = this.navParams.get('player');
@@ -80,7 +80,6 @@ export class PlayerPage implements OnInit {
         last_name: this.data.last_name,
         email: this.data.email,
         sex: this.data.sex,
-        team: this.team.id,
         nationality_id: this.data.nationality_id,
         birth_date: moment(this.data.birth_date).format('YYYY-MM-DD')
       });
@@ -106,8 +105,6 @@ export class PlayerPage implements OnInit {
     if (!this.data || !this.data.nationality_id) {
       this.form.patchValue({nationality_id: this.nationalityProvider.data[0].id});
     }
-
-    this.form.patchValue({season_id: new OrderPipe().transform(this.seasonProvider.data, ['-name'])[0].id});
   }
 
   dismiss() {
@@ -118,8 +115,19 @@ export class PlayerPage implements OnInit {
 
   }
 
+  transfer() {
+    this.playerAtTeam.removePlayerFromTeam(this.data, this.team, this.transfer_season).then(() => {
+      this.playerAtTeam.assignPlayerToTeam(this.data, this.transfer_team, this.transfer_season).then(() => {
+        this.modal.dismiss(true).catch(err => console.log(err));
+      }, err => {
+        console.log(err);
+      });
+    }, err => {
+      console.log(err);
+    });
+  }
+
   async save() {
-    let toRemove = false;
 
     let data = this.form.value;
     data = ToolsService.dateConverter(data, 'birth_date');
@@ -149,28 +157,11 @@ export class PlayerPage implements OnInit {
         }, err => {
           console.log(err);
         });
-      } else {
-        if (this.team.id !== this.form.value.team) {
-          toRemove = true;
-          this.playerAtTeam.removePlayerFromTeam(data, this.team, this.seasonProvider.getById(this.form.value.season_id)).then(() => {
-            this.teamProvider.findById(this.form.value.team).then(team => {
-              this.playerAtTeam.assignPlayerToTeam(data, team, this.seasonProvider.getById(this.form.value.season_id)).then(() => {
-
-              }, err => {
-                console.log(err);
-              });
-            }, err => {
-              console.log(err);
-            });
-          }, err => {
-            console.log(err);
-          });
-        }
       }
 
       this.data = data;
 
-      this.modal.dismiss(toRemove).catch(err => console.log(err));
+      this.modal.dismiss().catch(err => console.log(err));
     }, async err => {
       const toast = await this.toastCtrl.create({message: err, duration: 2000});
       return toast.present();
