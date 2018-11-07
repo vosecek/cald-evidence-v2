@@ -6,7 +6,11 @@
         </ion-buttons>
         <ion-title *ngIf="data">{{data.name}}</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="editTeam()" *ngIf="data && auth.user.isTeamAdmin(data.id)">
+            <ion-spinner *ngIf="loadingPlayersAddress"></ion-spinner>
+            <ion-button (click)="loadAddresses()" *ngIf="data && (auth.user.isTeamAdmin(data.id) || auth.user.isAdmin())" [hidden]="loadingPlayersAddress">
+                <ion-icon slot="icon-only" name="home"></ion-icon>
+            </ion-button>
+            <ion-button (click)="editTeam()" *ngIf="data && (auth.user.isTeamAdmin(data.id) || auth.user.isAdmin())">
                 <ion-icon slot="icon-only" name="create"></ion-icon>
             </ion-button>
             <ion-button (click)="playerDetail()" color="primary" *ngIf="auth.user.isAdmin() || auth.user.isTeamAdmin(data.id)">
@@ -27,9 +31,11 @@
     <ion-list>
         <ion-item *ngIf="players && players.length == 0">žádní hráči</ion-item>
         <ion-item *ngIf="(players|search:search|active:activePlayers:active).length == 0">žádní hráči</ion-item>
-        <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()" *ngFor="let player of players|order:['last_name']|search:search|active:activePlayers:active">
+        <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()"
+                  *ngFor="let player of players|order:['last_name']|search:search|active:activePlayers:active">
             {{player.last_name}}
             {{player.first_name}}
+            <ion-icon color="success" slot="end" name="home" *ngIf="isPlayerAddress(player)"></ion-icon>
         </ion-item>
     </ion-list>
 </ion-content>

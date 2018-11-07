@@ -26,6 +26,8 @@ export class TeamDetailPage implements OnInit {
   public active = 1;
   public activePlayers: IPlayer[] = [];
   public currentSeason: ISeason;
+  public playerHasAddress: IPlayer[] = [];
+  public loadingPlayersAddress = false;
 
   constructor(
     private modalCtrl: ModalController,
@@ -46,6 +48,35 @@ export class TeamDetailPage implements OnInit {
       }
     }, err => {
       console.log(err);
+    });
+  }
+
+  public isPlayerAddress(player: IPlayer): boolean {
+    return !!this.playerHasAddress.find(it => it.id == player.id);
+  }
+
+  public loadAddresses() {
+    this.loadingPlayersAddress = true;
+    this.playerHasAddress = [];
+
+    let promises = [];
+    this.players.forEach(i => {
+      promises.push(
+        new Promise<any>((resolve, reject) => {
+          this.playerProvider.playerAddress(i).then(a => {
+            if (a && a.length > 0) {
+              this.playerHasAddress.push(i);
+            }
+            resolve();
+          }, err => {
+            resolve();
+          });
+        })
+      );
+    });
+
+    Promise.all(promises).then(() => {
+      this.loadingPlayersAddress = false;
     });
   }
 
