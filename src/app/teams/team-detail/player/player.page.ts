@@ -56,7 +56,7 @@ export class PlayerPage implements OnInit {
       first_name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
       sex: ['', [Validators.required]],
-      email: ['', []],
+      // email: ['', []],
       birth_date: ['', [Validators.required]],
       nationality_id: ['', [Validators.required]],
       type: ['', [Validators.required]],
@@ -78,7 +78,7 @@ export class PlayerPage implements OnInit {
         id: this.data.id,
         first_name: this.data.first_name,
         last_name: this.data.last_name,
-        email: this.data.email,
+        // email: this.data.email,
         sex: this.data.sex,
         nationality_id: this.data.nationality_id,
         birth_date: moment(this.data.birth_date).format('YYYY-MM-DD')
