@@ -146,7 +146,7 @@ export class PlayerPage implements OnInit {
         country: this.form.value.country
       };
 
-      this.playerProvider.updateCreateAddress(this.data, address).then(() => {
+      this.playerProvider.updateCreateAddress((this.data ? this.data : data), address).then(() => {
 
       }, err => {
         console.log(err);
