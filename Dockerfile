@@ -3,6 +3,7 @@
 FROM node:8.11.2-alpine as build-stage
 WORKDIR /app
 COPY package*.json /app/
+COPY nginx.conf / 
 RUN npm install
 COPY ./ /app/
 ARG configuration=production
@@ -12,4 +13,4 @@ RUN npm run build -- --output-path=./dist/out --configuration $configuration
 FROM nginx:1.15
 COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
 # Copy the default nginx.conf provided by tiangolo/node-frontend
-#COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
