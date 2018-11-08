@@ -16,6 +16,7 @@ import {ISeason} from '../../../interfaces/season';
 import {FeeProvider} from '../../../providers/fee/fee';
 import {ApiProvider} from '../../../providers/api/api';
 import {PlayerHistoryPage} from './player-history/player-history.page';
+import {OrderPipe} from '../../../shared/pipes/order';
 
 @Component({
   selector: 'app-player',
@@ -152,7 +153,7 @@ export class PlayerPage implements OnInit {
       });
 
       if (!this.data) {
-        this.playerAtTeam.assignPlayerToTeam(data, this.team, this.seasonProvider.getById(this.form.value.season_id)).then(() => {
+        this.playerAtTeam.assignPlayerToTeam(data, this.team, new OrderPipe().transform(this.seasonProvider.data, ['-name'])[0]).then(() => {
 
         }, err => {
           console.log(err);
