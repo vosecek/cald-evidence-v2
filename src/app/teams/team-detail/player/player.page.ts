@@ -63,9 +63,9 @@ export class PlayerPage implements OnInit {
       type: ['', [Validators.required]],
       country: ['', [Validators.required]],
       city: ['', [Validators.required]],
-      district: ['', [Validators.required]],
+      district: [''],
       zip_code: ['', [Validators.required]],
-      street: ['', [Validators.required]],
+      street: [''],
       orientation_number: [''],
       address_id: [''],
       descriptive_number: ['', [Validators.required]]
