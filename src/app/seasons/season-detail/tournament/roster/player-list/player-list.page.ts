@@ -149,7 +149,9 @@ export class PlayerListPage implements OnInit {
         this.players = data.map(x => x['player']);
         this.source = this.players;
         this.players.forEach(it => {
-          this.player_at_roster[it.id] = this.isAtRoster(it);
+          if (it) {
+            this.player_at_roster[it.id] = this.isAtRoster(it);
+          }
         });
 
         this.playersAtRoster.forEach(el => {
