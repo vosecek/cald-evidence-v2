@@ -12,7 +12,7 @@ export class ActivePipe implements PipeTransform {
     }
 
     const ids = activePlayers.map(i => i.id);
-    return players.filter(it => ids.find(e => e == it.id));
+    return players.filter(it => ids.find(e => it && e == it.id));
   }
 
 }
