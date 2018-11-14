@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {GeneralProvider} from '../general/general';
 import {ApiProvider} from '../api/api';
 import {ISeason} from '../../interfaces/season';
+
+import * as moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,5 +25,9 @@ export class SeasonProvider extends GeneralProvider {
         reject(err);
       });
     });
+  }
+
+  public getCurrentSeason(): ISeason {
+    return this.data.find(it => it.name == moment().format('YYYY'));
   }
 }
