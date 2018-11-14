@@ -9,7 +9,7 @@
             <ion-button *ngIf="auth.user.isAdmin()" (click)="editItem()">
                 <ion-icon name="create"></ion-icon>
             </ion-button>
-            <ion-button (click)="showDivisionPicker()">
+            <ion-button *ngIf="canAddRoster()" (click)="showDivisionPicker()">
                 <ion-icon slot="icon-only" name="person-add"></ion-icon>
             </ion-button>
         </ion-buttons>

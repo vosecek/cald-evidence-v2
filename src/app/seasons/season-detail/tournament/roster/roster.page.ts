@@ -62,9 +62,10 @@ export class RosterPage implements OnInit {
   }
 
   canEditRoster(): boolean {
+    if (!this.tournament) return false;
     if (this.auth.user.isAdmin() || (this.tournament && this.auth.user.isTournamentAdmin(this.tournament.id))) return true;
-    if (this.roster.team_id) {
-      return (this.tournament.date > moment(new Date()));
+    if (this.auth.user.isTeamAdmin(this.roster.team_id)) {
+      return (this.tournament.date > moment(new Date()).add(this.tournament.duration, 'day'));
     }
 
     return false;

@@ -17,6 +17,8 @@ import {DivisionProvider} from '../../../providers/division/division';
 import {TournamentEditPage} from './tournament-edit/tournament-edit.page';
 import {PlayerAtRosterProvider} from '../../../providers/player-at-roster/player-at-roster';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-tournament',
   templateUrl: './tournament.page.html',
@@ -159,6 +161,12 @@ export class TournamentPage implements OnInit {
       if (team) this.addRoster(team, ld);
     }
 
+  }
+
+  canAddRoster(): boolean {
+    if (!this.data) return false;
+    if (this.auth.user.isAdmin()) return true;
+    return (this.data.date > moment(new Date()).add(this.data.duration, 'day'));
   }
 
   ngOnInit() {
