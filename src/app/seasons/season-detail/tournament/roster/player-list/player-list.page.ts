@@ -45,7 +45,7 @@ export class PlayerListPage implements OnInit {
   }
 
   public isAtRoster(player: IPlayer): boolean {
-    return this.playerAtRoster.data.find(it => it.player_id === player.id);
+    return !!this.playersAtRoster.find(it => it.player_id === player.id);
   }
 
   private getActivePlayers() {
@@ -141,6 +141,7 @@ export class PlayerListPage implements OnInit {
   }
 
   ngOnInit() {
+    this.player_at_roster = [];
     this.getActivePlayers();
     this.playerAtRoster.load({roster_id: this.roster.id}).then(data => {
       this.playersAtRoster = data;
@@ -155,7 +156,7 @@ export class PlayerListPage implements OnInit {
         });
 
         this.playersAtRoster.forEach(el => {
-          if (!this.players.find(it => it.id === el.player_id)) {
+          if (!this.players.find(it => it && it.id === el.player_id)) {
             this.playerProvider.findById(el.player_id).then((p) => {
               this.players.push(p);
               this.player_at_roster[p.id] = true;
