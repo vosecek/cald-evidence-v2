@@ -87,6 +87,13 @@ export class GeneralProvider {
             if (data.filter(el => el.id === it.id).length > 1) {
               data.splice(key, 1);
             }
+
+            if (it['player']) {
+              if (data.filter(el => el['player'] && (el['player'].id === it['player'].id)).length > 1) {
+                data.splice(key, 1);
+                console.log(it);
+              }
+            }
           });
 
           resolve(data);
