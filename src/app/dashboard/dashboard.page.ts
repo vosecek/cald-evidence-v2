@@ -15,6 +15,10 @@ import {LoadingController, Platform} from '@ionic/angular';
 import {FeeNeededForLeagueProvider} from '../providers/fee-needed-for-league/fee-needed-for-league';
 import {FeeProvider} from '../providers/fee/fee';
 import {IFee} from '../interfaces/fee';
+import {TournamentProvider} from '../providers/tournament/tournament';
+import {ITournament} from '../interfaces/tournament';
+
+import * as moment from 'moment';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -30,15 +34,21 @@ export class DashboardPage implements OnInit {
   fee_for_season: IFee;
   protected teams: ITeam[] = [];
 
+  tournaments: ITournament[] = [];
+
   pdfObj = null;
 
   constructor(
     // private file: File, private fileOpener: FileOpener,
     private platform: Platform,
     private feeProvider: FeeProvider,
+    public tournamentProvider: TournamentProvider,
     private feeNeeded: FeeNeededForLeagueProvider,
     private loadCtrl: LoadingController,
-    private authProvider: AuthProvider, private api: ApiProvider, private season: SeasonProvider, private teamProvider: TeamProvider) {
+    private authProvider: AuthProvider,
+    private api: ApiProvider,
+    private season: SeasonProvider,
+    private teamProvider: TeamProvider) {
   }
 
   showFee(): boolean {
@@ -48,6 +58,17 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
+
+    this.tournamentProvider.load({season_id: new OrderPipe().transform(this.season.data, ['-name'])[0].id}).then((data: ITournament[]) => {
+      data.forEach(e => {
+        if (moment(e.date) > moment()) {
+          this.tournaments.push(e);
+        }
+      });
+    }, err => {
+      console.log(err);
+    });
+
     this.season_for_fee = this.season.data.find(it => it.name == new Date().getFullYear());
     this.feeNeeded.load({since_season: this.season_for_fee.id}).then((data) => {
       if (data[0]) {

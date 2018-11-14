@@ -10,6 +10,9 @@
 <ion-content padding>
     <h1>Evidence v.3</h1>
 
+    <h1>Blízké turnaje</h1>
+    <ion-button *ngFor="let t of tournaments" [href]="'seasons/'+t.season_id+'/'+t.id" shape="round">{{t.name}}</ion-button>
+
     <div *ngIf='showFee()'>
         <h2>Poplatky za sezónu</h2>
         <p *ngIf="fee_for_season">Poplatek za sezonu {{season_for_fee.name}}: <b>{{fee_for_season.amount}} Kč</b></p>
