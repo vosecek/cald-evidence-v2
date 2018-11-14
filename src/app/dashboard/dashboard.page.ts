@@ -5,7 +5,6 @@ import {ITeam} from '../interfaces/team';
 import {SeasonProvider} from '../providers/season/season';
 import {OrderPipe} from '../shared/pipes/order';
 import {TeamProvider} from '../providers/team/team';
-import {TeamPipe} from '../shared/pipes/team.pipe';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';

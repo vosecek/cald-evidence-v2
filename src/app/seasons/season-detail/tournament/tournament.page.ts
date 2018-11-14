@@ -380,8 +380,6 @@ export class TournamentPage implements OnInit {
 
         this.data.ld.forEach((ld: ITournamentBelongsToLeagueAndDivision) => {
           this.roster.load({tournament_belongs_to_league_and_division_id: ld.id}).then((data) => {
-            console.log(data);
-
             data.forEach(async (r, i) => {
               r.team_name = this.team.getById(r.team_id).name;
               this.playerAtRoster.loadDataByMaster('roster_id', r.id, {}).then(data => {
