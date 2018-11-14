@@ -30,7 +30,7 @@ export class User {
   }
 
   public getTeamId() {
-    return this.rights[0].split(':')[0];
+    return this.rights[0].split(':')[2];
   }
 
   public isCurrentUser(user_id): boolean {
