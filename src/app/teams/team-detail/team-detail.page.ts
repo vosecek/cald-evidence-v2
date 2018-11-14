@@ -121,8 +121,10 @@ export class TeamDetailPage implements OnInit {
         this.getActivePlayers();
         this.playerAtTeam.load({'team_id': this.data.id}, true).then(data => {
           data.forEach(p => {
-            if (!this.players.includes(p.player)) {
-              this.players = this.players.concat(p.player);
+            if (p.player) {
+              if (!this.players.includes(p.player)) {
+                this.players = this.players.concat(p.player);
+              }
             }
           });
         }, err => {
