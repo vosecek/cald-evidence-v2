@@ -75,31 +75,38 @@ export class PlayerPage implements OnInit {
     this.team = this.navParams.get('team');
 
     if (this.data) {
-      this.form.patchValue({
-        id: this.data.id,
-        first_name: this.data.first_name,
-        last_name: this.data.last_name,
-        // email: this.data.email,
-        sex: this.data.sex,
-        nationality_id: this.data.nationality_id,
-        birth_date: moment(this.data.birth_date).format('YYYY-MM-DD')
-      });
+      this.playerProvider.findById(this.data.id).then(data => {
+        this.data = data;
 
-      this.playerProvider.playerAddress(this.data).then((address) => {
-        if (address && address.length > 0) {
-          this.form.patchValue({
-            address_id: address[0].id,
-            street: address[0].street,
-            zip_code: address[0].zip_code,
-            country: address[0].country,
-            city: address[0].city,
-            district: address[0].district,
-            orientation_number: address[0].orientation_number,
-            descriptive_number: address[0].descriptive_number
-          });
-        }
+        this.form.patchValue({
+          id: this.data.id,
+          first_name: this.data.first_name,
+          last_name: this.data.last_name,
+          // email: this.data.email,
+          sex: this.data.sex,
+          nationality_id: this.data.nationality_id,
+          birth_date: moment(this.data.birth_date).format('YYYY-MM-DD')
+        });
+
+        this.playerProvider.playerAddress(this.data).then((address) => {
+          if (address && address.length > 0) {
+            this.form.patchValue({
+              address_id: address[0].id,
+              street: address[0].street,
+              type: address[0].type,
+              zip_code: address[0].zip_code,
+              country: address[0].country,
+              city: address[0].city,
+              district: address[0].district,
+              orientation_number: address[0].orientation_number,
+              descriptive_number: address[0].descriptive_number
+            });
+          }
+        }, err => {
+          console.log(err);
+        });
       }, err => {
-        console.log(err);
+        this.dismiss();
       });
     }
 
