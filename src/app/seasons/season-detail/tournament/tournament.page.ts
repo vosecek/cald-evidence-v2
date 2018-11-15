@@ -176,7 +176,7 @@ export class TournamentPage implements OnInit {
   canAddRoster(): boolean {
     if (!this.data) return false;
     if (this.auth.user.isAdmin()) return true;
-    return (this.data.date > moment(new Date()).add(this.data.duration, 'day'));
+    return (moment(this.data.date).add(this.data.duration + 1, 'day') > moment(new Date()));
   }
 
   private addPdfRosterPage(team): Promise<any> {

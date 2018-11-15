@@ -4,8 +4,9 @@ import {Events, MenuController, Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthProvider} from './providers/auth/auth';
-import {LoginPage} from './login/login.page';
 import {ApiProvider} from './providers/api/api';
+
+const moment = require('moment-timezone');
 
 @Component({
   selector: 'app-root',
@@ -54,6 +55,7 @@ export class AppComponent {
   }
 
   initializeApp() {
+    moment.tz.setDefault('Europe/Prague');
     this.platform.ready().then(() => {
       this.events.subscribe('user:login', () => {
         if (this.auth.user.isAdmin()) {

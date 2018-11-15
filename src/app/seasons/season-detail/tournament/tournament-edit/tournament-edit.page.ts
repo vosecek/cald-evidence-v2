@@ -12,6 +12,8 @@ import * as moment from 'moment';
 import {ModalController} from '@ionic/angular';
 import {ToolsService} from '../../../../providers/tools.service';
 
+
+
 @Component({
   selector: 'app-tournament-edit',
   templateUrl: './tournament-edit.page.html',
@@ -59,6 +61,7 @@ export class TournamentEditPage implements OnInit {
   }
 
   ngOnInit() {
+
     if (!this.tournament) {
       this.form.patchValue({season_id: new OrderPipe().transform(this.seasonProvider.data, ['-name'])[0].id});
     } else {
@@ -69,7 +72,7 @@ export class TournamentEditPage implements OnInit {
         season_id: this.tournament.season_id,
         league_ids: this.tournament.leagues.map(e => e.id),
         division_ids: this.tournament.divisions.map(e => e.id),
-        date: moment(this.tournament.date).toISOString(),
+        date: moment(this.tournament.date).format('YYYY-MM-DD'),
         duration: this.tournament.duration
       });
     }
