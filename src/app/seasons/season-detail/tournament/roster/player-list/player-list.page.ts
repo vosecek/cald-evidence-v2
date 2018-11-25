@@ -60,9 +60,9 @@ export class PlayerListPage implements OnInit {
     });
   }
 
-  public rosterChanged(player: IPlayer) {
+  public rosterChanged(ev, player: IPlayer) {
     if (this.player_at_roster[player.id]) {
-      this.addPlayer(player);
+      this.addPlayer(ev, player);
     } else {
       this.dropPlayer(player);
     }
@@ -98,7 +98,7 @@ export class PlayerListPage implements OnInit {
     }
   }
 
-  private addPlayer(player: IPlayer) {
+  private addPlayer(ev, player: IPlayer) {
     this.inProgress++;
     this.rosterProvider.addPlayerToRoster(player, this.roster).then(async data => {
       this.inProgress--;
@@ -108,6 +108,7 @@ export class PlayerListPage implements OnInit {
       });
       return toast.present();
     }, async err => {
+      ev.target.checked = false;
       this.inProgress--;
       const al = await this.alertCtrl.create({
         header: 'Chyba při ukládání',

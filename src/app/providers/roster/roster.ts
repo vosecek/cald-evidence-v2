@@ -48,7 +48,7 @@ export class RosterProvider extends GeneralProvider {
       this.api.delete(pars.join('/')).then(data => {
         resolve(data);
       }, err => {
-        reject(err);
+        reject('Chyba při ukládání do soupisky, hráč již zřejmě na některé soupisce je');
       });
     });
   }
@@ -65,7 +65,7 @@ export class RosterProvider extends GeneralProvider {
       this.api.post(pars.join('/')).then(data => {
         resolve(data);
       }, err => {
-        reject(err);
+        reject('Chyba při ukládání do soupisky, hráč již zřejmě na některé soupisce je');
       });
     });
   }
