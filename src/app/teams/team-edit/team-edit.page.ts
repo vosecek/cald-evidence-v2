@@ -5,6 +5,7 @@ import {ITeam} from '../../interfaces/team';
 
 import * as moment from 'moment';
 import {ModalController} from '@ionic/angular';
+import {IUser} from '../../interfaces/user';
 
 @Component({
   selector: 'app-team-edit',
@@ -15,6 +16,7 @@ export class TeamEditPage implements OnInit {
 
   public form: FormGroup;
   public team: ITeam;
+  public users: { id: any, entity: any, entity_id: any, privilege: string, user: IUser }[];
 
   constructor(private teamProvider: TeamProvider, private fb: FormBuilder, private modal: ModalController) {
     this.form = this.fb.group({
@@ -47,6 +49,12 @@ export class TeamEditPage implements OnInit {
 
   ngOnInit() {
     if (this.team) {
+      this.teamProvider.teamAdmins(this.team.id).then((data) => {
+        this.users = data;
+        console.log(this.users);
+      }, err => {
+        console.log(err);
+      });
       this.form.patchValue({
         id: this.team.id,
         name: this.team.name,

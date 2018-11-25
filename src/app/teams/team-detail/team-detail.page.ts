@@ -59,7 +59,7 @@ export class TeamDetailPage implements OnInit {
     this.loadingPlayersAddress = true;
     this.playerHasAddress = [];
 
-    let promises = [];
+    const promises = [];
     this.players.forEach(i => {
       promises.push(
         new Promise<any>((resolve, reject) => {

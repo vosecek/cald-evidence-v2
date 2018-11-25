@@ -51,4 +51,11 @@
             </ion-row>
         </ion-grid>
     </form>
+
+    <div *ngIf="users">
+        <ion-list-header>Správci týmu</ion-list-header>
+        <ion-list>
+            <ion-item *ngFor="let user of users" [hidden]="user.privilege == 'admin'">{{user.user.login}}, {{user.user.email}}</ion-item>
+        </ion-list>
+    </div>
 </ion-content>

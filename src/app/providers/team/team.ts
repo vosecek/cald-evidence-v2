@@ -23,4 +23,14 @@ export class TeamProvider extends GeneralProvider {
       });
     });
   }
+
+  public teamAdmins(id): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.api.get(['team', id, 'privileges'].join('/')).then(data => {
+        resolve(data);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
 }
