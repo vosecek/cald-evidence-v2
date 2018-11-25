@@ -3,12 +3,14 @@
         <ion-buttons slot="start">
             <ion-button fill="clear" (click)="dismiss()">
                 <ion-icon name="arrow-back"></ion-icon>
+                <span class="medium-display">Na seznam týmů</span>
             </ion-button>
         </ion-buttons>
         <ion-title>Soupiska {{roster.team_name}}</ion-title>
         <ion-buttons slot="end">
             <ion-button color="danger" *ngIf="canEditRoster()" slot="start" (click)="removeRoster()">
-                <ion-icon name="trash" slot="icon-only"></ion-icon>
+                <ion-icon name="trash" slot="start"></ion-icon>
+                <span class="medium-display">Smazat soupisku</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

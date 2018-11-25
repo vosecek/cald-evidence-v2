@@ -8,13 +8,16 @@
         <ion-buttons slot="end">
             <ion-spinner *ngIf="loadingPlayersAddress"></ion-spinner>
             <ion-button (click)="loadAddresses()" *ngIf="data && (auth.user.isTeamAdmin(data.id) || auth.user.isAdmin())" [hidden]="loadingPlayersAddress">
-                <ion-icon slot="icon-only" name="home"></ion-icon>
+                <ion-icon slot="start" name="home"></ion-icon>
+                <span class="medium-display">Adresy</span>
             </ion-button>
             <ion-button (click)="editTeam()" *ngIf="data && (auth.user.isTeamAdmin(data.id) || auth.user.isAdmin())">
-                <ion-icon slot="icon-only" name="create"></ion-icon>
+                <ion-icon slot="start" name="create"></ion-icon>
+                <span class="medium-display">Info o týmu</span>
             </ion-button>
             <ion-button (click)="playerDetail()" color="primary" *ngIf="auth.user.isAdmin() || auth.user.isTeamAdmin(data.id)">
-                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+                <ion-icon slot="start" name="person-add"></ion-icon>
+                <span class="medium-display">Přidat hráče</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

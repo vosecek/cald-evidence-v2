@@ -9,10 +9,12 @@
         <ion-title *ngIf="!data">Nový hráč</ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="history()">
-                <ion-icon name="book"></ion-icon>
+                <ion-icon slot="start" name="book"></ion-icon>
+                <span class="medium-display">Historie hráče</span>
             </ion-button>
             <ion-button (click)="save()" [disabled]="!form.valid">
-                <ion-icon name="save"></ion-icon>
+                <ion-icon slot="start" name="save"></ion-icon>
+                <span class="medium-display">Uložit</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

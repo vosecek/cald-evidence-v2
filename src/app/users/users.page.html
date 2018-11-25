@@ -7,7 +7,8 @@
         <ion-title>Uživatelé</ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="openEditUser()" *ngIf="auth.user.isAdmin()">
-                <ion-icon name="add-circle"></ion-icon>
+                <ion-icon slot="start" name="add-circle"></ion-icon>
+                <span class="medium-display">Přidat hráče</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

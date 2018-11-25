@@ -9,7 +9,8 @@
         <ion-title *ngIf="!season">Nová sezona</ion-title>
         <ion-buttons slot="end">
             <ion-button [disabled]="form.invalid" (click)="save()">
-                <ion-icon name="save"></ion-icon>
+                <ion-icon slot="start" name="save"></ion-icon>
+                <span class="medium-display">Uložit</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

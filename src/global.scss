@@ -21,3 +21,13 @@ ion-spinner {
 //    }
 //  }
 //}
+
+.medium-display {
+  display: block;
+}
+
+@media screen and (max-width: 720px) {
+  .medium-display {
+    display: none;
+  }
+}

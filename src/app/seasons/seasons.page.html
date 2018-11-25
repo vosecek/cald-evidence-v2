@@ -7,7 +7,8 @@
         <ion-title>Sezony</ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="addItem()" *ngIf="auth.user.isAdmin()">
-                <ion-icon name="add-circle"></ion-icon>
+                <ion-icon slot="start" name="add-circle"></ion-icon>
+                <span class="medium-display">Přidat sezónu</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

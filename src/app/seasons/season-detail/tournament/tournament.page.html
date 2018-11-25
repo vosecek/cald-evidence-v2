@@ -7,10 +7,12 @@
         <ion-title *ngIf="data">Turnaj</ion-title>
         <ion-buttons slot="end">
             <ion-button *ngIf="auth.user.isAdmin()" (click)="editItem()">
-                <ion-icon name="create"></ion-icon>
+                <ion-icon slot="start" name="create"></ion-icon>
+                <span class="medium-display">Upravit turnaj</span>
             </ion-button>
             <ion-button *ngIf="canAddRoster()" (click)="showDivisionPicker()" color="success">
-                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+                <ion-icon slot="start" name="person-add"></ion-icon>
+                <span class="medium-display">Přidat tým</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

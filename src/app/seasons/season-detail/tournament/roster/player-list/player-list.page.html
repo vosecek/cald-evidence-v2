@@ -9,10 +9,12 @@
         <ion-buttons slot="end">
             <ion-spinner *ngIf="inProgress>0"></ion-spinner>
             <ion-button (click)="openSearchPlayer(true)">
-                <ion-icon name="search"></ion-icon>
+                <ion-icon slot="start" name="search"></ion-icon>
+                <span class="medium-display">Vyhledat v týmech</span>
             </ion-button>
             <ion-button (click)="playerDetail()">
-                <ion-icon slot="icon-only" name="person-add"></ion-icon>
+                <ion-icon slot="start" name="person-add"></ion-icon>
+                <span class="medium-display">Vytvořit hráče</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
@@ -33,7 +35,7 @@
                     <ion-label>{{player.last_name}} {{player.first_name}}
                         <ion-note>{{player|playerAtTeam}}</ion-note>
                     </ion-label>
-                    <ion-checkbox [(ngModel)]="player_at_roster[player.id]" (ionChange)="rosterChanged(player)"></ion-checkbox>
+                    <ion-checkbox [(ngModel)]="player_at_roster[player.id]" (ionChange)="rosterChanged($event,player)"></ion-checkbox>
                 </ion-item>
             </div>
         </ion-list>
@@ -57,7 +59,7 @@
         </ion-segment>
         <ion-item *ngFor="let player of players|sex:sex|order:['last_name']|active:activePlayers:active">
             <ion-label *ngIf="player">{{player.last_name}} {{player.first_name}}</ion-label>
-            <ion-checkbox *ngIf="player" [(ngModel)]="player_at_roster[player.id]" (ionChange)="rosterChanged(player)"></ion-checkbox>
+            <ion-checkbox *ngIf="player" [(ngModel)]="player_at_roster[player.id]" (ionChange)="rosterChanged($event,player)"></ion-checkbox>
         </ion-item>
     </div>
 </ion-content>
