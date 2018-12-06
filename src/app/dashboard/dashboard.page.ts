@@ -177,7 +177,7 @@ export class DashboardPage implements OnInit {
         {text: 'Datum vystavení dokladu: ' + date.toLocaleDateString(), style: 'list'},
         {text: 'Částka: ' + feeData['fee'][team.name].fee + ' Kč', style: 'list'},
         {text: 'Celkem členů platících v sezoně: ' + feeData['fee'][team.name].players.length, style: 'list'},
-        {text: 'Číslo účtu: ' + '233012651/0300', style: 'list'},
+        {text: 'Číslo účtu: ' + '2301396415/2010', style: 'list'},
         {
           text: 'Variabilní symbol: ' + new Date().getFullYear().toString().substring(2) + '000' + team.id,
           style: 'list'
