@@ -23,7 +23,7 @@ export class TeamDetailPage implements OnInit {
   public data: ITeam;
   public players: IPlayer[] = [];
   public search = '';
-  public active = 1;
+  public active = '1';
   public activePlayers: IPlayer[] = [];
   public currentSeason: ISeason;
   public playerHasAddress: IPlayer[] = [];
@@ -90,9 +90,7 @@ export class TeamDetailPage implements OnInit {
   }
 
   async playerDetail(player?: IPlayer) {
-    if (!this.canViewPlayerDetails()) return;
     const modal = await this.modalCtrl.create({component: PlayerPage, componentProps: {team: this.data, player: (player ? player : null)}});
-
 
     modal.onDidDismiss().then((toRemove) => {
       if (toRemove['data']) {
@@ -118,7 +116,12 @@ export class TeamDetailPage implements OnInit {
     this.route.params.subscribe(pars => {
       this.teamProvider.findById(pars['team']).then(t => {
         this.data = t;
-        this.getActivePlayers();
+        if (this.auth.user.isAdmin() || this.auth.user.isTeamAdmin(this.data.id)) {
+          this.getActivePlayers();
+        } else {
+          if (!this.canViewPlayerDetails()) this.active = '0';
+        }
+
         this.playerAtTeam.load({'team_id': this.data.id}, true).then(data => {
           data.forEach(p => {
             if (p.player) {

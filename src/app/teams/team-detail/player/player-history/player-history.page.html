@@ -15,8 +15,9 @@
             <ion-item-divider>
                 <ion-label>{{a.season.name}}</ion-label>
             </ion-item-divider>
-            <ion-item *ngFor="let b of a.tournaments">
-                <ion-label>{{b.tournament.name}} <ion-note>({{b.team.name}})</ion-note></ion-label>
+            <ion-item *ngFor="let b of a.tournaments" (click)="tournamentDetail(b.tournament)" detail>
+                <ion-label>{{b.tournament.name}}</ion-label>
+                <ion-note>({{b.team.name}})</ion-note>
             </ion-item>
         </ion-item-group>
     </ion-list>

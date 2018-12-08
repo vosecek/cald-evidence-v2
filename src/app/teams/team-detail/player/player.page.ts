@@ -88,23 +88,25 @@ export class PlayerPage implements OnInit {
           birth_date: moment(this.data.birth_date).format('YYYY-MM-DD')
         });
 
-        this.playerProvider.playerAddress(this.data).then((address) => {
-          if (address && address.length > 0) {
-            this.form.patchValue({
-              address_id: address[0].id,
-              street: address[0].street,
-              type: address[0].type,
-              zip_code: address[0].zip_code,
-              country: address[0].country,
-              city: address[0].city,
-              district: address[0].district,
-              orientation_number: address[0].orientation_number,
-              descriptive_number: address[0].descriptive_number
-            });
-          }
-        }, err => {
-          console.log(err);
-        });
+        if (this.canViewPlayerDetails()) {
+          this.playerProvider.playerAddress(this.data).then((address) => {
+            if (address && address.length > 0) {
+              this.form.patchValue({
+                address_id: address[0].id,
+                street: address[0].street,
+                type: address[0].type,
+                zip_code: address[0].zip_code,
+                country: address[0].country,
+                city: address[0].city,
+                district: address[0].district,
+                orientation_number: address[0].orientation_number,
+                descriptive_number: address[0].descriptive_number
+              });
+            }
+          }, err => {
+            console.log(err);
+          });
+        }
       }, err => {
         this.dismiss();
       });
@@ -133,6 +135,11 @@ export class PlayerPage implements OnInit {
     }, err => {
       console.log(err);
     });
+  }
+
+  canViewPlayerDetails() {
+    if (!this.team) return true;
+    return (this.auth.user.isAdmin() || this.auth.user.isTeamAdmin(this.team.id));
   }
 
   async save() {
@@ -184,6 +191,12 @@ export class PlayerPage implements OnInit {
     const modal = await this.modal2.create({
       component: PlayerHistoryPage,
       componentProps: {player: this.data}
+    });
+
+    modal.onDidDismiss().then((toClose) => {
+      if (toClose['data'] && toClose['data'] === true) {
+        this.dismiss();
+      }
     });
 
     return modal.present();

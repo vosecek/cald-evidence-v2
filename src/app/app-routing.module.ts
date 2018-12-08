@@ -26,7 +26,7 @@ const routes: Routes = [
         loadChildren: './seasons/season-detail/tournament/tournament.module#TournamentPageModule',
         canActivate: [TeamsGuard]
       },
-      {path: 'teams', loadChildren: './teams/teams.module#TeamsPageModule', canActivate: [TeamsGuard]},
+      {path: 'teams', loadChildren: './teams/teams.module#TeamsPageModule'},
       {path: 'teams/:team', loadChildren: './teams/team-detail/team-detail.module#TeamDetailPageModule'},
       {path: 'player', loadChildren: './teams/team-detail/player/player.module#PlayerPageModule'},
       {path: 'users', loadChildren: './users/users.module#UsersPageModule'},

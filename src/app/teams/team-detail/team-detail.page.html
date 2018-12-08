@@ -5,17 +5,17 @@
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title *ngIf="data">{{data.name}}</ion-title>
-        <ion-buttons slot="end">
+        <ion-buttons slot="end" *ngIf="data">
             <ion-spinner *ngIf="loadingPlayersAddress"></ion-spinner>
-            <ion-button (click)="loadAddresses()" *ngIf="data && (auth.user.isTeamAdmin(data.id) || auth.user.isAdmin())" [hidden]="loadingPlayersAddress">
+            <ion-button (click)="loadAddresses()" *ngIf="canViewPlayerDetails()" [hidden]="loadingPlayersAddress">
                 <ion-icon slot="start" name="home"></ion-icon>
                 <span class="medium-display">Adresy</span>
             </ion-button>
-            <ion-button (click)="editTeam()" *ngIf="data && (auth.user.isTeamAdmin(data.id) || auth.user.isAdmin())">
+            <ion-button (click)="editTeam()" *ngIf="canViewPlayerDetails()">
                 <ion-icon slot="start" name="create"></ion-icon>
                 <span class="medium-display">Info o týmu</span>
             </ion-button>
-            <ion-button (click)="playerDetail()" color="primary" *ngIf="auth.user.isAdmin() || auth.user.isTeamAdmin(data.id)">
+            <ion-button (click)="playerDetail()" color="primary" *ngIf="canViewPlayerDetails()">
                 <ion-icon slot="start" name="person-add"></ion-icon>
                 <span class="medium-display">Přidat hráče</span>
             </ion-button>
@@ -24,7 +24,7 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-segment [(ngModel)]="active" margin-bottom="" color="danger">
+    <ion-segment [(ngModel)]="active" margin-bottom="" color="danger" *ngIf="data && canViewPlayerDetails()">
         <ion-segment-button [value]="1" *ngIf="currentSeason">
             Aktivní v sezoně {{currentSeason.name}}
         </ion-segment-button>
@@ -32,8 +32,7 @@
     </ion-segment>
     <ion-searchbar placeholder="Vyhledat" animated [(ngModel)]="search"></ion-searchbar>
     <ion-list>
-        <ion-item *ngIf="players && players.length == 0">žádní hráči</ion-item>
-        <ion-item *ngIf="(players|search:search|active:activePlayers:active).length == 0">žádní hráči</ion-item>
+        <ion-item *ngIf="(players|search:search|active:activePlayers:active).length == 0 || players && players.length == 0">žádní hráči</ion-item>
         <ion-item (click)="playerDetail(player)" [detail]="canViewPlayerDetails()"
                   *ngFor="let player of players|order:['last_name']|search:search|active:activePlayers:active">
             {{player.last_name}}
