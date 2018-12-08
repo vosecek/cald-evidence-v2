@@ -61,7 +61,6 @@ export class SeasonDetailPage implements OnInit {
       });
       this.season.findById(data['season']).then(s => {
         this.data = s;
-        console.log(this.data);
       }, err => {
         console.log(err);
       });

@@ -48,6 +48,18 @@
             <ion-row>
                 <ion-col>
                     <ion-item>
+                        <ion-label [position]="'stacked'">Pořadatel turnaje</ion-label>
+                        <ion-select formControlName="organizing_team_id">
+                            <ion-select-option *ngFor="let team of teamProvider.data|order:['name']" [value]="team.id">
+                                {{team.name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
                         <ion-label [position]="'stacked'">Lokace</ion-label>
                         <ion-input formControlName="location" type="text"></ion-input>
                     </ion-item>

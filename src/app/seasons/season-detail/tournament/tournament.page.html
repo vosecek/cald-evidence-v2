@@ -34,6 +34,10 @@
                     <ion-icon slot='start' name="map"></ion-icon>
                     {{data.location}}
                 </ion-item>
+                <ion-item *ngIf="data.organizing_team_id">
+                    <ion-icon slot='start' name="build"></ion-icon>
+                    <span>{{data.organizing_team_id|team|async}}</span>
+                </ion-item>
                 <ion-item [hidden]="!data.divisions">
                     <ion-icon slot='start' name="people"></ion-icon>
                     <span>{{data.divisions|implode:'name'}}</span>
@@ -43,19 +47,19 @@
                     Celkem týmů/hráčů: {{rosters.length}}/{{players_total}}
                 </ion-item>
             </ion-list>
-            <ion-button (click)="getPDF()">Generuj PDF soupisky</ion-button>
+            <!--<ion-button (click)="getPDF()">Generuj PDF soupisky</ion-button>-->
         </ion-card-content>
     </ion-card>
     <ion-card *ngFor="let ld of data.ld">
         <ion-card-subtitle padding-start padding-top>
             {{ld.division_id|division|async}}
-            <!--({{rosters}})-->
         </ion-card-subtitle>
         <ion-card-content>
             <ion-list>
                 <ion-item (click)="rosterDetail(r)" detail
                           *ngFor="let r of rosters|order:['team_name']|filter:'tournament_belongs_to_league_and_division_id':ld.id">
                     {{(r.team_id|team)|async}} ({{r.player_at_roster.length}})
+                    <ion-icon slot="start" name="lock" *ngIf="r.finalized == '1'"></ion-icon>
                 </ion-item>
             </ion-list>
         </ion-card-content>

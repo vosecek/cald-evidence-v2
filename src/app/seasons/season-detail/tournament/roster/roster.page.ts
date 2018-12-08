@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AlertController, ModalController, NavParams} from '@ionic/angular';
+import {AlertController, LoadingController, ModalController, NavParams, ToastController} from '@ionic/angular';
 import {IRoster} from '../../../../interfaces/roster';
 import {PlayerAtRosterProvider} from '../../../../providers/player-at-roster/player-at-roster';
 import {PlayerProvider} from '../../../../providers/player/player';
@@ -8,7 +8,7 @@ import {AuthProvider} from '../../../../providers/auth/auth';
 import {TournamentBelongsToLeagueAndDivisionProvider} from '../../../../providers/tournament-belongs-to-league-and-division/tournament-belongs-to-league-and-division';
 import {ITournament} from '../../../../interfaces/tournament';
 import {TournamentProvider} from '../../../../providers/tournament/tournament';
-import * as moment from 'moment';
+
 import {PlayerListPage} from './player-list/player-list.page';
 import {RosterProvider} from '../../../../providers/roster/roster';
 
@@ -25,9 +25,10 @@ export class RosterPage implements OnInit {
 
   constructor(
     private modal: ModalController,
+    private loadCtrl: LoadingController,
     private modalSecond: ModalController,
     private auth: AuthProvider,
-    private tournamentProvider: TournamentProvider,
+    public tournamentProvider: TournamentProvider,
     private playerProvider: PlayerProvider,
     private rosterProvider: RosterProvider,
     private alertCtrl: AlertController,
@@ -61,12 +62,53 @@ export class RosterPage implements OnInit {
     return al.present();
   }
 
+  finalize() {
+
+    return new Promise<any>(async (resolve, reject) => {
+      const load = await this.loadCtrl.create({});
+      load.present().catch(err => console.log(err));
+      if (this.roster.finalized == '1') {
+        this.rosterProvider.open(this.roster).then(async (data) => {
+          console.log(data);
+          load.dismiss();
+          const toast = await new ToastController().create({message: 'Soupiska odemčena', duration: 2000});
+          toast.present().catch(err => console.log(err));
+          this.roster.finalized = (data['finalized'] === false ? '0' : '1');
+        }, async err => {
+          load.dismiss();
+          const al = await this.alertCtrl.create({
+            header: 'Chyba',
+            message: err,
+            buttons: ['OK']
+          });
+          al.present().catch(err => console.log(err));
+        });
+      } else {
+        this.rosterProvider.finalize(this.roster).then(async (data) => {
+          console.log(data);
+          load.dismiss();
+          const toast = await new ToastController().create({message: 'Soupiska uzamčena pro editaci', duration: 2000});
+          toast.present().catch(err => console.log(err));
+          this.roster.finalized = (data['finalized'] === false ? '0' : '1');
+        }, async err => {
+          load.dismiss();
+          const al = await this.alertCtrl.create({
+            header: 'Chyba',
+            message: err,
+            buttons: ['OK']
+          });
+          al.present().catch(err => console.log(err));
+        });
+      }
+    });
+
+  }
+
   canEditRoster(): boolean {
     if (!this.tournament) return false;
-    if (this.auth.user.isAdmin() || (this.tournament && this.auth.user.isTournamentAdmin(this.tournament.id))) return true;
-    if (this.auth.user.isTeamAdmin(this.roster.team_id)) {
-      return (moment(this.tournament.date) <= moment(new Date()).add(this.tournament.duration, 'day'));
-    }
+    if (this.roster.finalized == '1') return false;
+    if (this.auth.user.isAdmin() || (this.tournament && this.tournamentProvider.isUserTournamentAdmin(this.tournament))) return true;
+    if (this.auth.user.isTeamAdmin(this.roster.team_id)) return true;
 
     return false;
   }

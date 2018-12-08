@@ -374,6 +374,8 @@ export class TournamentPage implements OnInit {
 
   ngOnInit() {
     this.rosters = [];
+    this.players_total = 0;
+
     this.route.params.subscribe(data => {
       this.tournament.findById(data['tournament']).then(t => {
         this.data = t;

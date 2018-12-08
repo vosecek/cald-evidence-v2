@@ -11,7 +11,7 @@ import {OrderPipe} from '../../../../shared/pipes/order';
 import * as moment from 'moment';
 import {ModalController} from '@ionic/angular';
 import {ToolsService} from '../../../../providers/tools.service';
-
+import {TeamProvider} from '../../../../providers/team/team';
 
 
 @Component({
@@ -26,6 +26,7 @@ export class TournamentEditPage implements OnInit {
 
   constructor(private tournamentProvider: TournamentProvider,
               public leagueProvider: LeagueProvider,
+              public teamProvider: TeamProvider,
               private modal: ModalController,
               public divisionProvider: DivisionProvider,
               public seasonProvider: SeasonProvider,
@@ -39,6 +40,7 @@ export class TournamentEditPage implements OnInit {
       league_ids: ['', [Validators.required]],
       division_ids: ['', [Validators.required]],
       location: ['', [Validators.required]],
+      organizing_team_id: ['', [Validators.required]],
       season_id: ['', [Validators.required]]
     });
   }
@@ -68,6 +70,7 @@ export class TournamentEditPage implements OnInit {
       this.form.patchValue({
         id: this.tournament.id,
         name: this.tournament.name,
+        organizing_team_id: this.tournament.organizing_team_id,
         location: this.tournament.location,
         season_id: this.tournament.season_id,
         league_ids: this.tournament.leagues.map(e => e.id),

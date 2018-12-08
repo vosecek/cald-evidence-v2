@@ -25,6 +25,7 @@
                 <ion-text color="primary">
                     <h3>{{tournament.name}}</h3>
                 </ion-text>
+                <p *ngIf="tournament.organizing_team_id">Pořadatel: {{tournament.organizing_team_id|team|async}}</p>
                 <p><span [hidden]="!tournament.leagues">{{tournament.leagues|implode:'name'}}</span>, {{tournament.location}}</p>
                 <p>{{tournament.date|date:'mediumDate'}}<span [hidden]="!tournament.divisions">, {{tournament.divisions|implode:'name'}}</span></p>
             </ion-label>

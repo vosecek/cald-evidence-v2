@@ -6,7 +6,7 @@
                 <span class="medium-display">Na seznam týmů</span>
             </ion-button>
         </ion-buttons>
-        <ion-title>Soupiska {{roster.team_name}}</ion-title>
+        <ion-title>{{roster.team_name}}</ion-title>
         <ion-buttons slot="end">
             <ion-button color="danger" *ngIf="canEditRoster()" slot="start" (click)="removeRoster()">
                 <ion-icon name="trash" slot="start"></ion-icon>
@@ -21,6 +21,16 @@
         <ion-icon slot="start" name="create"></ion-icon>
         Upravit soupisku
     </ion-button>
+    <div *ngIf="tournamentProvider.isUserTournamentAdmin(tournament)">
+        <ion-button (click)="finalize()" *ngIf="roster.finalized == '0'" color="warning" shape="round" expand="full">
+            Uzamknout soupisku
+            <ion-icon name="lock" slot="start"></ion-icon>
+        </ion-button>
+        <ion-button (click)="finalize()" *ngIf="roster.finalized == '1'" color="danger" shape="round" expand="full">
+            Odemknout soupisku
+            <ion-icon name="unlock" slot="start"></ion-icon>
+        </ion-button>
+    </div>
     <ion-list>
         <ion-list-header>
             <ion-label>Ženy</ion-label>
