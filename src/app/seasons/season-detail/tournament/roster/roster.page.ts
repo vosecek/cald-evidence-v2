@@ -12,6 +12,8 @@ import {TournamentProvider} from '../../../../providers/tournament/tournament';
 import {PlayerListPage} from './player-list/player-list.page';
 import {RosterProvider} from '../../../../providers/roster/roster';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-roster',
   templateUrl: './roster.page.html',
@@ -102,6 +104,11 @@ export class RosterPage implements OnInit {
       }
     });
 
+  }
+
+  canFinalizeRoster(): boolean {
+    if (this.auth.user.isAdmin()) return true;
+    return moment(this.tournament.date).add(this.tournament.duration + 1, 'days') >= moment().startOf('day');
   }
 
   canEditRoster(): boolean {
