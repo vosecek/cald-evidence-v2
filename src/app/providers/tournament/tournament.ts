@@ -2,14 +2,12 @@ import {Injectable} from '@angular/core';
 import {GeneralProvider} from '../general/general';
 import {ApiProvider} from '../api/api';
 import {ITournament, ITournamentBelongsToLeagueAndDivision} from '../../interfaces/tournament';
-import {ILeague} from '../../interfaces/league';
 import {TournamentBelongsToLeagueAndDivisionProvider} from '../tournament-belongs-to-league-and-division/tournament-belongs-to-league-and-division';
 
 import * as moment from 'moment';
-import {DivisionPipe} from '../../shared/pipes/division';
-import {LeaguePipe} from '../../shared/pipes/league';
 import {DivisionProvider} from '../division/division';
 import {LeagueProvider} from '../league/league';
+import {AuthProvider} from '../auth/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +21,16 @@ export class TournamentProvider extends GeneralProvider {
   constructor(public api: ApiProvider,
               private tournamentBLD: TournamentBelongsToLeagueAndDivisionProvider,
               private divisionProvider: DivisionProvider,
+              private auth: AuthProvider,
               private leagueProvider: LeagueProvider) {
     super(api);
+  }
+
+  isUserTournamentAdmin(tournament): boolean {
+    if (this.auth.user.isAdmin()) {
+      return true;
+    }
+    return (tournament.organizing_team_id == this.auth.user.user.id);
   }
 
   public prepareTournamentData(it): Promise<ITournament> {

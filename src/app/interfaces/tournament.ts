@@ -21,5 +21,6 @@ export interface ITournament {
   league_ids: number[];
   location: string;
   name: string;
+  organizing_team_id: string;
   season_id: string;
 }
