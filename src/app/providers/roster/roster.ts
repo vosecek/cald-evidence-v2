@@ -16,6 +16,26 @@ export class RosterProvider extends GeneralProvider {
     super(api);
   }
 
+  public open(roster: IRoster): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.api.post('/roster/' + roster.id + '/open').then((data) => {
+        resolve(data);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
+  public finalize(roster: IRoster): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.api.post('/roster/' + roster.id + '/finalize').then((data) => {
+        resolve(data);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
   public tournamentRoster(tournamentId: number): Promise<IRoster> {
     return new Promise<any>((resolve, reject) => {
       super.load({tournament_id: tournamentId}).then((data) => {

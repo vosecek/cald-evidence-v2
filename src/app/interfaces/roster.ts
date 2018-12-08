@@ -1,5 +1,4 @@
 import {IPlayer} from './player';
-import {ITeam} from './team';
 
 export interface IPlayerAtRoster {
   id: string;
@@ -12,6 +11,7 @@ export interface IRoster {
   final_result: string;
   id: string;
   seeding: string;
+  finalized: any;
   team_id: string;
   team_name?: string;
   tournament_belongs_to_league_and_division_id: string;

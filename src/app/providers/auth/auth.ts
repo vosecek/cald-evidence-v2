@@ -1,12 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ApiProvider} from '../api/api';
-import {IUser, User} from '../../interfaces/user';
+import {User} from '../../interfaces/user';
 import {Token} from '../../interfaces/token';
 import {Storage} from '@ionic/storage';
-import {DivisionProvider} from '../division/division';
-import {PlayerProvider} from '../player/player';
-import {TeamProvider} from '../team/team';
-import {Events, ToastController} from '@ionic/angular';
+import {Events} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
