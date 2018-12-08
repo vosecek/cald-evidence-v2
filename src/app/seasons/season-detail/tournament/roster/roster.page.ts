@@ -27,7 +27,7 @@ export class RosterPage implements OnInit {
     private modal: ModalController,
     private loadCtrl: LoadingController,
     private modalSecond: ModalController,
-    private auth: AuthProvider,
+    public auth: AuthProvider,
     public tournamentProvider: TournamentProvider,
     private playerProvider: PlayerProvider,
     private rosterProvider: RosterProvider,
@@ -107,7 +107,7 @@ export class RosterPage implements OnInit {
   canEditRoster(): boolean {
     if (!this.tournament) return false;
     if (this.roster.finalized == '1') return false;
-    if (this.auth.user.isAdmin() || (this.tournament && this.tournamentProvider.isUserTournamentAdmin(this.tournament))) return true;
+    if (this.auth.user.isAdmin()) return true;
     if (this.auth.user.isTeamAdmin(this.roster.team_id)) return true;
 
     return false;

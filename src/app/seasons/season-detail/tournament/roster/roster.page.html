@@ -21,7 +21,7 @@
         <ion-icon slot="start" name="create"></ion-icon>
         Upravit soupisku
     </ion-button>
-    <div *ngIf="tournamentProvider.isUserTournamentAdmin(tournament)">
+    <div *ngIf="auth.user.isTeamAdmin(tournament.organizing_team_id)">
         <ion-button (click)="finalize()" *ngIf="roster.finalized == '0'" color="warning" shape="round" expand="full">
             Uzamknout soupisku
             <ion-icon name="lock" slot="start"></ion-icon>

@@ -26,13 +26,6 @@ export class TournamentProvider extends GeneralProvider {
     super(api);
   }
 
-  isUserTournamentAdmin(tournament): boolean {
-    if (this.auth.user.isAdmin()) {
-      return true;
-    }
-    return (tournament.organizing_team_id == this.auth.user.user.id);
-  }
-
   public prepareTournamentData(it): Promise<ITournament> {
     return new Promise<any>((resolve, reject) => {
       this.tournamentBLD.byTournament(it.id).then((ld: ITournamentBelongsToLeagueAndDivision[]) => {
