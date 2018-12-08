@@ -108,7 +108,7 @@ export class RosterPage implements OnInit {
 
   canFinalizeRoster(): boolean {
     if (this.auth.user.isAdmin()) return true;
-    return moment(this.tournament.date).add(this.tournament.duration + 1, 'days') >= moment().startOf('day');
+    return moment(this.tournament.date).add(parseInt(this.tournament.duration, 10) + 1, 'days') >= moment().startOf('day');
   }
 
   canEditRoster(): boolean {
