@@ -5,10 +5,6 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthProvider} from './providers/auth/auth';
 import {ApiProvider} from './providers/api/api';
 
-import {Plugins} from '@capacitor/core';
-
-const {SplashScreen} = Plugins;
-
 const moment = require('moment-timezone');
 
 enableProdMode();
@@ -74,7 +70,6 @@ export class AppComponent {
       });
 
       this.statusBar.styleDefault();
-      SplashScreen.hide().catch(err => console.log(err));
     });
   }
 }

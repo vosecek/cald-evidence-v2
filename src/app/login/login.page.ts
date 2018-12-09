@@ -6,6 +6,10 @@ import {AuthProvider} from '../providers/auth/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
 
+import {Plugins} from '@capacitor/core';
+
+const {SplashScreen} = Plugins;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -81,6 +85,10 @@ export class LoginPage {
       console.log(err);
       return load.dismiss();
     });
+  }
+
+  ionViewDidEnter() {
+    SplashScreen.hide().catch(err => console.log(err));
   }
 
   ionViewDidLoad() {
