@@ -1,0 +1,6 @@
+{
+  "appId": "cz.cald.evidence",
+  "appName": "Evidence členů ČALD",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}
