@@ -69,7 +69,7 @@
                 <ion-col>
                     <ion-item>
                         <ion-label [position]="'stacked'">Datum</ion-label>
-                        <ion-datetime formControlName="date" display-format="DD.MM YYYY"></ion-datetime>
+                        <ion-datetime [value]="currentDate" pickerFormat="DD MMM YYYY" formControlName="date" displayFormat="DD.MM YYYY"></ion-datetime>
                     </ion-item>
                 </ion-col>
                 <ion-col>
