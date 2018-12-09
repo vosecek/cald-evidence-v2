@@ -8,8 +8,6 @@ import {TeamProvider} from '../providers/team/team';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-// import {File} from '@ionic-native/file';
-// import {FileOpener} from '@ionic-native/file-opener';
 import {LoadingController, Platform} from '@ionic/angular';
 import {FeeNeededForLeagueProvider} from '../providers/fee-needed-for-league/fee-needed-for-league';
 import {FeeProvider} from '../providers/fee/fee';
@@ -38,7 +36,6 @@ export class DashboardPage implements OnInit {
   pdfObj = null;
 
   constructor(
-    // private file: File, private fileOpener: FileOpener,
     private platform: Platform,
     private feeProvider: FeeProvider,
     public tournamentProvider: TournamentProvider,
@@ -238,29 +235,10 @@ export class DashboardPage implements OnInit {
 
       this.pdfObj = pdfMake.createPdf(docDefinition).download('fee.pdf');
 
-      // this.downloadPdf();
-
       this.feeLoading = false;
     }, err => {
       this.feeLoading = false;
       alert(err);
     });
   }
-
-  // downloadPdf() {
-  //   if (this.platform.is('cordova')) {
-  //     this.pdfObj.getBuffer((buffer) => {
-  //       var blob = new Blob([buffer], {type: 'application/pdf'});
-  //
-  //       // Save the PDF to the data Directory of our App
-  //       this.file.writeFile(this.file.dataDirectory, 'fee.pdf', blob, {replace: true}).then(fileEntry => {
-  //         // Open the PDf with the correct OS tools
-  //         this.fileOpener.open(this.file.dataDirectory + 'fee.pdf', 'application/pdf');
-  //       });
-  //     });
-  //   } else {
-  //     // On a browser simply use download!
-  //     this.pdfObj.download();
-  //   }
-  // }
 }

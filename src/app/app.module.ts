@@ -43,8 +43,6 @@ import {FeeNeededForLeagueProvider} from './providers/fee-needed-for-league/fee-
 import {FeeEditPage} from './settings/fees/fee-edit/fee-edit.page';
 import {NationalityEditPage} from './settings/nationalities/nationality-edit/nationality-edit.page';
 import {PlayerHistoryPage} from './teams/team-detail/player/player-history/player-history.page';
-// import {File} from '@ionic-native/file';
-// import {FileOpener} from '@ionic-native/file-opener';
 
 registerLocaleData(localeCs, 'cs-CZ');
 
@@ -66,8 +64,6 @@ registerLocaleData(localeCs, 'cs-CZ');
   ],
   providers: [
     StatusBar,
-    // File,
-    // FileOpener,
     UserProvider,
     GeneralProvider,
     AuthProvider,
