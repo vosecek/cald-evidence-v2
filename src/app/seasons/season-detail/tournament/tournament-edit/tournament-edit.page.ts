@@ -23,6 +23,7 @@ export class TournamentEditPage implements OnInit {
 
   public tournament: ITournament;
   public form: FormGroup;
+  public currentDate = null;
 
   constructor(private tournamentProvider: TournamentProvider,
               public leagueProvider: LeagueProvider,
@@ -32,6 +33,7 @@ export class TournamentEditPage implements OnInit {
               public seasonProvider: SeasonProvider,
               private fb: FormBuilder
   ) {
+    this.currentDate = new Date();
     this.form = this.fb.group({
       id: ['', []],
       name: ['', [Validators.required]],
