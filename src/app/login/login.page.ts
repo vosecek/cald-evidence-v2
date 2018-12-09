@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ApiProvider} from '../providers/api/api';
 import {LoadingController, ToastController} from '@ionic/angular';
 import {AuthProvider} from '../providers/auth/auth';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Storage} from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -17,16 +18,31 @@ export class LoginPage {
   constructor(private fb: FormBuilder,
               private api: ApiProvider,
               private router: Router,
+              private storage: Storage,
               private activatedRoute: ActivatedRoute,
               private loadCtrl: LoadingController,
               private toastCtrl: ToastController,
               private authProvider: AuthProvider) {
     this.form = this.fb.group({
       'login': ['', Validators.required],
-      'password': ['', Validators.required]
+      'password': ['', Validators.required],
+      'remember': [true]
     });
 
-    this.form.patchValue({login: '', password: ''});
+    this.storage.get('auth').then(data => {
+      if (data) {
+        if (data['remember']) {
+          this.form.patchValue({login: data['login'], password: data['password']});
+          this.submit().then(() => {
+
+          }, err => {
+            console.log(err);
+          });
+        }
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 
   public keyDownFunction(event) {
@@ -41,9 +57,15 @@ export class LoginPage {
     load.present().catch(err => console.log(err));
 
     this.activatedRoute.params.subscribe(pars => {
-      console.log(pars);
       if (pars['develop'] && pars['develop'] == 'develop') this.api.isDevelop = true;
       this.authProvider.login(this.form.value).then(() => {
+        if (this.form.value.remember) {
+          this.storage.set('auth', this.form.value).then(() => {
+
+          }, err => {
+
+          });
+        }
         this.router.navigate(['dashboard']).then(() => {
           return load.dismiss();
         }, err => {

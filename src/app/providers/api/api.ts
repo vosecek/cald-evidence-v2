@@ -4,7 +4,6 @@ import {Storage} from '@ionic/storage';
 import {Token} from '../../interfaces/token';
 
 import {Events, LoadingController, ToastController} from '@ionic/angular';
-import {Observable} from 'rxjs/internal/Observable';
 import {Router} from '@angular/router';
 
 @Injectable({
@@ -39,6 +38,7 @@ export class ApiProvider {
 
   public logout(): void {
     this.isDevelop = false;
+    this.storage.remove('auth').catch(err => console.log(err));
     this.storage.remove('token').catch(err => console.log(err));
     delete this._token;
     this.router.navigate(['login']).catch(err => console.log(err));
