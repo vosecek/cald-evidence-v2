@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {RouterModule, RouteReuseStrategy, Routes} from '@angular/router';
+import {RouteReuseStrategy} from '@angular/router';
 
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
-import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 
 import {AppComponent} from './app.component';
@@ -11,7 +10,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {IonicStorageModule} from '@ionic/storage';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {CommonModule, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {SeasonProvider} from './providers/season/season';
 import {GeneralProvider} from './providers/general/general';
 import {AuthProvider} from './providers/auth/auth';
@@ -81,13 +80,8 @@ registerLocaleData(localeCs, 'cs-CZ');
     PlayerAtTeamProvider,
     RosterProvider,
     PlayerAtRosterProvider,
-    SplashScreen,
     FeeProvider,
     ToolsService,
-    // {
-    //   provide: LocationStrategy,
-    //   useClass: PathLocationStrategy
-    // },
     {provide: LOCALE_ID, useValue: 'cs-CZ'},
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],

@@ -1,12 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, enableProdMode} from '@angular/core';
 
 import {Events, MenuController, Platform} from '@ionic/angular';
-import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthProvider} from './providers/auth/auth';
 import {ApiProvider} from './providers/api/api';
 
+import {Plugins} from '@capacitor/core';
+
+const {SplashScreen} = Plugins;
+
 const moment = require('moment-timezone');
+
+enableProdMode();
 
 @Component({
   selector: 'app-root',
@@ -43,7 +48,6 @@ export class AppComponent {
     private api: ApiProvider,
     private events: Events,
     private menu: MenuController,
-    private splashScreen: SplashScreen,
     private statusBar: StatusBar
   ) {
     this.initializeApp();
@@ -70,7 +74,7 @@ export class AppComponent {
       });
 
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      SplashScreen.hide().catch(err => console.log(err));
     });
   }
 }
