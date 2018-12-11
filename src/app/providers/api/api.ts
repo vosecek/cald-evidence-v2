@@ -20,7 +20,7 @@ export class ApiProvider {
 
   private develop = 'http://cald.yosarin.net';
   private mock = 'http://localhost:8100/mock';
-  private live = 'http://api.evidence.cald.cz';
+  private live = 'https://api.evidence.cald.cz';
 
   private _token: Token;
   private headers: HttpHeaders;
