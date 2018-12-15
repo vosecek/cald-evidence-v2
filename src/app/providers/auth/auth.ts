@@ -24,6 +24,10 @@ export class AuthProvider {
               private events: Events) {
   }
 
+  public isAnonymous(): boolean {
+    return (this.user.user.login === 'public');
+  }
+
   // public protectedArea(): Promise<any> {
   //   return new Promise<boolean>((resolve, reject) => {
   //     if (this.user) {

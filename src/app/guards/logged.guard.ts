@@ -23,18 +23,23 @@ export class LoggedGuard implements CanActivate {
 
     return new Promise<any>((resolve, reject) => {
       this.authProvider.authenticate().then(() => {
-        Promise.all([
-          this.league.load(),
-          this.season.load(),
-          this.team.load(),
-          this.nationality.load(),
-          this.division.load()
-        ]).then(() => {
-          resolve(true);
-        }, err => {
-          console.log(err);
-          reject(err);
-        });
+        if (this.authProvider.isAnonymous() && next['_routerState']['url'].search('/seasons') < 0) {
+          this.router.navigate(['login']).catch(err => console.log(err));
+          resolve();
+        } else {
+          Promise.all([
+            this.league.load(),
+            this.season.load(),
+            this.team.load(),
+            this.nationality.load(),
+            this.division.load()
+          ]).then(() => {
+            resolve(true);
+          }, err => {
+            console.log(err);
+            reject(err);
+          });
+        }
       }, err => {
         console.log(err);
         // alert('');/

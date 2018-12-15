@@ -55,8 +55,13 @@ export class LoginPage {
     }
   }
 
-  async submit() {
+  anonymous() {
+    this.form.patchValue({login: 'public', password: 'access', remember: false});
+    this.submit(true).catch(err => console.log(err));
+  }
 
+  async submit(anonymous?: boolean) {
+    anonymous = anonymous || false;
     const load = await this.loadCtrl.create();
     load.present().catch(err => console.log(err));
 
@@ -70,7 +75,7 @@ export class LoginPage {
 
           });
         }
-        this.router.navigate(['dashboard']).then(() => {
+        this.router.navigate([(anonymous ? 'seasons' : 'dashboard')]).then(() => {
           return load.dismiss();
         }, err => {
           console.log(err);

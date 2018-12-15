@@ -18,14 +18,22 @@
             <ion-item>
                 <ion-label>Automaticky přihlašovat</ion-label>
                 <ion-toggle formControlName='remember'></ion-toggle>
-             </ion-item>
+            </ion-item>
         </ion-list>
-        <ion-button expand="full" size="large" large (click)="submit()">Přihlásit</ion-button>
+        <ion-button expand="full" size="large" large (click)="submit()">
+            <ion-icon slot="start" name="key"></ion-icon>
+            Přihlásit
+        </ion-button>
+        <ion-button expand="full" size="large" color="warning" large (click)="anonymous()">
+            <ion-icon name="list" slot="start"></ion-icon>
+            Přehled turnajů
+        </ion-button>
 
         <ion-img margin-top src="./assets/logo.png"></ion-img>
     </form>
     <ion-note>
-        Toto je Evidenční systém České asociace létajícího disku. Pro přístup do aplikace kontaktujte Sportovně technickou komisi na emailu evidence@cald.cz.
+        Toto je Evidenční systém České asociace létajícího disku. Pro přístup na editaci je nutné být registrovaným Oddílem České asociace létajícího disku.
+        Prohlížení turnajů je možné pomocí tlačítka Přehled turnajů.
     </ion-note>
 </ion-content>
 
