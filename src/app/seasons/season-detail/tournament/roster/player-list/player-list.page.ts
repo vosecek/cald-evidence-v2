@@ -18,7 +18,7 @@ import {TeamPipe} from '../../../../../shared/pipes/team.pipe';
 })
 export class PlayerListPage implements OnInit {
 
-  public sex: string = null;
+  public sex: string = '0';
   public active = 1;
 
   public roster: IRoster;

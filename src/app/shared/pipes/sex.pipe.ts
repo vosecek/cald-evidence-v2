@@ -7,7 +7,7 @@ import {IPlayer} from '../../interfaces/player';
 export class SexPipe implements PipeTransform {
 
   transform(value: IPlayer[], sex): any {
-    if (!sex) return value;
+    if (!sex || sex === '0') return value;
 
     return value.filter(it => it && it.sex === sex);
   }
