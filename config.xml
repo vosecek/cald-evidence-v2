@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="cz.cald.evidence" version="1.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Evidence ČALD </name>
+<widget id="cz.cald.evidence" versionCode="3" version="1.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Evidence ČALD</name>
     <description>Evidence členů České asociace létajícího disku.</description>
     <author email="jiri.vosecek@cald.cz" href="http://cald.cz/">Jiří Voseček</author>
     <content src="index.html" />
