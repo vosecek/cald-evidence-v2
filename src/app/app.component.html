@@ -16,11 +16,24 @@
                         </ion-label>
                     </ion-item>
                 </ion-menu-toggle>
+
+                <ion-card *ngIf="auth.user">
+                    <ion-card-header>Správa týmů ({{auth.user.user.login}})</ion-card-header>
+                    <ion-card-content>
+                        <ion-list lines="none">
+                            <ion-item *ngIf="auth.user.teams().length===0">žádné týmy</ion-item>
+                            <ion-item detail menu-toggle *ngFor='let teamId of auth.user.teams()' (click)="teamDetail(teamId)">
+                                {{teamId|team|async}}
+                            </ion-item>
+                        </ion-list>
+                    </ion-card-content>
+                </ion-card>
             </ion-content>
             <ion-footer>
                 <ion-button expand='full' color='danger' (click)="logout()">
                     <ion-icon name="exit" slot="start"></ion-icon>
-                    Odhlásit</ion-button>
+                    Odhlásit
+                </ion-button>
             </ion-footer>
 
         </ion-menu>

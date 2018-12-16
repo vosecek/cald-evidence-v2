@@ -37,6 +37,20 @@ export class User {
     return this.user.id === user_id;
   }
 
+  public teams() {
+    const teams = [];
+    this.rights.forEach(el => {
+      const data = el.split(':');
+      if (data.length === 3) {
+        if (data[0] == 'edit' && data[1] == 'team') {
+          teams.push(data[2]);
+        }
+      }
+    });
+
+    return teams;
+  }
+
   public isAdmin(): boolean {
     let access = false;
     this.rights.forEach(r => {

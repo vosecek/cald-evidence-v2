@@ -4,6 +4,7 @@ import {Events, MenuController, Platform} from '@ionic/angular';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthProvider} from './providers/auth/auth';
 import {ApiProvider} from './providers/api/api';
+import {Router} from '@angular/router';
 
 const moment = require('moment-timezone');
 
@@ -42,6 +43,7 @@ export class AppComponent {
     public auth: AuthProvider,
     private platform: Platform,
     private api: ApiProvider,
+    private router: Router,
     private events: Events,
     private menu: MenuController,
     private statusBar: StatusBar
@@ -52,6 +54,14 @@ export class AppComponent {
   logout() {
     this.menu.close().catch(err => console.log(err));
     this.api.logout();
+  }
+
+  public teamDetail(teamId) {
+    this.router.navigate(['teams', teamId]).then(() => {
+      this.menu.close().catch(err => console.log(err));
+    }, err => {
+      console.log(err);
+    });
   }
 
   initializeApp() {
