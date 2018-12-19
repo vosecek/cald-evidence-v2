@@ -33,6 +33,7 @@ export class PlayerHistoryPage implements OnInit {
   ngOnInit() {
     this.playerProvider.history(this.player).then((history) => {
       this.playerHistory = history;
+      this.playerHistory.seasons.reverse();
     }, err => {
       console.log(err);
     });
