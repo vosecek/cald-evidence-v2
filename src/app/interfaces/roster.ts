@@ -10,6 +10,7 @@ export interface IPlayerAtRoster {
 export interface IRoster {
   final_result: string;
   id: string;
+  name: string;
   seeding: string;
   finalized: any;
   team_id: string;

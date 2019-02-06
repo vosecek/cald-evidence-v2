@@ -126,7 +126,6 @@ export class TournamentPage implements OnInit {
       const teams = [];
 
       if (this.auth.user.isAdmin()) {
-        console.log(this.team.data);
         new OrderPipe().transform(this.team.data, ['name']).forEach((t: ITeam) => {
           teams.push({
             name: 'team_' + t.id,

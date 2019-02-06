@@ -11,6 +11,7 @@ import {IPlayer} from '../../interfaces/player';
 export class RosterProvider extends GeneralProvider {
 
   protected code = 'roster';
+  protected updatePut = true;
 
   constructor(public api: ApiProvider) {
     super(api);

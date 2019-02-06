@@ -6,7 +6,11 @@
                 <span class="medium-display">Na seznam týmů</span>
             </ion-button>
         </ion-buttons>
-        <ion-title>{{roster.team_name}}</ion-title>
+        <ion-title>
+            <ion-select [(ngModel)]="rosterName" (ionChange)="updateName()">
+                <ion-select-option *ngFor="let m of ['','A','B','C','D','E']" [value]="m">{{roster.team_name}} {{m}}</ion-select-option>
+            </ion-select>
+        </ion-title>
         <ion-buttons slot="end">
             <ion-button color="danger" *ngIf="canEditRoster()" slot="start" (click)="removeRoster()">
                 <ion-icon name="trash" slot="start"></ion-icon>

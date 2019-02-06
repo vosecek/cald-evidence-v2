@@ -58,7 +58,7 @@
             <ion-list>
                 <ion-item (click)="rosterDetail(r)" detail
                           *ngFor="let r of rosters|order:['team_name']|filter:'tournament_belongs_to_league_and_division_id':ld.id">
-                    {{(r.team_id|team)|async}} ({{r.player_at_roster.length}})
+                    {{(r.team_id|team)|async}}<span *ngIf="r.name">&nbsp;{{r.name}}</span>&nbsp;({{r.player_at_roster.length}})
                     <ion-icon slot="start" name="lock" *ngIf="r.finalized == '1'"></ion-icon>
                 </ion-item>
             </ion-list>

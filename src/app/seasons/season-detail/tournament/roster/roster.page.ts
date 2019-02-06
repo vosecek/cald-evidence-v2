@@ -24,6 +24,7 @@ export class RosterPage implements OnInit {
   roster: IRoster;
   players: IPlayer[] = [];
   tournament: ITournament = null;
+  rosterName: string;
 
   constructor(
     private modal: ModalController,
@@ -62,6 +63,21 @@ export class RosterPage implements OnInit {
     });
 
     return al.present();
+  }
+
+  updateName() {
+    this.roster.name = this.rosterName;
+    this.rosterProvider.updateCreateItem(this.roster).then(async () => {
+      const toast = await new ToastController().create({message: 'Jméno aktualizováno', duration: 2000});
+      toast.present().catch(err => console.log(err));
+    }, async (err) => {
+      const al = await this.alertCtrl.create({
+        header: 'Chyba',
+        message: err,
+        buttons: ['OK']
+      });
+      al.present().catch(err => console.log(err));
+    });
   }
 
   finalize() {
@@ -133,6 +149,8 @@ export class RosterPage implements OnInit {
 
   ngOnInit() {
     this.roster = this.navParams.get('roster');
+
+    this.rosterName = this.roster.name;
 
     this.tournamentTLD.findById(this.roster.tournament_belongs_to_league_and_division_id).then(data => {
       this.tournamentProvider.findById(data.tournament_id).then(t => {
