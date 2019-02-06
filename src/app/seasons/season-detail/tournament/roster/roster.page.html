@@ -7,9 +7,10 @@
             </ion-button>
         </ion-buttons>
         <ion-title>
-            <ion-select [(ngModel)]="rosterName" (ionChange)="updateName()">
+            <ion-select [(ngModel)]="rosterName" (ionChange)="updateName()" *ngIf="canEditRoster()">
                 <ion-select-option *ngFor="let m of ['','A','B','C','D','E']" [value]="m">{{roster.team_name}} {{m}}</ion-select-option>
             </ion-select>
+            <span *ngIf="!canEditRoster()">{{roster.team_name}}<span *ngIf="roster.name">&nbsp; {{roster.name}}</span></span>
         </ion-title>
         <ion-buttons slot="end">
             <ion-button color="danger" *ngIf="canEditRoster()" slot="start" (click)="removeRoster()">
