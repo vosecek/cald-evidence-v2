@@ -6,6 +6,7 @@ import {ILeague} from '../../interfaces/league';
 import {IFee} from '../../interfaces/fee';
 import {ToastController} from '@ionic/angular';
 import {IPlayer} from '../../interfaces/player';
+import {ITeam} from '../../interfaces/team';
 
 @Injectable({
   providedIn: 'root'
@@ -46,4 +47,11 @@ export class FeeProvider extends GeneralProvider {
     }).catch(err => console.log(err));
   }
 
+  public getTeamFee(team: ITeam, season: ISeason): Promise<any> {
+    return this.api.get(['team', team.id, 'season', season.id, 'fee'].join('/'));
+  }
+
+  public getAllFee(season: ISeason): Promise<any> {
+    return this.api.get(['admin', 'fee'].join('/'), {season_id: season.id});
+  }
 }

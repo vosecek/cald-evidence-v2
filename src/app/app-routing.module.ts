@@ -43,6 +43,7 @@ const routes: Routes = [
           {path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule'},
           {path: 'settings/fees', loadChildren: './settings/fees/fees.module#FeesPageModule'},
           {path: 'settings/nationalities', loadChildren: './settings/nationalities/nationalities.module#NationalitiesPageModule'},
+          {path: 'settings/export', loadChildren: './settings/export/export.module#ExportPageModule'}
         ]
       }
     ]
