@@ -119,9 +119,9 @@ export class ExportPage implements OnInit {
                           address.descriptive_number,
                           address.orientation_number,
                           address.zip_code,
+                          '69345368',
                           '',
                           '',
-                          '08057508',
                           '',
                           '0',
                           '1',
@@ -186,10 +186,10 @@ export class ExportPage implements OnInit {
   downloadFile(data: any) {
     const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
     const header = Object.keys(data[0]);
-    let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+    let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
 
     let h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID'];
-    csv.unshift(h.join(','));
+    csv.unshift(h.join(';'));
     let csvArray = csv.join('\r\n');
 
     var blob = new Blob([csvArray], {type: 'text/csv'});
