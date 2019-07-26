@@ -127,7 +127,7 @@ export class ExportService {
                           '',
                           '',
                           '',
-                          '0',
+                          '98',
                           '1',
                           '0',
                           moment(it.player.created_at).format('YYYY'),
