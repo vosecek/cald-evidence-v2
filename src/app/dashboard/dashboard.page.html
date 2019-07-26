@@ -25,4 +25,17 @@
             <ion-button (click)='getFee(team)'>Instrukce pro tým {{team.name}}</ion-button>
         </div>
     </div>
+
+
+    <ion-card *ngIf="authProvider.user">
+        <ion-card-header>Rejstřík sportu</ion-card-header>
+        <ion-card-content>
+            <ion-list lines="none">
+                <ion-item *ngIf="authProvider.user.teams().length===0">žádné týmy</ion-item>
+                <ion-item detail *ngFor='let teamId of authProvider.user.teams()' (click)="exportService.rejstrikSportu(teamId)">
+                    Export týmových dat do csv: {{teamId|team|async}}
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

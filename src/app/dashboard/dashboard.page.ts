@@ -16,6 +16,7 @@ import {TournamentProvider} from '../providers/tournament/tournament';
 import {ITournament} from '../interfaces/tournament';
 
 import * as moment from 'moment';
+import {ExportService} from '../services/export.service';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -40,8 +41,9 @@ export class DashboardPage implements OnInit {
     private feeProvider: FeeProvider,
     public tournamentProvider: TournamentProvider,
     private feeNeeded: FeeNeededForLeagueProvider,
+    public exportService: ExportService,
     private loadCtrl: LoadingController,
-    private authProvider: AuthProvider,
+    public authProvider: AuthProvider,
     private api: ApiProvider,
     private season: SeasonProvider,
     private teamProvider: TeamProvider) {

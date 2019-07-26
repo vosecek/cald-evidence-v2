@@ -42,6 +42,7 @@ import {FeeNeededForLeagueProvider} from './providers/fee-needed-for-league/fee-
 import {FeeEditPage} from './settings/fees/fee-edit/fee-edit.page';
 import {NationalityEditPage} from './settings/nationalities/nationality-edit/nationality-edit.page';
 import {PlayerHistoryPage} from './teams/team-detail/player/player-history/player-history.page';
+import {ExportService} from './services/export.service';
 
 registerLocaleData(localeCs, 'cs-CZ');
 
@@ -80,6 +81,7 @@ registerLocaleData(localeCs, 'cs-CZ');
     PlayerAtTeamProvider,
     RosterProvider,
     PlayerAtRosterProvider,
+    ExportService,
     FeeProvider,
     ToolsService,
     {provide: LOCALE_ID, useValue: 'cs-CZ'},
