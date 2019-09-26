@@ -68,16 +68,17 @@ export class DashboardPage implements OnInit {
     });
 
     this.season_for_fee = this.season.data.find(it => it.name == new Date().getFullYear());
-    this.feeNeeded.load({since_season: this.season_for_fee.id}).then((data) => {
-      if (data[0]) {
-        this.feeProvider.findById(data[0].fee_id).then((fee) => {
-          this.fee_for_season = fee;
-        }, err => {
-          console.log(err);
-        });
-      }
-    });
-
+    if (this.season_for_fee) {
+      this.feeNeeded.load({since_season: this.season_for_fee.id}).then((data) => {
+        if (data[0]) {
+          this.feeProvider.findById(data[0].fee_id).then((fee) => {
+            this.fee_for_season = fee;
+          }, err => {
+            console.log(err);
+          });
+        }
+      });
+    }
 
     if (this.authProvider.user.isAdmin()) {
       this.teamProvider.load().then(() => {

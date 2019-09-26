@@ -26,7 +26,6 @@
         </div>
     </div>
 
-
     <ion-card *ngIf="authProvider.user">
         <ion-card-header>Rejstřík sportu</ion-card-header>
         <ion-card-content>
@@ -35,6 +34,17 @@
                 <ion-item detail *ngFor='let teamId of authProvider.user.teams()' (click)="exportService.rejstrikSportu(teamId)">
                     Export týmových dat do csv: {{teamId|team|async}}
                 </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>Co je nového (26.9.2019)</ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item>Zadávání rodných čísel namísto adres</ion-item>
+                <ion-item>Zadání IČO Oddílu</ion-item>
+                <ion-item>Snažší zadávání data narození na PC</ion-item>
             </ion-list>
         </ion-card-content>
     </ion-card>
