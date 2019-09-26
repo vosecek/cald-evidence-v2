@@ -5,4 +5,5 @@ export interface ITeam {
   city: string;
   www: string;
   email: string;
+  identification_number: string;
 }

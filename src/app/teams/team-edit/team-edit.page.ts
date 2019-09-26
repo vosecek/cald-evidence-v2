@@ -23,6 +23,7 @@ export class TeamEditPage implements OnInit {
       id: [''],
       name: ['', [Validators.required]],
       city: [''],
+      identification_number: [''],
       www: [''],
       founded_at: ['']
     });
@@ -58,6 +59,7 @@ export class TeamEditPage implements OnInit {
       this.form.patchValue({
         id: this.team.id,
         name: this.team.name,
+        identification_number: this.team.identification_number,
         city: this.team.city,
         www: this.team.www,
         founded_at: moment(this.team.founded_at).format('YYYY-MM-DD')
