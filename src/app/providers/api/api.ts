@@ -192,7 +192,7 @@ export class ApiProvider {
     if (err['status'] === 403) {
       this.router.navigate(['login']).catch(err => console.log(err));
     }
-    return (err.error.error ? err.error.error : (err.message ? err.message : 'Neznámá chyba'));
+    return (err.error && err.error.error ? err.error.error : (err.message ? err.message : 'Neznámá chyba'));
   }
 
   public path(path): string {

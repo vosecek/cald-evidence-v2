@@ -43,6 +43,9 @@ import {FeeEditPage} from './settings/fees/fee-edit/fee-edit.page';
 import {NationalityEditPage} from './settings/nationalities/nationality-edit/nationality-edit.page';
 import {PlayerHistoryPage} from './teams/team-detail/player/player-history/player-history.page';
 import {ExportService} from './services/export.service';
+import {Ionic4DatepickerModule} from '@logisticinfotech/ionic4-datepicker';
+import {DatePickerModule} from 'ionic4-date-picker';
+
 
 registerLocaleData(localeCs, 'cs-CZ');
 
@@ -53,6 +56,8 @@ registerLocaleData(localeCs, 'cs-CZ');
     BrowserModule,
     HttpClientModule,
     PipesModule,
+    Ionic4DatepickerModule,
+    DatePickerModule,
     CommonModule,
     IonicModule.forRoot({
       backButtonText: ''

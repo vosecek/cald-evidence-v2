@@ -11,7 +11,7 @@ export class ToolsService {
   static dateConverter(data, property?: string) {
     property = property || 'date';
     if (data[property]) {
-      if (data[property]['year']) {
+      if (data[property].hasOwnProperty('year')) {
         data[property] = [data[property]['year']['text'], data[property]['month']['text'], data[property]['day']['text']].join('-');
       }
     }
