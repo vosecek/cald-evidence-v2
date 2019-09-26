@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {LoadingController, ModalController, NavParams, ToastController} from '@ionic/angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {IonInput, LoadingController, ModalController, NavParams, Platform, ToastController} from '@ionic/angular';
 import {IPlayer} from '../../../interfaces/player';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NationalityProvider} from '../../../providers/nationality/nationality';
@@ -18,6 +18,7 @@ import {ApiProvider} from '../../../providers/api/api';
 import {PlayerHistoryPage} from './player-history/player-history.page';
 import {OrderPipe} from '../../../shared/pipes/order';
 
+
 @Component({
   selector: 'app-player',
   templateUrl: './player.page.html',
@@ -25,6 +26,8 @@ import {OrderPipe} from '../../../shared/pipes/order';
 })
 export class PlayerPage implements OnInit {
 
+  @ViewChild('personal_identification_number') personal_identification_number: IonInput;
+  personal_identification_number;
   public data: IPlayer = null;
   protected team: ITeam = null;
   public form: FormGroup;
@@ -40,6 +43,7 @@ export class PlayerPage implements OnInit {
     private toastCtrl: ToastController,
     private api: ApiProvider,
     public auth: AuthProvider,
+    public plt: Platform,
     private feeProvider: FeeProvider,
     private playerAtTeam: PlayerAtTeamProvider,
     private fb: FormBuilder,
@@ -59,16 +63,17 @@ export class PlayerPage implements OnInit {
       sex: ['', [Validators.required]],
       // email: ['', []],
       birth_date: ['', [Validators.required]],
+      personal_identification_number: ['', [Validators.required]],
       nationality_id: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      country: ['', [Validators.required]],
-      city: ['', [Validators.required]],
+      type: ['', []],
+      country: ['', []],
+      city: ['', []],
       district: [''],
-      zip_code: ['', [Validators.required]],
+      zip_code: ['', []],
       street: [''],
       orientation_number: [''],
       address_id: [''],
-      descriptive_number: ['', [Validators.required]]
+      descriptive_number: ['', []]
     });
 
     this.data = this.navParams.get('player');
@@ -85,8 +90,13 @@ export class PlayerPage implements OnInit {
           // email: this.data.email,
           sex: this.data.sex,
           nationality_id: this.data.nationality_id,
-          birth_date: moment(this.data.birth_date).format('YYYY-MM-DD')
+          birth_date: moment(this.data.birth_date).format('YYYY-MM-DD'),
+          personal_identification_number: this.data.personal_identification_number
         });
+
+        if (this.plt.is('desktop')) {
+          this.form.patchValue({birth_date: moment(this.data.birth_date).format('DD/MM/YYYY')});
+        }
 
         if (this.canViewPlayerDetails()) {
           this.playerProvider.playerAddress(this.data).then((address) => {
@@ -125,6 +135,99 @@ export class PlayerPage implements OnInit {
 
   }
 
+  sexChanged() {
+    if (this.form.value.birth_date) {
+      this.birthDateChanged();
+    }
+  }
+
+  async checkBirthNumber() {
+    let x = this.form.value.personal_identification_number;
+
+    let birth_date = moment(this.form.value.birth_date);
+    if (this.plt.is('desktop')) {
+      birth_date = moment(this.form.value.birth_date, 'DD/MM/YYYY');
+    }
+
+    let age = moment().diff(birth_date, 'years');
+
+    if (!x) return;
+
+    x = x.replace('/', '');
+
+    if (!age) age = 0;
+    try {
+      if (x.length == 0) return true;
+      if (x.length < 9) throw 1;
+      let year = parseInt(x.substr(0, 2), 10);
+      let month = parseInt(x.substr(2, 2), 10);
+      const day = parseInt(x.substr(4, 2), 10);
+      const ext = parseInt(x.substr(6, 3), 10);
+      if ((x.length == 9) && (year < 54)) return true;
+      let c = 0;
+      if (x.length == 10) c = parseInt(x.substr(9, 1), 10);
+      let m = parseInt(x.substr(0, 9), 10) % 11;
+      if (m == 10) m = 0;
+      if (m != c) throw 1;
+      year += (year < 54) ? 2000 : 1900;
+      if ((month > 70) && (year > 2003)) month -= 70;
+      else if (month > 50) month -= 50;
+      else if ((month > 20) && (year > 2003)) month -= 20;
+      const d = new Date();
+      if ((year + age) > d.getFullYear()) throw 1;
+      if (month == 0) throw 1;
+      if (month > 12) throw 1;
+      if (day == 0) throw 1;
+      if (day > 31) throw 1;
+    } catch (e) {
+      const toast = await this.toastCtrl.create({message: 'Rodné číslo má zřejmě nesprávný formát', duration: 2000});
+      return toast.present();
+    }
+    console.log('rodne cislo se zda OK');
+    return true;
+  }
+
+  birthDateChanged() {
+    console.log('birthDateChanged');
+    let birth_date = this.form.value.birth_date;
+    console.log(this.plt.is('desktop'));
+    if (this.plt.is('desktop')) {
+      console.log(this.form.value.birth_date);
+      birth_date = moment(this.form.value.birth_date, 'DD/MM/YYYY');
+    }
+
+    if (birth_date) {
+      if (this.form.value.nationality_id === '1') {
+        let month = moment(birth_date).format('MM');
+
+        if (this.form.value.sex === 'female') {
+          month = (parseInt(month, 10) + 50).toString();
+        }
+        this.form.patchValue({
+          personal_identification_number: moment(birth_date).format('YY') + month + moment(birth_date).format('DD') + '/'
+        });
+      }
+    }
+  }
+
+  nationalityChanged() {
+    if (this.form.value.nationality_id === '1') {
+      this.form.controls['personal_identification_number'].setValidators([Validators.required]);
+      this.form.controls['city'].setValidators([]);
+      this.form.controls['street'].setValidators([]);
+      this.form.controls['descriptive_number'].setValidators([]);
+
+      this.form.patchValue({type: 'residence in czechia'});
+    } else {
+      this.form.controls['personal_identification_number'].setValidators([]);
+      this.form.controls['city'].setValidators([Validators.required]);
+      this.form.controls['street'].setValidators([Validators.required]);
+      this.form.controls['descriptive_number'].setValidators([Validators.required]);
+
+      this.form.patchValue({type: 'permanent residence'});
+    }
+  }
+
   transfer() {
     this.playerAtTeam.removePlayerFromTeam(this.data, this.team, this.transfer_season).then(() => {
       this.playerAtTeam.assignPlayerToTeam(this.data, this.transfer_team, this.transfer_season).then(() => {
@@ -145,7 +248,11 @@ export class PlayerPage implements OnInit {
   async save() {
 
     let data = this.form.value;
-    data = ToolsService.dateConverter(data, 'birth_date');
+    if (this.plt.is('desktop')) {
+      data['birth_date'] = moment(this.form.value.birth_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    } else {
+      data['birth_date'] = ToolsService.dateConverter(data, 'birth_date');
+    }
 
     this.playerProvider.updateCreateItem(data).then(async (data) => {
       const address = {

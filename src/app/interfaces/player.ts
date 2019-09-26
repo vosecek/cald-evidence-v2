@@ -4,6 +4,7 @@ export interface IPlayer {
   last_name: string;
   email: string;
   birth_date: string;
+  personal_identification_number: string;
   sex: string;
   nationality_id: any;
   gdpr_consent: any;

@@ -28,122 +28,141 @@
                     Nejdříve si důkladně ověř, zda zadávaný hráč již v Evidenci neexistuje pomoci Vyhledávání hráče v zadávání soupisek
                 </ion-col>
             </ion-row>
-            <ion-row>
-                <ion-col size="6">
-                    <ion-item>
-                        <ion-label position="stacked">Jméno *</ion-label>
-                        <ion-input type="text" formControlName="first_name"></ion-input>
-                    </ion-item>
-                </ion-col>
-                <ion-col size="6">
-                    <ion-item>
-                        <ion-label position="stacked">Příjmení *</ion-label>
-                        <ion-input type="text" formControlName="last_name"></ion-input>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row *ngIf='canViewPlayerDetails()'>
-                <ion-col size="12">
-                    <ion-item>
-                        <ion-label position="stacked">Datum narození *</ion-label>
-                        <ion-datetime displayFormat="DD.MM YYYY" pickerFormat="DD MMM YYYY" formControlName="birth_date"></ion-datetime>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col size="12">
-                    <ion-radio-group formControlName="sex">
-                        <ion-list-header>
-                            Pohlaví *
-                        </ion-list-header>
-                        <ion-item>
-                            <ion-label>muž</ion-label>
-                            <ion-radio value="male"></ion-radio>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>žena</ion-label>
-                            <ion-radio value="female"></ion-radio>
-                        </ion-item>
-                    </ion-radio-group>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col size="12">
-                    <ion-item>
-                        <ion-label position="stacked">Státní příslušnost *</ion-label>
-                        <ion-select formControlName="nationality_id">
-                            <ion-select-option *ngFor="let nationality of nationalityProvider.data" value="{{nationality.id}}">{{nationality.name}}
-                            </ion-select-option>
-                        </ion-select>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <div *ngIf='canViewPlayerDetails()'>
-            <ion-list-header>
-                Adresa
-            </ion-list-header>
-            <ion-row>
-                <ion-col size="12" sizeSm="6">
-                    <ion-item>
-                        <ion-label position="stacked">Stát *</ion-label>
-                        <ion-select formControlName="country">
-                            <ion-select-option *ngFor="let nationality of nationalityProvider.data"
-                                               value="{{nationality.country_name}}">{{nationality.country_name}}
-                            </ion-select-option>
-                        </ion-select>
-                    </ion-item>
-                </ion-col>
-                <ion-col size="12" sizeSm="6">
-                    <ion-item>
-                        <ion-label position="stacked">Typ adresy *</ion-label>
-                        <ion-select formControlName="type">
-                            <ion-select-option selected="true" value="residence in czechia">Občan ČR</ion-select-option>
-                            <ion-select-option value="permanent residence">Trvalý pobyt</ion-select-option>
-                        </ion-select>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col size="12" sizeMd="5">
-                    <ion-item>
-                        <ion-label position="stacked">Město *</ion-label>
-                        <ion-input formControlName="city" type="text"></ion-input>
-                    </ion-item>
-                </ion-col>
-                <ion-col size="6" sizeMd="5">
-                    <ion-item>
-                        <ion-label position="stacked">Část obce</ion-label>
-                        <ion-input formControlName="district" type="text"></ion-input>
-                    </ion-item>
-                </ion-col>
-                <ion-col size="6" sizeMd="2">
-                    <ion-item>
-                        <ion-label position="stacked">PSČ *</ion-label>
-                        <ion-input formControlName="zip_code" type="number"></ion-input>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col size="12" sizeSm="6">
-                    <ion-item>
-                        <ion-label position="stacked">Ulice</ion-label>
-                        <ion-input formControlName="street" type="text"></ion-input>
-                    </ion-item>
-                </ion-col>
-                <ion-col size="6" sizeSm="3">
-                    <ion-item>
-                        <ion-label position="stacked">Číslo popisné *</ion-label>
-                        <ion-input formControlName="descriptive_number" type="text"></ion-input>
-                    </ion-item>
-                </ion-col>
-                <ion-col size="6" sizeSm="3">
-                    <ion-item>
-                        <ion-label position="stacked">Číslo orientační</ion-label>
-                        <ion-input formControlName="orientation_number" type="text"></ion-input>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            </div>
+            <ion-card>
+                <ion-card-header>Osobní data</ion-card-header>
+                <ion-card-content>
+                    <ion-row>
+                        <ion-col size="6">
+                            <ion-item>
+                                <ion-label position="stacked">Jméno *</ion-label>
+                                <ion-input type="text" formControlName="first_name"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="6">
+                            <ion-item>
+                                <ion-label position="stacked">Příjmení *</ion-label>
+                                <ion-input type="text" formControlName="last_name"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-radio-group formControlName="sex" (ionChange)="sexChanged()">
+                                <ion-list-header>
+                                    Pohlaví *
+                                </ion-list-header>
+                                <ion-item>
+                                    <ion-label>muž</ion-label>
+                                    <ion-radio value="male"></ion-radio>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>žena</ion-label>
+                                    <ion-radio value="female"></ion-radio>
+                                </ion-item>
+                            </ion-radio-group>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-item>
+                                <ion-label position="stacked">Státní příslušnost *</ion-label>
+                                <ion-select formControlName="nationality_id" (ionChange)="nationalityChanged()" [interface]="'popover'">
+                                    <ion-select-option *ngFor="let nationality of nationalityProvider.data" value="{{nationality.id}}">{{nationality.name}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf='canViewPlayerDetails()'>
+                        <ion-col size="12">
+                            <ion-item>
+                                <ion-label position="stacked">Datum narození *</ion-label>
+                                <ion-datetime *ngIf="!plt.is('desktop')" (ionChange)="birthDateChanged()" displayFormat="DD.MM YYYY" pickerFormat="DD MMM YYYY" formControlName="birth_date"></ion-datetime>
+
+                                <ion-input type="text" [placeholder]="'31/01/2001'" *ngIf="plt.is('desktop')" formControlName="birth_date" (ionBlur)="birthDateChanged()"></ion-input>
+                                <ion-note *ngIf="plt.is('desktop')">Datum narození ve formátu den/měsíc/rok</ion-note>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf='canViewPlayerDetails()'>
+                        <ion-col size="12">
+                            <ion-item>
+                                <ion-label position="stacked">Rodné číslo *</ion-label>
+                                <ion-input (ionBlur)="checkBirthNumber()"  #personal_identification_number type="text" formControlName="personal_identification_number"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+
+            <ion-card *ngIf='canViewPlayerDetails()'>
+                <ion-card-header>
+                    Adresa / Místo pobytu
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row>
+                        <ion-col size="12" sizeSm="6">
+                            <ion-item>
+                                <ion-label position="stacked">Stát</ion-label>
+                                <ion-select formControlName="country">
+                                    <ion-select-option *ngFor="let nationality of nationalityProvider.data"
+                                                       value="{{nationality.country_name}}">{{nationality.country_name}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="12" sizeSm="6">
+                            <ion-item>
+                                <ion-label position="stacked">Typ adresy</ion-label>
+                                <ion-select formControlName="type">
+                                    <ion-select-option selected="true" value="residence in czechia">Občan ČR</ion-select-option>
+                                    <ion-select-option value="permanent residence">Trvalý pobyt</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12" sizeMd="5">
+                            <ion-item>
+                                <ion-label position="stacked">Město</ion-label>
+                                <ion-input formControlName="city" type="text"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="6" sizeMd="5">
+                            <ion-item>
+                                <ion-label position="stacked">Část obce</ion-label>
+                                <ion-input formControlName="district" type="text"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="6" sizeMd="2">
+                            <ion-item>
+                                <ion-label position="stacked">PSČ</ion-label>
+                                <ion-input formControlName="zip_code" type="number"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12" sizeSm="6">
+                            <ion-item>
+                                <ion-label position="stacked">Ulice</ion-label>
+                                <ion-input formControlName="street" type="text"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="6" sizeSm="3">
+                            <ion-item>
+                                <ion-label position="stacked">Číslo popisné</ion-label>
+                                <ion-input formControlName="descriptive_number" type="text"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="6" sizeSm="3">
+                            <ion-item>
+                                <ion-label position="stacked">Číslo orientační</ion-label>
+                                <ion-input formControlName="orientation_number" type="text"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
         </ion-grid>
     </form>
 
