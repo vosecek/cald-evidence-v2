@@ -27,7 +27,6 @@ import {OrderPipe} from '../../../shared/pipes/order';
 export class PlayerPage implements OnInit {
 
   @ViewChild('personal_identification_number') personal_identification_number: IonInput;
-  personal_identification_number;
   public data: IPlayer = null;
   protected team: ITeam = null;
   public form: FormGroup;
