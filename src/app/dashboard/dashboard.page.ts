@@ -139,7 +139,7 @@ export class DashboardPage implements OnInit {
       const member2pay = [];
 
       if (!feeData['fee'][team.name]) {
-        alert('Nepodařilo se načíst data, kontaktujte prosím VR ČALD');
+        alert('Nepodařilo se načíst data, kontaktujte prosím VR ČAU');
         load.dismiss().catch(err => console.log(err));
         this.feeLoading = false;
         return;
@@ -168,7 +168,7 @@ export class DashboardPage implements OnInit {
         }
       }
 
-      const data = [{text: 'Česká asociace létajícího disku', style: 'pageHeader'},
+      const data = [{text: 'Česká asociace ultimate', style: 'pageHeader'},
         {
           text: 'Pokyny k zaplacení členských příspěvků ' + ' ' + this.season_for_fee.name,
           style: 'header'
@@ -177,7 +177,7 @@ export class DashboardPage implements OnInit {
         {text: 'Datum vystavení dokladu: ' + date.toLocaleDateString(), style: 'list'},
         {text: 'Částka: ' + feeData['fee'][team.name].fee + ' Kč', style: 'list'},
         {text: 'Celkem členů platících v sezoně: ' + feeData['fee'][team.name].players.length, style: 'list'},
-        {text: 'Číslo účtu: ' + '2301396415/2010', style: 'list'},
+        {text: 'Číslo účtu: ' + '2201624636/2010', style: 'list'},
         {
           text: 'Variabilní symbol: ' + new Date().getFullYear().toString().substring(2) + '000' + team.id,
           style: 'list'
