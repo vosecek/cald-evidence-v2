@@ -77,9 +77,11 @@
                         <ion-col size="12">
                             <ion-item>
                                 <ion-label position="stacked">Datum narození *</ion-label>
-                                <ion-datetime *ngIf="!plt.is('desktop')" (ionChange)="birthDateChanged()" displayFormat="DD.MM YYYY" pickerFormat="DD MMM YYYY" formControlName="birth_date"></ion-datetime>
+                                <ion-datetime *ngIf="!plt.is('desktop')" (ionChange)="birthDateChanged()" displayFormat="DD.MM YYYY" pickerFormat="DD MMM YYYY"
+                                              formControlName="birth_date"></ion-datetime>
 
-                                <ion-input type="text" [placeholder]="'31/01/2001'" *ngIf="plt.is('desktop')" formControlName="birth_date" (ionBlur)="birthDateChanged()"></ion-input>
+                                <ion-input type="text" [placeholder]="'31/01/2001'" *ngIf="plt.is('desktop')" formControlName="birth_date"
+                                           (ionBlur)="birthDateChanged()"></ion-input>
                                 <ion-note *ngIf="plt.is('desktop')">Datum narození ve formátu den/měsíc/rok</ion-note>
                             </ion-item>
                         </ion-col>
@@ -88,7 +90,8 @@
                         <ion-col size="12">
                             <ion-item>
                                 <ion-label position="stacked">Rodné číslo *</ion-label>
-                                <ion-input (ionBlur)="checkBirthNumber()"  #personal_identification_number type="text" formControlName="personal_identification_number"></ion-input>
+                                <ion-input [placeholder]="'000000/1234'" (ionBlur)="checkBirthNumber()" #personal_identification_number type="text"
+                                           formControlName="personal_identification_number"></ion-input>
                             </ion-item>
                         </ion-col>
                     </ion-row>

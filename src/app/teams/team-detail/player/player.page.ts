@@ -212,16 +212,24 @@ export class PlayerPage implements OnInit {
   nationalityChanged() {
     if (this.form.value.nationality_id === '1') {
       this.form.controls['personal_identification_number'].setValidators([Validators.required]);
-      this.form.controls['city'].setValidators([]);
-      this.form.controls['street'].setValidators([]);
-      this.form.controls['descriptive_number'].setValidators([]);
+      this.form.controls['personal_identification_number'].updateValueAndValidity();
+      this.form.controls['city'].clearValidators();
+      this.form.controls['city'].updateValueAndValidity();
+      this.form.controls['street'].clearValidators();
+      this.form.controls['street'].updateValueAndValidity();
+      this.form.controls['descriptive_number'].clearValidators();
+      this.form.controls['descriptive_number'].updateValueAndValidity();
 
       this.form.patchValue({type: 'residence in czechia'});
     } else {
-      this.form.controls['personal_identification_number'].setValidators([]);
+      this.form.controls['personal_identification_number'].clearValidators();
+      this.form.controls['personal_identification_number'].updateValueAndValidity();
       this.form.controls['city'].setValidators([Validators.required]);
+      this.form.controls['personal_identification_number'].updateValueAndValidity();
       this.form.controls['street'].setValidators([Validators.required]);
+      this.form.controls['personal_identification_number'].updateValueAndValidity();
       this.form.controls['descriptive_number'].setValidators([Validators.required]);
+      this.form.controls['personal_identification_number'].updateValueAndValidity();
 
       this.form.patchValue({type: 'permanent residence'});
     }
