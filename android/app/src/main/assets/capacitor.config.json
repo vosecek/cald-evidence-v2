@@ -1,9 +1,0 @@
-{
-  "appId": "cz.cald.evidence",
-  "appName": "Evidence ČALD",
-  "bundledWebRuntime": false,
-  "webDir": "www",
-  "android": {
-    "allowMixedContent": true
-  }
-}
