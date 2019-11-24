@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TournamentProvider} from '../../../providers/tournament/tournament';
 import {ITournament, ITournamentBelongsToLeagueAndDivision} from '../../../interfaces/tournament';
 import {IRoster} from '../../../interfaces/roster';
-import {AlertController, LoadingController, ModalController, PickerController, PopoverController} from '@ionic/angular';
+import {AlertController, LoadingController, ModalController, PickerController, PopoverController, ToastController} from '@ionic/angular';
 import {RosterPage} from './roster/roster.page';
 import {TeamProvider} from '../../../providers/team/team';
 import {TeamPipe} from '../../../shared/pipes/team.pipe';
@@ -16,6 +16,7 @@ import {DivisionPipe} from '../../../shared/pipes/division';
 import {DivisionProvider} from '../../../providers/division/division';
 import {TournamentEditPage} from './tournament-edit/tournament-edit.page';
 import {PlayerAtRosterProvider} from '../../../providers/player-at-roster/player-at-roster';
+import {Location} from '@angular/common';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -49,8 +50,11 @@ export class TournamentPage implements OnInit {
     private playerProvider: PlayerProvider,
     private playerAtRoster: PlayerAtRosterProvider,
     private team: TeamProvider,
+    private _location: Location,
     public auth: AuthProvider,
+    private tournamentProvider: TournamentProvider,
     private api: ApiProvider,
+    private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private route: ActivatedRoute,
     private division: DivisionProvider,
@@ -69,6 +73,38 @@ export class TournamentPage implements OnInit {
     this.api.post('roster', {team_id: teamId, tournament_belongs_to_league_and_division_id: ld.id}).then(val => {
       this.rosterDetail(val).catch(err => console.log(err));
     });
+  }
+
+
+  async remove() {
+    const al = await this.alertCtrl.create({
+      header: 'Potvrdit smazání',
+      subHeader: 'Turnaj bude nevratně odstraněn včetně soupisek, opravdu?',
+      buttons: [
+        {
+          text: 'Zrušit',
+          role: 'cancel'
+        },
+        {
+          text: 'Smazat',
+          handler: () => {
+            this.tournamentProvider.removeItem(this.data.id).then(async () => {
+              const toast = await this.toastCtrl.create({
+                message: 'Turnaj smazán',
+                duration: 1000
+              });
+              toast.present();
+              this._location.back();
+            }, err => {
+              alert(err);
+            });
+          }
+        }
+      ]
+    });
+
+    al.present().catch(err => console.log(err));
+
   }
 
   async editItem() {

@@ -33,7 +33,6 @@ export class TournamentEditPage implements OnInit {
               public seasonProvider: SeasonProvider,
               private fb: FormBuilder
   ) {
-    this.currentDate = new Date();
     this.form = this.fb.group({
       id: ['', []],
       name: ['', [Validators.required]],
@@ -55,6 +54,7 @@ export class TournamentEditPage implements OnInit {
       if (data[0] && data[0]['tournament']) {
         this.form.patchValue({id: data[0]['tournament']['id']});
       }
+      this.modal.dismiss().catch(err => console.log(err));
     }, err => {
       console.log(err);
     });
@@ -65,10 +65,11 @@ export class TournamentEditPage implements OnInit {
   }
 
   ngOnInit() {
-
     if (!this.tournament) {
+      this.currentDate = moment().format('YYYY-MM-DD')
       this.form.patchValue({season_id: new OrderPipe().transform(this.seasonProvider.data, ['-name'])[0].id});
     } else {
+      this.currentDate = this.tournament.date.format('YYYY-MM-DD');
       this.form.patchValue({
         id: this.tournament.id,
         name: this.tournament.name,
@@ -77,9 +78,10 @@ export class TournamentEditPage implements OnInit {
         season_id: this.tournament.season_id,
         league_ids: this.tournament.leagues.map(e => e.id),
         division_ids: this.tournament.divisions.map(e => e.id),
-        date: moment(this.tournament.date).format('YYYY-MM-DD'),
         duration: this.tournament.duration
       });
+      this.form.controls.league_ids.disable();
+      this.form.controls.division_ids.disable();
     }
   }
 

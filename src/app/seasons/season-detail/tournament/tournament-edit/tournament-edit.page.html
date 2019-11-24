@@ -19,6 +19,13 @@
 <ion-content>
     <form [formGroup]="form">
         <ion-grid>
+            <ion-row *ngIf="!tournament">
+                <ion-col>
+                    <ion-note>
+                        Soutěž a Divizi nelze po vytvoření měnit. Pokud vytvoříte turnaj špatně, je nutné ho smazat a vytvořit nový.
+                    </ion-note>
+                </ion-col>
+            </ion-row>
             <ion-row>
                 <ion-col>
                     <ion-item>
