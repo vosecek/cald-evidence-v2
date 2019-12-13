@@ -147,17 +147,17 @@ export class DashboardPage implements OnInit {
 
       table_body.push(table_header);
 
-      for (var i in feeData['fee'][team.name].players) {
+      for (const ii in feeData['fee'][team.name].players) {
         const el = feeData['fee'][team.name].players[i];
         if (el) {
-          feeData['fee'][team.name].players[i]['name'] = el['name'].split(' ').reverse().join(' ');
+          feeData['fee'][team.name].players[ii]['name'] = el['name'].split(' ').reverse().join(' ');
         }
       }
 
       const sorted = new OrderPipe().transform(feeData['fee'][team.name].players, ['name']);
 
-      for (var i in sorted) {
-        const player = sorted[i];
+      for (const iii in sorted) {
+        const player = sorted[iii];
         table_body.push([player['name'], player.fee + ' Kč']);
       }
 
