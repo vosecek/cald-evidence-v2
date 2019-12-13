@@ -147,24 +147,30 @@ export class DashboardPage implements OnInit {
 
       table_body.push(table_header);
 
-      feeData['fee'][team.name].players.forEach((el, i) => {
+      for (var i in feeData['fee'][team.name].players) {
+        const el = feeData['fee'][team.name].players[i];
         if (el) {
           feeData['fee'][team.name].players[i]['name'] = el['name'].split(' ').reverse().join(' ');
         }
-      });
+      }
 
       const sorted = new OrderPipe().transform(feeData['fee'][team.name].players, ['name']);
 
-      sorted.forEach(player => {
+      for (var i in sorted) {
+        const player = sorted[i];
         table_body.push([player['name'], player.fee + ' Kč']);
-      });
+      }
 
       duplicita_table_body.push(duplicita_table_header);
 
       if (feeData['duplicate_players']) {
         for (const i in feeData['duplicate_players']) {
           const dup = feeData['duplicate_players'][i];
-          duplicita_table_body.push([dup.name, dup.teams.join(', ')]);
+          let t = [];
+          Object.values(dup.teams).forEach(i => {
+            t.push(i);
+          });
+          duplicita_table_body.push([dup.name, t.join(', ')]);
         }
       }
 
@@ -176,7 +182,7 @@ export class DashboardPage implements OnInit {
         {text: 'Název oddílu: ' + team.name, bold: true, style: 'list'},
         {text: 'Datum vystavení dokladu: ' + date.toLocaleDateString(), style: 'list'},
         {text: 'Částka: ' + feeData['fee'][team.name].fee + ' Kč', style: 'list'},
-        {text: 'Celkem členů platících v sezoně: ' + feeData['fee'][team.name].players.length, style: 'list'},
+        {text: 'Celkem členů platících v sezoně: ' + Object.keys(feeData['fee'][team.name].players).length, style: 'list'},
         {text: 'Číslo účtu: ' + '2201624636/2010', style: 'list'},
         {
           text: 'Variabilní symbol: ' + new Date().getFullYear().toString().substring(2) + '000' + team.id,

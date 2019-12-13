@@ -72,7 +72,7 @@ export class ExportService {
       this.appRef.tick();
 
       for (const i in data['fee']) {
-        totalPlayers += data['fee'][i]['players'].length;
+        totalPlayers += Object.keys(data['fee'][i]['players']).length;
 
         promises.push(
           new Promise<any>((resolve, reject) => {
@@ -80,7 +80,8 @@ export class ExportService {
 
               const teamPromises = [];
               playersData.forEach(it => {
-                if (!data['fee'][i].players.find(el => el.id == it.player.id)) {
+                // @ts-ignore
+                if (!Object.values(data['fee'][i].players).find(el => el.id == it.player.id)) {
                   console.log('not active player');
                 } else {
                   teamPromises.push(

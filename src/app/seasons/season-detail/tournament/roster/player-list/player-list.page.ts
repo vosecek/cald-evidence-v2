@@ -52,8 +52,7 @@ export class PlayerListPage implements OnInit {
     this.playerAtRoster.api.get(['team', this.roster.team_id, 'season', this.tournament.season_id, 'fee'].join('/')).then(data => {
       const team_name = this.teamProvider.getById(this.roster.team_id).name;
       if (data['fee'] && data['fee'][team_name] && data['fee'][team_name]['players']) {
-        this.activePlayers = data['fee'][team_name]['players'];
-        console.log(this.activePlayers);
+        this.activePlayers = Object.values(data['fee'][team_name]['players']);
       }
     }, err => {
       console.log(err);

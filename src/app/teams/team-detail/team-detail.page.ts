@@ -44,7 +44,7 @@ export class TeamDetailPage implements OnInit {
     this.playerProvider.api.get(['team', this.data.id, 'season', this.currentSeason.id, 'fee'].join('/')).then(data => {
       const team_name = this.teamProvider.getById(this.data.id).name;
       if (data['fee'] && data['fee'][team_name] && data['fee'][team_name]['players']) {
-        this.activePlayers = data['fee'][team_name]['players'];
+        this.activePlayers = Object.values(data['fee'][team_name]['players']);
       }
     }, err => {
       console.log(err);
