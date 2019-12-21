@@ -8,6 +8,7 @@ import {AdminGuard} from './guards/admin.guard';
 
 const routes: Routes = [
   {path: 'login', loadChildren: './login/login.module#LoginPageModule'},
+  {path: 'catcher-data/:type', loadChildren: './catcher-data/catcher-data.module#CatcherDataPageModule'},
   {path: 'login/:develop', loadChildren: './login/login.module#LoginPageModule'},
   {
     path: '',

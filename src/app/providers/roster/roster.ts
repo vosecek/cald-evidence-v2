@@ -37,10 +37,9 @@ export class RosterProvider extends GeneralProvider {
     });
   }
 
-  public tournamentRoster(tournamentId: number): Promise<IRoster> {
+  public tournamentRoster(subTournament_id: number): Promise<IRoster[]> {
     return new Promise<any>((resolve, reject) => {
-      super.load({tournament_id: tournamentId}).then((data) => {
-        console.log(data);
+      super.load({tournament_belongs_to_league_and_division_id: subTournament_id}).then((data) => {
         resolve(data);
       }, err => {
         reject(err);

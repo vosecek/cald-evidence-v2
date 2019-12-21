@@ -11,6 +11,16 @@ import {NationalityProvider} from '../providers/nationality/nationality';
 import {PlayerAtTeamProvider} from '../providers/player-at-team/player-at-team';
 import {FeeProvider} from '../providers/fee/fee';
 import {SeasonProvider} from '../providers/season/season';
+import {TournamentProvider} from '../providers/tournament/tournament';
+import {AuthProvider} from '../providers/auth/auth';
+import {ITournament, ITournamentBelongsToLeagueAndDivision} from '../interfaces/tournament';
+import {IPlayer} from '../interfaces/player';
+import {RosterProvider} from '../providers/roster/roster';
+import {TournamentBelongsToLeagueAndDivisionProvider} from '../providers/tournament-belongs-to-league-and-division/tournament-belongs-to-league-and-division';
+import {IRoster} from '../interfaces/roster';
+import {PlayerAtRosterProvider} from '../providers/player-at-roster/player-at-roster';
+import {DivisionProvider} from '../providers/division/division';
+import {IDivision} from '../interfaces/division';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +30,18 @@ export class ExportService {
   constructor(
     private player: PlayerProvider,
     private http: HttpClient,
+    private tournament: TournamentProvider,
     private team: TeamProvider,
     private toastCtrl: ToastController,
+    private playerAtRoster: PlayerAtRosterProvider,
     private nationalityService: NationalityProvider,
     private appRef: ApplicationRef,
+    private tournamentInDivision: TournamentBelongsToLeagueAndDivisionProvider,
     private playerAtTeam: PlayerAtTeamProvider,
     private fee: FeeProvider,
+    private rosters: RosterProvider,
+    private division: DivisionProvider,
+    private authProvider: AuthProvider,
     private loadCtrl: LoadingController,
     private season: SeasonProvider
   ) {
@@ -38,10 +54,145 @@ export class ExportService {
     });
   }
 
+  private alphabetPosition(text) {
+    var result = '';
+    for (var i = 0; i < text.length; i++) {
+      var code = text.toUpperCase().charCodeAt(i);
+      if (code > 64 && code < 91) result += (code - 64) + ' ';
+    }
+
+    return result.slice(0, result.length - 1);
+  }
+
   private nationalities: { id: number, name: string }[] = [];
 
+  async catcher(type: string) {
+    this.authProvider.login({
+      login: 'public',
+      password: 'access'
+    }).then(() => {
+      const csvdata = [];
+
+
+      if (type === 'tournament') {
+        csvdata.push(['ID turnaje', 'Název', 'Místo', 'Datum']);
+        this.season.load().then(() => {
+          this.tournament.load().then(data => {
+            data.forEach((el: ITournament) => {
+              if (moment(el.date) > moment()) {
+                csvdata.push([el.id, el.name, el.location, moment(el.date).format('DD.MM.YYYY')]);
+              }
+            });
+            console.log(csvdata);
+            this.catcherDownload(csvdata);
+          });
+        }, err => {
+          console.log(err);
+        });
+      } else if (type === 'rosters') {
+
+        csvdata.push(['ID turnaje', 'Název', 'ID Oddílu', 'Oddíl', 'Tým', 'ID hráče', 'Příjmení', 'Jméno']);
+
+        const promises = [];
+
+        Promise.all([
+          this.player.load(),
+          this.season.load(),
+          this.tournament.load(),
+          this.division.load(),
+          this.team.load()
+        ]).then((data) => {
+          data[2].forEach((el: ITournament) => {
+            if (moment(el.date) > moment()) {
+              promises.push(new Promise<any>((resolve, reject) => {
+                this.tournamentInDivision.byTournament(el.id).then((tbld: ITournamentBelongsToLeagueAndDivision[]) => {
+                  tbld.forEach(tb => {
+                    this.rosters.tournamentRoster(parseInt(tb.id, 10)).then((rosters: IRoster[]) => {
+
+                      let promises3 = []; // na nacteni hracu na soupisce
+                      rosters.forEach(r => {
+                        promises3.push(new Promise<any>((resolve, reject) => {
+                          let team: ITeam = this.team.data.find(e => e.id == r.team_id);
+
+                          if (team) {
+                            this.playerAtRoster.loadDataByMaster('roster_id', r.id, {}, true).then(players => {
+                              console.log(players);
+                              players.forEach(p => {
+                                let div = this.division.data.find((e: IDivision) => e.id == tb.division_id);
+                                if (div) {
+                                  csvdata.push([tb.id, el.name, r.team_id, team.name, div.name + (r.name.length > 0 ? this.alphabetPosition(r.name) : ''), p.player.id, p.player.last_name, p.player.first_name]);
+                                }
+                              });
+                              resolve();
+                            }, err => {
+                              console.log(err);
+                              resolve();
+                            });
+                          } else {
+                            resolve();
+                          }
+                        }));
+                      });
+
+                      Promise.all(promises3).then(() => {
+                        resolve();
+                      }, err => {
+                        console.log(err);
+                      });
+                    }, err => {
+
+                    });
+                  });
+                }, err => {
+                  console.log(err);
+                });
+              }));
+            }
+          });
+
+          Promise.all(promises).then(() => {
+            console.log(csvdata);
+            this.catcherDownload(csvdata);
+          }, err => {
+            console.log(err);
+          });
+
+        }, err => {
+
+        });
+      } else if (type === 'players') {
+
+        Promise.all([
+          this.playerAtTeam.load(),
+          this.player.load(),
+          this.team.load()
+        ]).then((data) => {
+          csvdata.push(['ID oddilu', 'Oddil', 'ID hrace', 'Prijmeni', 'Jmeno']);
+          data[1].forEach((el: IPlayer) => {
+            let playerAtTeam = data[0].find(e => e.player_id == el.id);
+
+            if (playerAtTeam) {
+              let team: ITeam = this.team.data.find(it => it.id == playerAtTeam.team_id);
+
+              if (team) {
+                csvdata.push([team.id, team.name, el.id, el.last_name, el.first_name]);
+                console.log([team.id, team.name, el.id, el.last_name, el.first_name]);
+              }
+            }
+          });
+          this.catcherDownload(csvdata);
+        }, err => {
+          console.log(err);
+        });
+      } else {
+        console.log('unknown type');
+      }
+
+
+    });
+  }
+
   async rejstrikSportu(team?: number) {
-    console.log(team);
     const csvdata = [];
     const load = await this.loadCtrl.create({});
     load.present().catch(err => console.log(err));
@@ -169,6 +320,17 @@ export class ExportService {
         load.dismiss().catch(err => console.log(err));
       });
     });
+  }
+
+  catcherDownload(data) {
+    const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+    const header = Object.keys(data[0]);
+    const csv = data.map(row => header.map(fieldName => row[fieldName], replacer).join('\t'));
+
+    const csvArray = csv.join('\r\n');
+
+    const blob = new Blob([csvArray], {type: 'text/csv'});
+    saveAs(blob, 'catcher-data.csv');
   }
 
   downloadFile(data: any) {

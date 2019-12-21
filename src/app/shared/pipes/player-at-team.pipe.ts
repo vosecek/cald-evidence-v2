@@ -13,8 +13,6 @@ export class PlayerAtTeamPipe implements PipeTransform {
   }
 
   transform(value: IPlayer): string {
-    console.log(value);
-    console.log(this.playerAtTeam.data);
     const pat = this.playerAtTeam.data.find(it => it.player_id === value.id);
     if (!pat) {
       return '??';

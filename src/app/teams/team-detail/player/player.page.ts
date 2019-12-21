@@ -187,11 +187,8 @@ export class PlayerPage implements OnInit {
   }
 
   birthDateChanged() {
-    console.log('birthDateChanged');
     let birth_date = this.form.value.birth_date;
-    console.log(this.plt.is('desktop'));
     if (this.plt.is('desktop')) {
-      console.log(this.form.value.birth_date);
       birth_date = moment(this.form.value.birth_date, 'DD/MM/YYYY');
     }
 
