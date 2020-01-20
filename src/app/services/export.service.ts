@@ -21,6 +21,7 @@ import {IRoster} from '../interfaces/roster';
 import {PlayerAtRosterProvider} from '../providers/player-at-roster/player-at-roster';
 import {DivisionProvider} from '../providers/division/division';
 import {IDivision} from '../interfaces/division';
+import {ISeason} from '../interfaces/season';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,8 @@ export class ExportService {
     });
   }
 
+  private nationalities: { id: number, name: string }[] = [];
+
   private alphabetPosition(text) {
     var result = '';
     for (var i = 0; i < text.length; i++) {
@@ -63,8 +66,6 @@ export class ExportService {
 
     return result.slice(0, result.length - 1);
   }
-
-  private nationalities: { id: number, name: string }[] = [];
 
   async catcher(type: string) {
     this.authProvider.login({
@@ -192,23 +193,27 @@ export class ExportService {
     });
   }
 
-  async rejstrikSportu(team?: number) {
+  async rejstrikSportu(team?: number, season?: ISeason) {
     const csvdata = [];
     const load = await this.loadCtrl.create({});
     load.present().catch(err => console.log(err));
+
+    if (!season) {
+      season = this.season.getCurrentSeason();
+    }
 
     const promises = [];
 
     new Promise<any>(async (resolve, reject) => {
       if (team) {
         let t = await this.team.findById(team);
-        this.fee.getTeamFee(t, this.season.getCurrentSeason()).then((data) => {
+        this.fee.getTeamFee(t, season).then((data) => {
           resolve(data);
         }, err => {
           reject(err);
         });
       } else {
-        this.fee.getAllFee(this.season.getCurrentSeason()).then((data) => {
+        this.fee.getAllFee(season).then((data) => {
           resolve(data);
         }, err => {
           reject(err);

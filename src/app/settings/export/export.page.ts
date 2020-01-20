@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ExportService} from '../../services/export.service';
+import {SeasonProvider} from '../../providers/season/season';
+import {ISeason} from '../../interfaces/season';
 
 @Component({
   selector: 'app-export',
@@ -8,11 +10,22 @@ import {ExportService} from '../../services/export.service';
 })
 export class ExportPage implements OnInit {
 
+  public seasonToExport: ISeason = null;
+
   constructor(
+    public seasonService: SeasonProvider,
     public exportService: ExportService
   ) {
   }
 
   ngOnInit(): void {
+  }
+
+  export() {
+    this.exportService.rejstrikSportu(null, this.seasonToExport).then(() => {
+      console.log('export finished');
+    }, err => {
+      console.log(err);
+    });
   }
 }

@@ -9,5 +9,13 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-button (click)="exportService.rejstrikSportu()" expand="full">Rejstřík sportu</ion-button>
+    <ion-item>
+        <ion-label position="stacked">
+            Vyber sezonu
+        </ion-label>
+        <ion-select [(ngModel)]="seasonToExport">
+            <ion-select-option *ngFor="let season of seasonService.data" [value]="season">{{season.name}}</ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-button (click)="export()" [disabled]="!seasonToExport" expand="full">Rejstřík sportu</ion-button>
 </ion-content>
