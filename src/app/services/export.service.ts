@@ -193,7 +193,7 @@ export class ExportService {
     });
   }
 
-  async rejstrikSportu(team?: number, season?: ISeason) {
+  async rejstrikSportu(team?: number, season?: ISeason, includeTeamName?: boolean) {
     const csvdata = [];
     const load = await this.loadCtrl.create({});
     load.present().catch(err => console.log(err));
@@ -238,7 +238,7 @@ export class ExportService {
               playersData.forEach(it => {
                 // @ts-ignore
                 if (!Object.values(data['fee'][i].players).find(el => el.id == it.player.id)) {
-                  console.log('not active player');
+
                 } else {
                   teamPromises.push(
                     new Promise<any>((resolve) => {
@@ -262,36 +262,38 @@ export class ExportService {
                         }
 
                         let nationality = 0;
-                        console.log(it.player);
 
                         const nat = this.nationalities.find(x => x.name === (it.player.nationality ? it.player.nationality.name : ''));
                         if (nat) {
                           nationality = nat.id;
                         }
 
-                        csvdata.push([
+                        let data = [
                           it.player.first_name,
                           '',
                           it.player.last_name,
-                          moment(it.player.birth_date).format('D.M.YYYY'),
+                          it.player.personal_identification_number,
+                          nationality,
+                          moment(it.player.birth_date).format('DD.MM.YYYY'),
+                          '1',
+                          '0',
+                          moment(it.player.created_at).format('YYYY'),
+                          '0',
+                          '0',
+                          '0',
                           address.city,
                           address.district,
                           address.street,
                           address.descriptive_number,
                           address.orientation_number,
                           address.zip_code,
-                          '69345368',
-                          '',
-                          '',
-                          '',
                           '98',
-                          '1',
-                          '0',
-                          moment(it.player.created_at).format('YYYY'),
-                          '',
-                          nationality,
                           it.player.id
-                        ]);
+                        ];
+
+                        if (includeTeamName) data.push(it.team.name);
+
+                        csvdata.push(data);
                         resolve();
                       }, err => {
                         console.log(err);
@@ -318,8 +320,7 @@ export class ExportService {
       }
 
       Promise.all(promises).then(() => {
-        console.log(csvdata);
-        this.downloadFile(csvdata);
+        this.downloadFile(csvdata, includeTeamName);
         load.dismiss().catch(err => console.log(err));
       }, err => {
         load.dismiss().catch(err => console.log(err));
@@ -338,12 +339,15 @@ export class ExportService {
     saveAs(blob, 'catcher-data.csv');
   }
 
-  downloadFile(data: any) {
+  downloadFile(data: any, includeTeamName: boolean) {
     const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
     const header = Object.keys(data[0]);
     const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
 
-    const h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID'];
+
+    let h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'SPORTOVEC', 'TRENER', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'TRENEREM_OD', 'TRENEREM_DO', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC	', 'DRUH_SPORTU', '	EXT_ID'];
+    if (includeTeamName) h.push('ODDIL');
+    // const h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID', 'ODDIL'];
     csv.unshift(h.join(';'));
     const csvArray = csv.join('\r\n');
 

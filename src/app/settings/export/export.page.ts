@@ -11,6 +11,7 @@ import {ISeason} from '../../interfaces/season';
 export class ExportPage implements OnInit {
 
   public seasonToExport: ISeason = null;
+  public team = false;
 
   constructor(
     public seasonService: SeasonProvider,
@@ -22,8 +23,7 @@ export class ExportPage implements OnInit {
   }
 
   export() {
-    this.exportService.rejstrikSportu(null, this.seasonToExport).then(() => {
-      console.log('export finished');
+    this.exportService.rejstrikSportu(null, this.seasonToExport, this.team).then(() => {
     }, err => {
       console.log(err);
     });

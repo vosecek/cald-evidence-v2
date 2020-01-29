@@ -17,5 +17,11 @@
             <ion-select-option *ngFor="let season of seasonService.data" [value]="season">{{season.name}}</ion-select-option>
         </ion-select>
     </ion-item>
+    <ion-item>
+        <ion-label>
+            Přidat název oddílu
+        </ion-label>
+        <ion-checkbox [(ngModel)]="team"></ion-checkbox>
+    </ion-item>
     <ion-button (click)="export()" [disabled]="!seasonToExport" expand="full">Rejstřík sportu</ion-button>
 </ion-content>
