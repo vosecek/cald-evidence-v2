@@ -231,7 +231,7 @@ export class ExportService {
         totalPlayers += Object.keys(data['fee'][i]['players']).length;
 
         promises.push(
-          new Promise<any>((resolve, reject) => {
+          new Promise<any>((resolve) => {
             this.playerAtTeam.load({'team_id': data['fee'][i].id}, true).then(playersData => {
 
               const teamPromises = [];
@@ -272,7 +272,7 @@ export class ExportService {
                           it.player.first_name,
                           '',
                           it.player.last_name,
-                          it.player.personal_identification_number,
+                          (it.player.personal_identification_number ? it.player.personal_identification_number.replace('/', '') : ''),
                           nationality,
                           moment(it.player.birth_date).format('DD.MM.YYYY'),
                           '1',
@@ -333,9 +333,12 @@ export class ExportService {
     const header = Object.keys(data[0]);
     const csv = data.map(row => header.map(fieldName => row[fieldName], replacer).join('\t'));
 
-    const csvArray = csv.join('\r\n');
+    let csvArray = csv.join('\r\n');
 
-    const blob = new Blob([csvArray], {type: 'text/csv'});
+    const BOM = '\uFEFF';
+    csvArray = BOM + csvArray;
+
+    const blob = new Blob([csvArray], {type: 'text/csv;charset=cp1250'});
     saveAs(blob, 'catcher-data.csv');
   }
 
@@ -345,13 +348,13 @@ export class ExportService {
     const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
 
 
-    let h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'SPORTOVEC', 'TRENER', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'TRENEREM_OD', 'TRENEREM_DO', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC	', 'DRUH_SPORTU', '	EXT_ID'];
+    let h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'SPORTOVEC', 'TRENER', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'TRENEREM_OD', 'TRENEREM_DO', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'DRUH_SPORTU', 'EXT_ID'];
     if (includeTeamName) h.push('ODDIL');
     // const h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID', 'ODDIL'];
     csv.unshift(h.join(';'));
     const csvArray = csv.join('\r\n');
 
-    const blob = new Blob([csvArray], {type: 'text/csv'});
+    const blob = new Blob([csvArray]);
     saveAs(blob, 'rejstrik-sportu.csv');
   }
 }
