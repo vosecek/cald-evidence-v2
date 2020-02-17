@@ -143,47 +143,54 @@ export class PlayerPage implements OnInit {
   async checkBirthNumber() {
     let x = this.form.value.personal_identification_number;
 
-    let birth_date = moment(this.form.value.birth_date);
+    console.log(this.form.value.birth_date);
+    let birth_date = null;
     if (this.plt.is('desktop')) {
       birth_date = moment(this.form.value.birth_date, 'DD/MM/YYYY');
+    } else {
+      birth_date = moment(this.form.value.birth_date);
     }
 
-    let age = moment().diff(birth_date, 'years');
+    if (birth_date) {
+      let age = moment().diff(birth_date, 'years');
 
-    if (!x) return;
+      if (!x) return;
 
-    x = x.replace('/', '');
+      x = x.replace('/', '');
 
-    if (!age) age = 0;
-    try {
-      if (x.length == 0) return true;
-      if (x.length < 9) throw 1;
-      let year = parseInt(x.substr(0, 2), 10);
-      let month = parseInt(x.substr(2, 2), 10);
-      const day = parseInt(x.substr(4, 2), 10);
-      const ext = parseInt(x.substr(6, 3), 10);
-      if ((x.length == 9) && (year < 54)) return true;
-      let c = 0;
-      if (x.length == 10) c = parseInt(x.substr(9, 1), 10);
-      let m = parseInt(x.substr(0, 9), 10) % 11;
-      if (m == 10) m = 0;
-      if (m != c) throw 1;
-      year += (year < 54) ? 2000 : 1900;
-      if ((month > 70) && (year > 2003)) month -= 70;
-      else if (month > 50) month -= 50;
-      else if ((month > 20) && (year > 2003)) month -= 20;
-      const d = new Date();
-      if ((year + age) > d.getFullYear()) throw 1;
-      if (month == 0) throw 1;
-      if (month > 12) throw 1;
-      if (day == 0) throw 1;
-      if (day > 31) throw 1;
-    } catch (e) {
-      const toast = await this.toastCtrl.create({message: 'Rodné číslo má zřejmě nesprávný formát', duration: 2000});
-      return toast.present();
+      if (!age) age = 0;
+      try {
+        if (x.length == 0) return true;
+        if (x.length < 9) throw 1;
+        let year = parseInt(x.substr(0, 2), 10);
+        let month = parseInt(x.substr(2, 2), 10);
+        const day = parseInt(x.substr(4, 2), 10);
+        const ext = parseInt(x.substr(6, 3), 10);
+        if ((x.length == 9) && (year < 54)) return true;
+        let c = 0;
+        if (x.length == 10) c = parseInt(x.substr(9, 1), 10);
+        let m = parseInt(x.substr(0, 9), 10) % 11;
+        if (m == 10) m = 0;
+        if (m != c) throw 1;
+        year += (year < 54) ? 2000 : 1900;
+        if ((month > 70) && (year > 2003)) month -= 70;
+        else if (month > 50) month -= 50;
+        else if ((month > 20) && (year > 2003)) month -= 20;
+        const d = new Date();
+        if ((year + age) > d.getFullYear()) throw 1;
+        if (month == 0) throw 1;
+        if (month > 12) throw 1;
+        if (day == 0) throw 1;
+        if (day > 31) throw 1;
+      } catch (e) {
+        const toast = await this.toastCtrl.create({message: 'Rodné číslo má zřejmě nesprávný formát', duration: 2000});
+        return toast.present();
+      }
+      console.log('rodne cislo se zda OK');
+      return true;
+    } else {
+      return false;
     }
-    console.log('rodne cislo se zda OK');
-    return true;
   }
 
   birthDateChanged() {
