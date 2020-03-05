@@ -29,10 +29,6 @@ export class UserEditPage implements OnInit {
     });
   }
 
-  hasPrivilege(teamId): boolean {
-    return !!this.user.privileges.find(p => p.entity_id === teamId);
-  }
-
   save() {
 
     const data = this.form.value;
@@ -44,7 +40,6 @@ export class UserEditPage implements OnInit {
     if (this.user) {
 
       this.userProvider.api.put('admin/user/' + this.user.id, {state: 'confirmed'}).then(el => {
-        console.log(el);
       }, err => {
         console.log(err);
       });
@@ -75,7 +70,8 @@ export class UserEditPage implements OnInit {
       this.form.patchValue({
         id: this.user.id,
         login: this.user.login,
-        email: this.user.email
+        email: this.user.email,
+        privileges: this.user.privileges.map(it => it.entity_id)
       });
 
       if (!this.canEditUser()) {

@@ -343,18 +343,20 @@ export class ExportService {
   }
 
   downloadFile(data: any, includeTeamName: boolean) {
-    const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-    const header = Object.keys(data[0]);
-    const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
+    if (data && data.length > 0) {
+      const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+      const header = Object.keys(data[0]);
+      const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
 
 
-    let h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'SPORTOVEC', 'TRENER', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'TRENEREM_OD', 'TRENEREM_DO', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'DRUH_SPORTU', 'EXT_ID'];
-    if (includeTeamName) h.push('ODDIL');
-    // const h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID', 'ODDIL'];
-    csv.unshift(h.join(';'));
-    const csvArray = csv.join('\r\n');
+      let h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'SPORTOVEC', 'TRENER', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'TRENEREM_OD', 'TRENEREM_DO', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'DRUH_SPORTU', 'EXT_ID'];
+      if (includeTeamName) h.push('ODDIL');
+      // const h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID', 'ODDIL'];
+      csv.unshift(h.join(';'));
+      const csvArray = csv.join('\r\n');
 
-    const blob = new Blob([csvArray]);
-    saveAs(blob, 'rejstrik-sportu.csv');
+      const blob = new Blob([csvArray]);
+      saveAs(blob, 'rejstrik-sportu.csv');
+    }
   }
 }

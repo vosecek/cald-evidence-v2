@@ -40,7 +40,7 @@
                     <ion-item>
                         <ion-label position="stacked">Týmy</ion-label>
                         <ion-select formControlName="privileges" multiple>
-                            <ion-select-option [selected]="hasPrivilege(team.id)" [value]="team.id" *ngFor="let team of teamProvider.data|order:['name']">
+                            <ion-select-option [value]="team.id" *ngFor="let team of teamProvider.data|order:['name']">
                                 {{team.name}}
                             </ion-select-option>
                         </ion-select>

@@ -6,6 +6,7 @@ import {ITeam} from '../../interfaces/team';
 import * as moment from 'moment';
 import {ModalController} from '@ionic/angular';
 import {IUser} from '../../interfaces/user';
+import {AuthProvider} from '../../providers/auth/auth';
 
 @Component({
   selector: 'app-team-edit',
@@ -18,7 +19,7 @@ export class TeamEditPage implements OnInit {
   public team: ITeam;
   public users: { id: any, entity: any, entity_id: any, privilege: string, user: IUser }[];
 
-  constructor(private teamProvider: TeamProvider, private fb: FormBuilder, private modal: ModalController) {
+  constructor(private teamProvider: TeamProvider, private fb: FormBuilder, private modal: ModalController, public auth: AuthProvider) {
     this.form = this.fb.group({
       id: [''],
       name: ['', [Validators.required]],
