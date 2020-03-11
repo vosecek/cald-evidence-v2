@@ -17,7 +17,7 @@
         <h2>Poplatky za sezónu</h2>
         <p *ngIf="fee_for_season">Poplatek za sezonu {{season_for_fee.name}}: <b>{{fee_for_season.amount}} Kč</b></p>
         <p>Kliknutím na tlačítko <b>Instrukce pro tým --název týmu--</b> nabídne ke stažení PDF s instrukcemi ke platbě.</p>
-        <p>Bez zaplacených příspěvků za rok 2018 se nebude možné účastnit turnajů sezony 2019</p>
+        <p>Bez zaplacených příspěvků za rok 2020 se nebude možné účastnit turnajů sezony 2021</p>
         <p>V seznamu jsou všichni členové vašeho Oddílu, kteří tuto sezonu hráli alespoň jeden ligový turnaj</p>
         <p>Pokud některý hráč hrál pouze za jiný Oddíl, požádejte na email <b>evidence@cald.cz</b> o provedení Přestupu hráče k jinému oddílu. Pokud již druhý
             oddíl poplatky uhradil, vyrovnejte se prosím mezi sebou.</p>
@@ -38,12 +38,14 @@
         </ion-card-content>
     </ion-card>
 
-    <ion-card-header>Co je nového (11.3.2020)</ion-card-header>
-    <ion-card-content>
-        <ion-list>
-            <ion-item>Oprava chyby s ukládáním hráče na mobilních telefonech (circular structure json birth_date error)</ion-item>
-        </ion-list>
-    </ion-card-content>
+    <ion-card>
+        <ion-card-header>Co je nového (11.3.2020)</ion-card-header>
+        <ion-card-content>
+            <ion-list lines="none">
+                <ion-item>Oprava chyby s ukládáním hráče na mobilních telefonech (circular structure json birth_date error)</ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
     <ion-card>
         <ion-card-header>Co je nového (26.9.2019)</ion-card-header>
