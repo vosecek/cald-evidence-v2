@@ -262,7 +262,7 @@ export class PlayerPage implements OnInit {
     if (this.plt.is('desktop')) {
       data['birth_date'] = moment(this.form.value.birth_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
     } else {
-      data['birth_date'] = ToolsService.dateConverter(data, 'birth_date');
+      data['birth_date'] = ToolsService.dateConverter(data, 'birth_date')['birth_date'];
     }
 
     this.playerProvider.updateCreateItem(data).then(async (data) => {
