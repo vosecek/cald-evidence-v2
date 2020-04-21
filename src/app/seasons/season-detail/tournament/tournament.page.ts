@@ -302,7 +302,7 @@ export class TournamentPage implements OnInit {
           table_body.push(row);
         });
 
-        const rosterPdf = [{text: 'Česká asociace létajícího disku', style: 'pageHeader'},
+        const rosterPdf = [{text: 'Česká asociace ultimate', style: 'pageHeader'},
           {text: 'Týmová soupiska', style: 'header'},
           {text: 'Název oddílu: ' + this.team.getById(team)['name'], bold: true, style: 'list'},
           {text: 'Turnaj: ' + this.data.name + ' (' + moment(this.tournament['date']).format('YYYY-MM-DD') + ')', style: 'list'},
