@@ -52,7 +52,7 @@ export class DashboardPage implements OnInit {
   showFee(): boolean {
     const date = new Date();
     if (this.feeLoading === true) return false;
-    return (date.getMonth() > 8);
+    return (date.getMonth() > 9 && date.getDate() > 14);
   }
 
   ngOnInit() {
