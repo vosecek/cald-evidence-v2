@@ -223,6 +223,8 @@ export class ExportService {
       let totalPlayers = 0;
       const loadedPlayers = 0;
 
+      alert('POZOR!! Pokud máte v týmu někoho jiného než občany ČR a SR, je třeba upravit hodnotu ve sloupečku Národnost na správnou hodnotu. Číselník je k nalezení na https://rejstriksportu.cz/dashboard/public/dokumentace. Omlouváme se za komplikace, bude to zautomatizováno na nový formát.');
+
       const toast = await this.toastCtrl.create({message: 'Načítám adresy hráčů. Chvíli to zabere, dej si kafe.', duration: 3000});
       toast.present();
       this.appRef.tick();
@@ -269,8 +271,8 @@ export class ExportService {
                           nationality = nat.id;
                         }
 
-                        if (nationality == "1") nationality = 'CZE';
-                        if (nationality == "2") nationality = 'SVK';
+                        if (nationality == '1') nationality = 'CZE';
+                        if (nationality == '2') nationality = 'SVK';
 
 
                         let data = [
