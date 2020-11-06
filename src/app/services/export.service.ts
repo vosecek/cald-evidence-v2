@@ -261,25 +261,18 @@ export class ExportService {
                           }
                         }
 
-                        let nationality = 0;
+                        let nationality = '';
 
                         const nat = this.nationalities.find(x => x.name === (it.player.nationality ? it.player.nationality.name : ''));
                         if (nat) {
+                          // @ts-ignore
                           nationality = nat.id;
                         }
 
-                        let h = [
-                          'SPORTOVEC',
-                          'SPORTOVCEM_OD',
-                          'SPORTOVCEM_DO',
-                          'SPORTOVEC_CETNOST',
-                          'SPORTOVEC_DRUH_SPORTU',
-                          'SPORTOVEC_UCAST_SOUTEZE',
-                          'TRENER',
-                          'TRENEREM_OD',
-                          'TRENEREM_DO',
-                          'TRENER_DRUH_SPORTU',
-                          'EXT_ID'];
+                        if (nationality == "1") nationality = 'CZE';
+                        if (nationality == "2") nationality = 'SVK';
+
+
                         let data = [
                           it.player.first_name,
                           it.player.last_name,
@@ -295,7 +288,7 @@ export class ExportService {
                           address.orientation_number,
                           address.zip_code,
                           '1',
-                          moment(it.player.created_at).format('YYYY'),
+                          moment(it.player.created_at).format('D.M.YYYY'),
                           '',
                           '2',
                           '98',
@@ -363,10 +356,10 @@ export class ExportService {
     if (data && data.length > 0) {
       const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
       const header = Object.keys(data[0]);
-      const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
+      const csv = data.map(row => header.map(fieldName => row[fieldName], replacer).join(';'));
 
 
-      let h = ['JMENO', 'PRIJMENI', 'TITUL_PRED', 'TITUL_ZA', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'SPORTOVEC', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'SPORTOVEC_CETNOST', 'SPORTOVEC_DRUH_SPORTU', 'SPORTOVEC_UCAST_SOUTEZE', 'TRENER', 'TRENEREM_OD', 'TRENEREM_DO', 'TRENER_DRUH_SPORTU', 'EXT_ID'];
+      let h = ['JMENO', 'PRIJMENI', 'TITUL_PRED', 'TITUL_ZA', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'SPORTOVEC', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'SPORTOVEC_CETNOST', 'SPORTOVEC_DRUH_SPORTU', 'SPORTOVEC_UCAST_SOUTEZE', 'TRENER', 'TRENEREM_OD', 'TRENEREM_DO', 'TRENER_CETNOST', 'TRENER_DRUH_SPORTU', 'EXT_ID'];
       if (includeTeamName) h.push('ODDIL');
       // const h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID', 'ODDIL'];
       csv.unshift(h.join(';'));
