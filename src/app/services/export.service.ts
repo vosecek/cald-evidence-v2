@@ -268,26 +268,43 @@ export class ExportService {
                           nationality = nat.id;
                         }
 
+                        let h = [
+                          'SPORTOVEC',
+                          'SPORTOVCEM_OD',
+                          'SPORTOVCEM_DO',
+                          'SPORTOVEC_CETNOST',
+                          'SPORTOVEC_DRUH_SPORTU',
+                          'SPORTOVEC_UCAST_SOUTEZE',
+                          'TRENER',
+                          'TRENEREM_OD',
+                          'TRENEREM_DO',
+                          'TRENER_DRUH_SPORTU',
+                          'EXT_ID'];
                         let data = [
                           it.player.first_name,
-                          '',
                           it.player.last_name,
+                          '',
+                          '',
                           (it.player.personal_identification_number ? it.player.personal_identification_number.replace('/', '') : ''),
                           nationality,
-                          moment(it.player.birth_date).format('DD.MM.YYYY'),
-                          '1',
-                          '0',
-                          moment(it.player.created_at).format('YYYY'),
-                          '0',
-                          '0',
-                          '0',
+                          moment(it.player.birth_date).format('D.M.YYYY'),
                           address.city,
                           address.district,
                           address.street,
                           address.descriptive_number,
                           address.orientation_number,
                           address.zip_code,
+                          '1',
+                          moment(it.player.created_at).format('YYYY'),
+                          '',
+                          '2',
                           '98',
+                          '1',
+                          '0',
+                          '',
+                          '',
+                          '',
+                          '',
                           it.player.id
                         ];
 
@@ -349,7 +366,7 @@ export class ExportService {
       const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
 
 
-      let h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'SPORTOVEC', 'TRENER', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'TRENEREM_OD', 'TRENEREM_DO', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'DRUH_SPORTU', 'EXT_ID'];
+      let h = ['JMENO', 'PRIJMENI', 'TITUL_PRED', 'TITUL_ZA', 'RODNE_CISLO', 'OBCANSTVI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'SPORTOVEC', 'SPORTOVCEM_OD', 'SPORTOVCEM_DO', 'SPORTOVEC_CETNOST', 'SPORTOVEC_DRUH_SPORTU', 'SPORTOVEC_UCAST_SOUTEZE', 'TRENER', 'TRENEREM_OD', 'TRENEREM_DO', 'TRENER_DRUH_SPORTU', 'EXT_ID'];
       if (includeTeamName) h.push('ODDIL');
       // const h = ['JMENO', 'DALSI_JMENA', 'PRIJMENI', 'DATUM_NAROZENI', 'NAZEV_OBCE', 'NAZEV_CASTI_OBCE', 'NAZEV_ULICE', 'CISLO_POPISNE', 'CISLO_ORIENTACNI', 'PSC', 'STRECHA', 'SVAZ', 'KLUB', 'ODDIL', 'DRUH_SPORTU', 'SPORTOVEC', 'TRENER', 'CLENSTVI_OD', 'CLENSTVI_DO', 'OBCANSTVI', 'EXT_ID', 'ODDIL'];
       csv.unshift(h.join(';'));
