@@ -143,7 +143,6 @@ export class PlayerPage implements OnInit {
   async checkBirthNumber() {
     let x = this.form.value.personal_identification_number;
 
-    console.log(this.form.value.birth_date);
     let birth_date = null;
     if (this.plt.is('desktop')) {
       birth_date = moment(this.form.value.birth_date, 'DD/MM/YYYY');

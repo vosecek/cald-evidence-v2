@@ -23,6 +23,7 @@ export class NationalityEditPage implements OnInit {
     this.form = this.fb.group({
       id: [],
       name: ['', [Validators.required]],
+      iso_code: ['', [Validators.required]],
       country_name: ['', [Validators.required]]
     });
   }
@@ -68,6 +69,7 @@ export class NationalityEditPage implements OnInit {
       this.form.patchValue({
         id: this.nationality.id,
         name: this.nationality.name,
+        iso_code: this.nationality.iso_code,
         country_name: this.nationality.country_name
       });
     }
