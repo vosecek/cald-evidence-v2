@@ -22,6 +22,7 @@ import {PlayerAtRosterProvider} from '../providers/player-at-roster/player-at-ro
 import {DivisionProvider} from '../providers/division/division';
 import {IDivision} from '../interfaces/division';
 import {ISeason} from '../interfaces/season';
+import {INationality} from '../interfaces/nationality';
 
 @Injectable({
   providedIn: 'root'
@@ -46,16 +47,9 @@ export class ExportService {
     private loadCtrl: LoadingController,
     private season: SeasonProvider
   ) {
-    this.http.get('./assets/nationalities.json').subscribe((data) => {
-      // @ts-ignore
-      this.nationalities = data;
-    }, err => {
-      console.log(err);
-      alert(err);
-    });
   }
 
-  private nationalities: { id: number, name: string }[] = [];
+  private nationalities: INationality[] = [];
 
   private alphabetPosition(text) {
     var result = '';
@@ -194,6 +188,10 @@ export class ExportService {
   }
 
   async rejstrikSportu(team?: number, season?: ISeason, includeTeamName?: boolean) {
+
+    await this.nationalityService.load();
+    console.log(this.nationalityService.data);
+
     const csvdata = [];
     const load = await this.loadCtrl.create({});
     load.present().catch(err => console.log(err));
@@ -223,7 +221,7 @@ export class ExportService {
       let totalPlayers = 0;
       const loadedPlayers = 0;
 
-      alert('POZOR!! Pokud máte v týmu někoho jiného než občany ČR a SR, je třeba upravit hodnotu ve sloupečku Národnost na správnou hodnotu. Číselník je k nalezení na https://rejstriksportu.cz/dashboard/public/dokumentace. Omlouváme se za komplikace, bude to zautomatizováno na nový formát.');
+      // alert('POZOR!! Pokud máte v týmu někoho jiného než občany ČR a SR, je třeba upravit hodnotu ve sloupečku Národnost na správnou hodnotu. Číselník je k nalezení na https://rejstriksportu.cz/dashboard/public/dokumentace. Omlouváme se za komplikace, bude to zautomatizováno na nový formát.');
 
       const toast = await this.toastCtrl.create({message: 'Načítám adresy hráčů. Chvíli to zabere, dej si kafe.', duration: 3000});
       toast.present();
@@ -265,23 +263,13 @@ export class ExportService {
 
                         let nationality = '';
 
-                        const nat = this.nationalities.find(x => x.name === (it.player.nationality ? it.player.nationality.name : ''));
-                        if (nat) {
-                          // @ts-ignore
-                          nationality = nat.id;
-                        }
-
-                        if (nationality == '1') nationality = 'CZE';
-                        if (nationality == '2') nationality = 'SVK';
-
-
                         let data = [
                           it.player.first_name,
                           it.player.last_name,
                           '',
                           '',
                           (it.player.personal_identification_number ? it.player.personal_identification_number.replace('/', '') : ''),
-                          nationality,
+                          it.player.nationality ? it.player.nationality.iso_code : '',
                           moment(it.player.birth_date).format('D.M.YYYY'),
                           address.city,
                           address.district,
