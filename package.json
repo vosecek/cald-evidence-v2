@@ -48,7 +48,7 @@
     "ionic4-date-picker": "^0.1.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "pdfmake": "^0.1.38",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.3.3",
