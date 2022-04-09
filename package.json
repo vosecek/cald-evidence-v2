@@ -46,7 +46,7 @@
     "file-saver": "^2.0.2",
     "ionic": "^4.5.0",
     "ionic4-date-picker": "^0.1.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.23",
     "node-sass": "^4.14.1",
     "pdfmake": "^0.1.38",
